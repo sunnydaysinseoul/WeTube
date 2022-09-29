@@ -11,5 +11,8 @@
     "url": "git+https://github.com/thesunny-dev/WeTube.git"
   },
   "author": "Youngsun Han",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }

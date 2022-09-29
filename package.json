@@ -1,0 +1,15 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "First nodeJS project. The Best way to watch videos!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thesunny-dev/WeTube.git"
+  },
+  "author": "Youngsun Han",
+  "license": "MIT"
+}

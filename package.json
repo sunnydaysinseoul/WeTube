@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "First nodeJS project. The Best way to watch videos!",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon --exec babel-node index.js"
+    "dev": "nodemon --exec babel-node src/server.js"
   },
   "repository": {
     "type": "git",

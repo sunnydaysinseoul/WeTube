@@ -25,8 +25,13 @@ app.get("/",() =>console.log("Get request : ROOT에 접속"));
 
 //localhost:4040/home 과  request주고받기
 const handleHome = (req,res)=> {
-    return res.end();
+    // return res.end();
+    return res.send("<h1>Are you still there?<h1>");
 };
-
-
 app.get("/home",handleHome);
+
+
+const handleLogin = (req,res) => {
+    return res.send("This is Login Page.");
+}
+app.get("/login",handleLogin);

@@ -19,19 +19,22 @@ const handleListening = () =>
     console.log(`<Server listening on port ${PORT}.👍\nCheck out http://localhost:${PORT} !>`);
 app.listen(4000,handleListening);
 
-//Application 설정하기 ("URL",function))
-app.get("/",() =>console.log("Get request : ROOT에 접속"));
-
-
 //localhost:4040/home 과  request주고받기
 const handleHome = (req,res)=> {
     // return res.end();
     return res.send("<h1>Are you still there?<h1>");
-};
-app.get("/home",handleHome);
-
+}
 
 const handleLogin = (req,res) => {
     return res.send("This is Login Page.");
 }
+
+const gossipMiddleware = (req,res,next) => {
+    console.log("I'm in the middle!");
+    next();
+}
+
+//Application 설정하기 ("URL",function))
+app.get("/",() =>console.log("Get request : ROOT에 접속"));
+app.get("/home",gossipMiddleware,handleHome); //home경로에 접속시 gossipMiddleware 함수 실행하고, next()를 만나서 handleHome을 실행해줌.
 app.get("/login",handleLogin);

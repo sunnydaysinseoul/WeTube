@@ -29,8 +29,8 @@ const handleLogin = (req,res) => {
     return res.send("This is Login Page.");
 }
 
-const gossipMiddleware = (req,res,next) => {
-    console.log(`Someone is going to: ${req.url}`);
+const logger = (req,res,next) => {
+    console.log(`Someone is going to: ${req.url}, Method : ${req.method}`);
     next();
 }
 

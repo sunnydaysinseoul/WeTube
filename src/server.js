@@ -1,4 +1,6 @@
 import express from "express";
+import morgan from "morgan";
+const logger = morgan("dev"); //import 해온 morgan함수를 변수에 지정.
 /*
 -화살표 함수 기본 문법
 var/let/const 함수명 = (매개변수) => {실행문}
@@ -17,7 +19,7 @@ const app = express();
 //Port를열고 외부 접속(request)을 listen하기
 const handleListening = () => 
     console.log(`<Server listening on port ${PORT}.👍\nCheck out http://localhost:${PORT} !>`);
-app.listen(4000,handleListening);
+app.listen(PORT,handleListening);
 
 //localhost:4040/home 과  request주고받기
 const handleHome = (req,res)=> {
@@ -29,10 +31,6 @@ const handleLogin = (req,res) => {
     return res.send("This is Login Page.");
 }
 
-const logger = (req,res,next) => {
-    console.log(`Someone is going to: ${req.url}, Method : ${req.method}`);
-    next();
-}
  const privateMiddleware = (req,res,next)=>{
     const url = req.url;
     if(url === "/protected"){
@@ -45,8 +43,10 @@ const handleProtected = (req,res) =>{
     return res.send("Welcome to the private lounge.")
 }
 //Application 설정하기 ("URL",function))
-app.use(logger); //모든 route에서 이 middleware를 거쳐가게됨!
+app.use(logger);
 app.use(privateMiddleware);
+
+
 app.get("/",() =>console.log("Get request : ROOT에 접속"));
 app.get("/home",handleHome); //home경로에 접속시 gossipMiddleware 함수 실행하고, next()를 만나서 handleHome을 실행해줌.
 app.get("/login",handleLogin);

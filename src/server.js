@@ -30,11 +30,14 @@ const handleLogin = (req,res) => {
 }
 
 const gossipMiddleware = (req,res,next) => {
-    console.log("I'm in the middle!");
+    console.log(`Someone is going to: ${req.url}`);
     next();
 }
 
+
 //Application 설정하기 ("URL",function))
+app.use(gossipMiddleware); //모든 route에서 이 middleware를 거쳐가게됨!
+
 app.get("/",() =>console.log("Get request : ROOT에 접속"));
-app.get("/home",gossipMiddleware,handleHome); //home경로에 접속시 gossipMiddleware 함수 실행하고, next()를 만나서 handleHome을 실행해줌.
+app.get("/home",handleHome); //home경로에 접속시 gossipMiddleware 함수 실행하고, next()를 만나서 handleHome을 실행해줌.
 app.get("/login",handleLogin);

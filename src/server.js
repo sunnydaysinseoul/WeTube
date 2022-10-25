@@ -1,6 +1,6 @@
 import express from "express";
-import morgan from "morgan";
-const logger = morgan("dev"); //import 해온 morgan함수를 변수에 지정.
+import morgan from "morgan"; //유용한 Middleware
+
 /*
 -화살표 함수 기본 문법
 var/let/const 함수명 = (매개변수) => {실행문}
@@ -10,11 +10,17 @@ function 함수명(매개변수){
 }
 */ 
 
-//변수지정
+/************************************변수지정************************************/
 const PORT = 4000;
 
 //Express Application(서버) 생성하기
 const app = express();
+//import 해온 morgan함수를 변수에 지정.
+const logger = morgan(""); 
+
+const globalRouter = express.Router();
+const userRouter = express.Router();
+const videoRouter = express.Router();
 
 //Port를열고 외부 접속(request)을 listen하기
 const handleListening = () => 
@@ -42,10 +48,11 @@ const handleLogin = (req,res) => {
 const handleProtected = (req,res) =>{
     return res.send("Welcome to the private lounge.")
 }
-//Application 설정하기 ("URL",function))
-app.use(logger);
-app.use(privateMiddleware);
 
+
+///*************************Express application Settings*************************/
+app.use(logger); 
+app.use(privateMiddleware);
 
 app.get("/",() =>console.log("Get request : ROOT에 접속"));
 app.get("/home",handleHome); //home경로에 접속시 gossipMiddleware 함수 실행하고, next()를 만나서 handleHome을 실행해줌.

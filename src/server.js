@@ -1,5 +1,8 @@
 import express from "express";
 import morgan from "morgan"; //유용한 Middleware
+import globalRouter from "./routers/globalRouter.js";
+import userRouter from "./routers/userRouter.js";
+import videoRouter from "./routers/videoRouter.js";
 
 /************************************변수지정************************************/
 const PORT = 4000;
@@ -11,26 +14,9 @@ const logger = morgan("");
 
 //Port를열고 외부 접속(request)을 listen하기
 const handleListening = () => 
-    console.log(`<Server listening on port ${PORT}.👍\nCheck out http://localhost:${PORT} !>`);
+    console.log(`<Server listening on port ${PORT}.👍>`);
 app.listen(PORT,handleListening);
 
-//Router지정
-const globalRouter = express.Router();
-const userRouter = express.Router();
-const videoRouter = express.Router();
-
-
-const handleHome = (req,res)=> {
-    return res.send("<h1>Home<h1>");
-}
-
-const handleEditUser = (req,res)=> {
-    return res.send("Edit user page.");
-}
-
-const handleWatchVideo = (req,res)=> {
-    return res.send("Watch videos.");
-}
 
 
 ///*************************Express application Settings*************************/
@@ -40,7 +26,3 @@ app.use("/",globalRouter);
 app.use("/users",userRouter);
 app.use("/videos",videoRouter);
 
-//app대신에 만들어둔 express router를 통해 GET request 다루기.
-globalRouter.get("/",handleHome);
-userRouter.get("/edit",handleEditUser);
-videoRouter.get("/watch",handleWatchVideo);

@@ -1,12 +1,7 @@
 import express from "express";
-
+import { watchVideo, editVideo } from "../controllers/videoControllers";
 const videoRouter = express.Router();
-const handleWatchVideo = (req,res)=> {
-    return res.send("Watch videos.");
-}
-const handleEditVideo = (req,res)=> {
-    return res.send("Edit videos.");
-}
-videoRouter.get("/watch",handleWatch);
-videoRouter.get("/edit-video",handleEdit);
+
+videoRouter.get("/watch",watchVideo);
+videoRouter.get("/edit-video",editVideo);
 export default videoRouter; //다른 파일에서 video globalRouter를 하면, 이렇게 export default한 변수를 사용하게 됨.

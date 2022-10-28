@@ -1,6 +1,6 @@
 import express from "express";
-import { joinUser } from "../controllers/userControllers.js";
-import { watchVideo } from "../controllers/videoControllers.js";
+import { joinUser, login } from "../controllers/userControllers.js";
+import { searchVideo, watchVideo } from "../controllers/videoControllers.js";
 
 const globalRouter = express.Router();
 const handleHome = (req,res)=> {
@@ -12,5 +12,7 @@ const handleJoin = (req,res)=> {
 
 globalRouter.get("/",watchVideo);
 globalRouter.get("/join",joinUser);
+globalRouter.get("/login",login);
+globalRouter.get("/search",searchVideo);
 
 export default globalRouter;

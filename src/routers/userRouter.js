@@ -1,5 +1,5 @@
 import express from "express";
-import { deleteUser, editUser } from "../controllers/userControllers.js";
+import { deleteUser, editUser, logout, profile } from "../controllers/userControllers.js";
 
 const userRouter = express.Router();
 const handleEdit = (req,res)=> {
@@ -10,5 +10,6 @@ const handleDelete = (req,res)=> {
 }
 userRouter.get("/edit",editUser);
 userRouter.get("/delete",deleteUser)
-
+userRouter.get("/logout",logout);
+userRouter.get("/:uId/profile",profile);
 export default userRouter;

@@ -1,5 +1,6 @@
 import express from "express";
-import { watchVideo, editVideo } from "../controllers/videoControllers";
+import { editVideo, watchVideo } from "../controllers/videoControllers.js";
+
 const videoRouter = express.Router();
 
 videoRouter.get("/watch",watchVideo);

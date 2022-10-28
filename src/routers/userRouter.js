@@ -1,8 +1,14 @@
 import express from "express";
-import { joinUser, editUser, deleteUser } from "../controllers/userControllers";
-const userRouter = express.Router();
+import { deleteUser, editUser } from "../controllers/userControllers.js";
 
+const userRouter = express.Router();
+const handleEdit = (req,res)=> {
+    return res.send("Edit user page.");
+}
+const handleDelete = (req,res)=> {
+    return res.send("Edit user page.");
+}
 userRouter.get("/edit",editUser);
 userRouter.get("/delete",deleteUser)
 
-export default userRouter; //다른 파일에서 import userRouter를 하면, 이렇게 export default한 변수를 사용하게 됨.
+export default userRouter;

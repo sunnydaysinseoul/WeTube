@@ -1,9 +1,16 @@
 import express from "express";
+import { joinUser } from "../controllers/userControllers.js";
+import { watchVideo } from "../controllers/videoControllers.js";
 
 const globalRouter = express.Router();
+const handleHome = (req,res)=> {
+    return res.send("<h1>Home<h1>");
+}
+const handleJoin = (req,res)=> {
+    return res.send("<h1>Join page<h1>");
+}
 
+globalRouter.get("/",watchVideo);
+globalRouter.get("/join",joinUser);
 
-
-globalRouter.get("/",trendingVideo); //controller는 videoControllers로 옮겨주었음
-globalRouter.get("/join",joinUser); //controller는 userControllers로 옮겨주었음
-export default globalRouter; //다른 파일에서 import globalRouter를 하면, 이렇게 export default한 변수를 사용하게 됨.
+export default globalRouter;

@@ -18,11 +18,8 @@ const handleListening = () =>
 app.listen(PORT,handleListening);
 
 
-
 ///*************************Express application Settings*************************/
 app.use(logger); //morgan middleware
-
 app.use("/",globalRouter);
 app.use("/users",userRouter);
 app.use("/videos",videoRouter);
-

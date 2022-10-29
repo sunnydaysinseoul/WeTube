@@ -19,6 +19,8 @@ app.listen(PORT,handleListening);
 
 
 ///*************************Express application Settings*************************/
+app.set("view engine", "pug");
+app.set("views",process.cwd() + "/src/views");
 app.use(logger); //morgan middleware
 app.use("/",globalRouter);
 app.use("/users",userRouter);

@@ -1,13 +1,8 @@
-const fakeUser = {
-    username:"Youngsun",
-    loggedIn: false, //true 면 /home라우트에서 logout버튼 출력.
-}
-
-
 
 /* URL : / */
 export const trendingVideo = (req,res)=> {
-    return res.render("home",{pageTitle:"Home",fakeUser}); // :views폴더 안의 home.pug를 render하고, pug로 변수를 보내줌.
+    const fakeVideos = [1,2,3,4,5,6,7,8,9,10]; 
+    return res.render("home",{pageTitle:"Home",fakeVideos}); // :views폴더 안의 home.pug를 render하고, pug로 변수를 보내줌.
 }
 
 /* URL : /videos/:vId */

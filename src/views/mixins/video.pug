@@ -1,0 +1,8 @@
+mixin video(fakeVideo)
+    div
+        h4=fakeVideo.title
+        ul
+            li #{fakeVideo.rating}/5
+            li #{fakeVideo.comments} comments.
+            li Uploaded #{fakeVideo.createdAt}
+            li #{fakeVideo.views} views.

@@ -1,7 +1,32 @@
 
 /* URL : / */
 export const trendingVideo = (req,res)=> {
-    const fakeVideos = [1,2,3,4,5,6,7,8,9,10]; 
+    const fakeVideos = [
+        {
+            title: "Video#1",
+            rating:5,
+            comments:2,
+            createdAt:"2 days ago",
+            views:33377,
+            id:1
+        },
+        {
+            title: "Video#2",
+            rating:5,
+            comments:2,
+            createdAt:"1 hours ago",
+            views:333,
+            id:2
+        },
+        {
+            title: "Video#3",
+            rating:5,
+            comments:2,
+            createdAt:"2 minutes ago",
+            views:37,
+            id:3
+        }
+    ]; 
     return res.render("home",{pageTitle:"Home",fakeVideos}); // :views폴더 안의 home.pug를 render하고, pug로 변수를 보내줌.
 }
 

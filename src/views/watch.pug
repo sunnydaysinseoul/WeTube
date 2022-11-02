@@ -1,5 +1,9 @@
+//- URL : /videos/:vId 
 extends base.pug
 
 block content
-    h1 watch video page.
-    h3 Video ID : #{videoId}
+    h3 #{video.views}#{video.views === 1 ? "view" : "views"}
+    h4 Video uploaded #{video.createdAt}
+
+    a(href=`${video.vId}/edit`)
+        button Edit Video

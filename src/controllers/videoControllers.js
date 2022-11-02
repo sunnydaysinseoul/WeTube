@@ -1,44 +1,46 @@
-
+let videosArr = [
+    {
+        title: "Video#1",
+        rating:5,
+        comments:2,
+        createdAt:"2 days ago",
+        views:33377,
+        vId:1
+    },
+    {
+        title: "Video#2",
+        rating:5,
+        comments:2,
+        createdAt:"1 hours ago",
+        views:333,
+        vId:2
+    },
+    {
+        title: "Video#3",
+        rating:5,
+        comments:2,
+        createdAt:"2 minutes ago",
+        views:1,
+        vId:3
+    }
+]; 
 /* URL : / */
 export const trendingVideo = (req,res)=> {
-    const fakeVideos = [
-        {
-            title: "Video#1",
-            rating:5,
-            comments:2,
-            createdAt:"2 days ago",
-            views:33377,
-            id:1
-        },
-        {
-            title: "Video#2",
-            rating:5,
-            comments:2,
-            createdAt:"1 hours ago",
-            views:333,
-            id:2
-        },
-        {
-            title: "Video#3",
-            rating:5,
-            comments:2,
-            createdAt:"2 minutes ago",
-            views:37,
-            id:3
-        }
-    ]; 
-    return res.render("home",{pageTitle:"Home",fakeVideos}); // :views폴더 안의 home.pug를 render하고, pug로 변수를 보내줌.
+    return res.render("home",{pageTitle:"Home",videosArr}); // :views폴더 안의 home.pug를 render하고, pug로 변수를 보내줌.
 }
 
 /* URL : /videos/:vId */
 export const watchVideo = (req,res)=> {
-    console.log(req.params.vId);
-    return res.render("watch",{pageTitle:"Watch",videoId:`${req.params.vId}`});
+    // const id = req.params.id;
+    const { vId } = req.params; //이 줄은 위에줄과 완전히 같은 뜻.
+    const video = videosArr[vId-1]; //id가 1부터 시작하니까..
+    console.log(vId);
+    return res.render("watch",{pageTitle:`Watching ${video.title}`,video});
 }
 
 /* URL : /videos/:vId/edit */
 export const editVideo = (req,res)=> {
-    return res.render(edit);
+    return res.render("edit");
 }
 
 /* URL : /videos/:vId/delete */

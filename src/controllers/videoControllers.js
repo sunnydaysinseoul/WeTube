@@ -39,14 +39,14 @@ export const watchVideo = (req,res)=> {
 }
 
 /* URL : (GET) /videos/:vId/edit */
-export const editVideo = (req,res)=> {
+export const getEditVideo = (req,res)=> {
     const { vId } = req.params; 
     const video = videosArr[vId-1];
     return res.render("edit",{pageTitle:`Editing: ${video.title}`,video});
 }
 
 /* URL : (POST) /videos/:vId/edit */
-export const editVideoSave = (req,res)=> {
+export const postEditVideo = (req,res)=> {
     const {vId}=req.params;
     const {title}=req.body;
 
@@ -59,9 +59,26 @@ export const deleteVideo = (req,res)=> {
     return res.send("Delete videos.");
 }
 
-/* URL : /videos/upload */
-export const uploadVideo = (req,res)=> {
-    return res.send("Upload videos.");
+/* URL : (GET) /videos/upload */
+export const getUploadVideo = (req,res)=> {
+    return res.render("upload",{pageTitle:`Upload Video`})
+}
+
+/* URL : (POST) /videos/upload */
+export const postUploadVideo = (req,res)=> {
+//add a video to the videosArr array.
+    
+    const newVideo = {
+        title : req.body.title,
+        rating : 0,
+        comments : 0,
+        createdAt : new Date(),
+        vidws :0,
+        vId : videosArr.length+1,
+    };
+    videosArr.push(newVideo);
+    console.log(newVideo);
+    return res.redirect("/")
 }
 
 /* URL : /search */

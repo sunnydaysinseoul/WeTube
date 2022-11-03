@@ -1,0 +1,8 @@
+//- URL : /videos/upload
+extends base.pug
+block headerContent
+    include partials/header.pug
+block content
+    form(method="POST")
+        input(name="title",placeholder="Title",required,type="text")
+        input(type="submit",value="Upload Video")

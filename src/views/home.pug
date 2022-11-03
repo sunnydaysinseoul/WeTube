@@ -2,7 +2,8 @@
 extends base.pug
 include mixins/video.pug 
     //-아래에서 +기호로 사용
-
+block headerContent
+    a(href="/videos/upload") Upload Video
 block content
     h2 Welcome. Here you will see the trending videos.
 

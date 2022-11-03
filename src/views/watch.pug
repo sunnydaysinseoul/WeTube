@@ -1,6 +1,7 @@
 //- URL : /videos/:vId 
 extends base.pug
-
+block headerContent
+    include partials/header.pug
 block content
     h3 #{video.views}#{video.views === 1 ? "view" : "views"}
     h4 Video uploaded #{video.createdAt}

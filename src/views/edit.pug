@@ -1,6 +1,7 @@
 //- URL : /videos/:vId/edit
 extends base.pug
-
+block headerContent
+    include partials/header.pug
 block content
     h4 Video title change.
     form(method="POST")

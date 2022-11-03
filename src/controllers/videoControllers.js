@@ -47,7 +47,12 @@ export const editVideo = (req,res)=> {
 
 /* URL : (POST) /videos/:vId/edit */
 export const editVideoSave = (req,res)=> {
-  
+    const {vId}=req.params;
+    const {title}=req.body;
+
+    videosArr[vId-1].title = title; //edit.pug의 input에서 보내주는 name="title" 값
+    return res.redirect(`/videos/${vId}`);
+
 }
 /* URL : /videos/:vId/delete */
 export const deleteVideo = (req,res)=> {

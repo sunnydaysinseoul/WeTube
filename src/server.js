@@ -1,3 +1,5 @@
+import "./db.js";
+import "./models/Video.js";
 import express from "express";
 import morgan from "morgan"; //유용한 Middleware
 import globalRouter from "./routers/globalRouter.js";

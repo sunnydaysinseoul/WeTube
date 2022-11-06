@@ -43,7 +43,7 @@ export const postUploadVideo = async(req,res)=> {
     const {title,description,hashtags} = req.body;
 
     //form에서 받아온 데이터를, 위에서 Import한 Video스키마 데이터로 만들어주기
-    const video = new Video({
+    await Video.create({
         title,
         description, createdDate : Date.now(),
         hashtags:hashtags.split(",").map(word=>`#${word}`),
@@ -52,8 +52,7 @@ export const postUploadVideo = async(req,res)=> {
             reating:0,
         }
     });
-    // console.log(video);
-    const dbVideo = await video.save();
+    
     return res.redirect(`/`);
 }
 

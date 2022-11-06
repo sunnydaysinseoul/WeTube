@@ -3,9 +3,11 @@ extends base.pug
 block headerContent
     include partials/header.pug
 block content
+    if errorMessage
+        span=errorMessage
     form(method="POST")
         input(name="title",type="text",placeholder="Title",required)
-        input(name="description",type="text",placeholder="Description",required)
+        input(name="description",type="text",placeholder="Description")
         input(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)",required)
         
         input(type="submit",value="Upload Video")

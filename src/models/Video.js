@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const videoSchema = new mongoose.Schema({
-    title: String,
+    title: {type:String,required:true},
     description : String,
-    createdDate : Date,
+    createdDate : {type:Date,required:true},
     hashtags : [{type:String}],
     
     //meta data는 자동으로 생성될 정보

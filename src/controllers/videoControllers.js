@@ -42,18 +42,25 @@ export const postUploadVideo = async(req,res)=> {
 //add a video to the videosArr array.
     const {title,description,hashtags} = req.body;
 
+    try{
     //form에서 받아온 데이터를, 위에서 Import한 Video스키마 데이터로 만들어주기
     await Video.create({
-        title,
-        description, createdDate : Date.now(),
-        hashtags:hashtags.split(",").map(word=>`#${word}`),
-        meta:{
-            views:0,
-            reating:0,
-        }
+      title,
+      description,
+      createdDate: 'wrong value-not Date type',
+      hashtags: hashtags.split(",").map((word) => `#${word}`),
+      meta: {
+        views: 0,
+        reating: 0,
+      },
     });
-    
     return res.redirect(`/`);
+}catch(error){
+    return res.render("upload", {
+      pageTitle: "Upload Video",
+      errorMessage: error._message,
+    });
+}
 }
 
 /* URL : /search */

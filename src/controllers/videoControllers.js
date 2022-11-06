@@ -47,7 +47,7 @@ export const postUploadVideo = async(req,res)=> {
     await Video.create({
       title,
       description,
-      createdDate: 'wrong value-not Date type',
+      createdDate,
       hashtags: hashtags.split(",").map((word) => `#${word}`),
       meta: {
         views: 0,

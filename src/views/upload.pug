@@ -4,5 +4,8 @@ block headerContent
     include partials/header.pug
 block content
     form(method="POST")
-        input(name="title",placeholder="Title",required,type="text")
+        input(name="title",type="text",placeholder="Title",required)
+        input(name="description",type="text",placeholder="Description",required)
+        input(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)",required)
+        
         input(type="submit",value="Upload Video")

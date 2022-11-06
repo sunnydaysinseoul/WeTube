@@ -5,6 +5,8 @@ const videoSchema = new mongoose.Schema({
     description : String,
     createdDate : Date,
     hashtags : [{type:String}],
+    
+    //meta data는 자동으로 생성될 정보
     meta:{
         views:Number,
         rating:Number

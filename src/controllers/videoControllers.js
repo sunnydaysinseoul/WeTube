@@ -1,13 +1,10 @@
 import Video from "../models/Video.js"
 
 /* URL : / */
-export const home = (req,res)=> {
-    Video.find({},(error,videos)=>{
-        console.log("errors:",error);
-        console.log("videos:",videos);
-    })
-    return res.render("home",{pageTitle:"Home",videos:[]}); // :views폴더 안의 home.pug를 render하고, pug로 변수를 보내줌.
-}
+export const home =async (req,res)=> {
+    const videos = await Video.find({});
+    return res.render("home",{pageTitle:"Home",videos});
+    };
 
 /* URL : /videos/:vId */
 export const watchVideo = (req,res)=> {
@@ -27,10 +24,7 @@ export const getEditVideo = (req,res)=> {
 
 /* URL : (POST) /videos/:vId/edit */
 export const postEditVideo = (req,res)=> {
-    const {vId}=req.params;
-    const {title}=req.body;
 
-    return res.redirect(`/videos/${vId}`);
 
 }
 /* URL : /videos/:vId/delete */
@@ -44,11 +38,23 @@ export const getUploadVideo = (req,res)=> {
 }
 
 /* URL : (POST) /videos/upload */
-export const postUploadVideo = (req,res)=> {
+export const postUploadVideo = async(req,res)=> {
 //add a video to the videosArr array.
-    
- 
-    return res.redirect("/")
+    const {title,description,hashtags} = req.body;
+
+    //form에서 받아온 데이터를, 위에서 Import한 Video스키마 데이터로 만들어주기
+    const video = new Video({
+        title,
+        description, createdDate : Date.now(),
+        hashtags:hashtags.split(",").map(word=>`#${word}`),
+        meta:{
+            views:0,
+            reating:0,
+        }
+    });
+    // console.log(video);
+    const dbVideo = await video.save();
+    return res.redirect(`/`);
 }
 
 /* URL : /search */

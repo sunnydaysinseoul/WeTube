@@ -3,7 +3,8 @@ mixin videoMxn(video)
         h4
             a(href=`/videos/${video.vId}`)=video.title
         ul
-            li #{video.rating}/5
-            li #{video.comments} comments.
-            li Uploaded #{video.createdAt}
-            li #{video.views} views.
+            li #{video.hashtags}
+            li #{video.description}
+            li Uploaded: #{video.createdDate}
+            li rating: #{video.rating}/5
+            li #{video.views} views

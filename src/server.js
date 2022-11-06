@@ -9,14 +9,14 @@ import videoRouter from "./routers/videoRouter.js";
 //Express Application(서버) 생성하기
 const app = express();
 //import 해온 morgan함수를 변수에 지정.
-const logger = morgan(""); 
+const logger = morgan("tiny"); 
 
 
 
 ///*************************Express application Settings*************************/
 app.set("view engine", "pug");
 app.set("views",process.cwd() + "/src/views");
-// app.use(logger); //morgan middleware
+app.use(logger); //morgan middleware
 
 app.use(express.urlencoded({extended:true}));
 app.use("/",globalRouter);

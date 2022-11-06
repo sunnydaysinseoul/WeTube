@@ -16,7 +16,7 @@ const logger = morgan("");
 ///*************************Express application Settings*************************/
 app.set("view engine", "pug");
 app.set("views",process.cwd() + "/src/views");
-app.use(logger); //morgan middleware
+// app.use(logger); //morgan middleware
 
 app.use(express.urlencoded({extended:true}));
 app.use("/",globalRouter);

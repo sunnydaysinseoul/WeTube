@@ -1,7 +1,7 @@
 mixin videoMxn(video)
     div
         h4
-            a(href=`/videos/${video.vId}`)=video.title
+            a(href=`/videos/${video.id}`)=video.title
         ul
             li #{video.hashtags}
             li #{video.description}

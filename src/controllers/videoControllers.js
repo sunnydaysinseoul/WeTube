@@ -7,23 +7,27 @@ export const home = async (req, res) => {
 };
 
 /* URL : /videos/:vId */
-export const watchVideo = (req, res) => {
-  // const id = req.params.id;
-  const { id } = req.params; //이 줄은 위에줄과 완전히 같은 뜻.
-  const video = Video[id - 1]; //id가 1부터 시작하니까..
-  console.log(video);
-  return res.render("watch", { pageTitle: `Watching` ,video});
+export const watchVideo = async(req, res) => {
+    const { id } = req.params; 
+    const video = await Video.findById(id);
+    return res.render("watch", { pageTitle: `Watching ${video.title}` ,video});
 };
 
 /* URL : (GET) /videos/:vId/edit */
-export const getEditVideo = (req, res) => {
-  const { vId } = req.params;
-  const video = videosArr[vId - 1];
-  return res.render("edit", { pageTitle: `Editing` });
+export const getEditVideo = async(req, res) => {
+    const { id } = req.params; 
+    const video = await Video.findById(id);
+      return res.render("edit", { pageTitle: `Editing ${video.title}` ,video});
+    };
+/* URL : (POST) /videos/:vId/edit */
+export const postEditVideo = async(req, res) => {
+    const { id } = req.params;
+    const video = await Video.findById(id);
+    const newTitle =req.body.title;
+    await Video.findByIdAndUpdate(id, { title: `${newTitle}` });
+    return res.render("watch", { pageTitle: `Watching ${video.title}` ,video});
 };
 
-/* URL : (POST) /videos/:vId/edit */
-export const postEditVideo = (req, res) => {};
 /* URL : /videos/:vId/delete */
 export const deleteVideo = (req, res) => {
   return res.send("Delete videos.");

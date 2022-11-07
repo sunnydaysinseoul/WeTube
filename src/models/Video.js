@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+//복사용 : title,description,createdDate,hashtags,views,rating
 const videoSchema = new mongoose.Schema({
   title: { type: String, required: true, maxlength: 100 },
   description: { type: String, required: true },
@@ -9,7 +9,7 @@ const videoSchema = new mongoose.Schema({
     ()가 없이 써두면, video.create할 때 mongoose가 알아서 함수를 실행해서 처리할 것임.
     */
 
-  hashtags: [{ type: String }],
+  hashtags: [{ type: String,required:true,trim:true }],
 
   //meta data는 자동으로 생성될 정보
   meta: {

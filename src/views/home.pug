@@ -3,10 +3,20 @@ extends base.pug
 include mixins/video.pug 
     //-아래에서 +기호로 사용
 block headerContent
-    a(href="/videos/upload") Upload Video
-block content
+    h3 Hello, welcome home, #{user.name}.
 
-        each video in videos
-            +videoMxn(video)
-        else
-            li Sorry, nothing found.
+    if !loggedIn
+      a(href="/login") login
+    else 
+        a(href="/logout") log out
+    span &nbsp|&nbsp
+    a(href="/videos/upload") Upload Video
+    include partials/search.pug
+
+block content
+    if deletedVideo
+        small Just deleted : #{deletedVideo}
+    each video in videos
+        +videoMxn(video)
+    else
+        li Sorry, nothing found.

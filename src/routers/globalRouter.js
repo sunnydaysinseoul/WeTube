@@ -1,18 +1,13 @@
 import express from "express";
-import { joinUser, login } from "../controllers/userControllers.js";
-import { searchVideo, home } from "../controllers/videoControllers.js";
+import { checkLogin, getJoin, getLogin, logout, postJoin, postLogin } from "../controllers/userControllers.js";
+import { searchVideo } from "../controllers/videoControllers.js";
 
 const globalRouter = express.Router();
-const handleHome = (req,res)=> {
-    return res.send("<h1>Home<h1>");
-}
-const handleJoin = (req,res)=> {
-    return res.send("<h1>Join page<h1>");
-}
 
-globalRouter.get("/",home);
-globalRouter.get("/join",joinUser);
-globalRouter.get("/login",login);
+globalRouter.route("/").get(checkLogin);
+globalRouter.route("/logout").get(logout)
+globalRouter.route("/join").get(getJoin).post(postJoin);
+globalRouter.route("/login").get(getLogin).post(postLogin);
 globalRouter.get("/search",searchVideo);
 
 export default globalRouter;

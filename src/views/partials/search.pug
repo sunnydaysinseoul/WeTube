@@ -1,0 +1,7 @@
+//검색박스
+
+form(method="GET",action="/search")
+  input(name="searchByTitle",type="text",placeholder="Search by Title",value=searchByTitle,style="width:250px;float:left;")
+  input(name="searchByRating",type="number",min='0' max='5',value=searchByRating,step="0.5",placeholder="Search by Rating",style="width:150px;float:left;")
+  input(type="submit",value="Search")
+

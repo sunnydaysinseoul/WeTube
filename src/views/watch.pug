@@ -3,9 +3,10 @@ extends base.pug
 block headerContent
     include partials/header.pug
 block content
+    p
+        a(href=`${video.id}/edit`) Edit
+        span &nbsp|&nbsp
+        a(href=`${video.id}/delete`) Delete
     small #{video.views}#{video.views === 1 ? "view" : "views"} | Created: #{video.createdDate} | Rating : #{video.ratings}/5
     h5 #{video.hashtags}
     p=video.description
-    a(href=`${video.id}/edit`)
-        button Edit Video
-

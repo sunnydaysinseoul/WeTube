@@ -10,11 +10,12 @@ const videoSchema = new mongoose.Schema({
     */
 
   hashtags: [{ type: String,required:true,trim:true }],
-
+  views: { type: Number, default: 0},
+  rating: { type: Number, default: 0, required: true },
   //meta data는 자동으로 생성될 정보
   meta: {
-    views: { type: Number, default: 0, required: true },
-    rating: { type: Number, default: 0, required: true },
+    // views: { type: Number, default: 0, required: true },
+    // rating: { type: Number, default: 0, required: true },
   },
 });
 

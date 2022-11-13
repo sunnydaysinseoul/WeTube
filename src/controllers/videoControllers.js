@@ -1,36 +1,48 @@
 import Video from "../models/Video.js";
 
-/* URL : / */
-export const home = async (req, res) => {
-  const videos = await Video.find({});
-  return res.render("home", { pageTitle: "Home", videos });
-};
 
 /* URL : /videos/:vId */
 export const watchVideo = async(req, res) => {
     const { id } = req.params; 
     const video = await Video.findById(id);
+    video.views++; //조회수 증가
+    video.save(); //조회수 저장
     return res.render("watch", { pageTitle: `Watching ${video.title}` ,video});
 };
 
 /* URL : (GET) /videos/:vId/edit */
 export const getEditVideo = async(req, res) => {
-    const { id } = req.params; 
+    const { id } = req.params;
+    console.log(id);
     const video = await Video.findById(id);
       return res.render("edit", { pageTitle: `Editing ${video.title}` ,video});
     };
 /* URL : (POST) /videos/:vId/edit */
 export const postEditVideo = async(req, res) => {
     const { id } = req.params;
+    const {title,description,hashtags,rating} = req.body;
+    await Video.findByIdAndUpdate(id, {
+      title,
+      description,
+      hashtags : hashtags.replace(/ /g,"").split(",").filter(n=>n).map((word) => `#${word}`),
+      rating,
+    });
     const video = await Video.findById(id);
-    const newTitle =req.body.title;
-    await Video.findByIdAndUpdate(id, { title: `${newTitle}` });
-    return res.render("watch", { pageTitle: `Watching ${video.title}` ,video});
+    return res.redirect(`/videos/${id}`);
 };
 
 /* URL : /videos/:vId/delete */
-export const deleteVideo = (req, res) => {
-  return res.send("Delete videos.");
+export const deleteVideo = async(req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    const deletedVideo= await Video.findById(id);
+    await Video.findByIdAndDelete(id);
+    const videos = await Video.find({});
+    res.render("home", {
+      pageTitle: "Home",
+      videos,
+      deletedVideo: deletedVideo.title
+    });
 };
 
 /* URL : (GET) /videos/upload */
@@ -41,18 +53,14 @@ export const getUploadVideo = (req, res) => {
 /* URL : (POST) /videos/upload */
 export const postUploadVideo = async (req, res) => {
   //add a video to the videosArr array.
-  const { title, description, hashtags } = req.body;
-
+  const { title, description,rating,hashtags } = req.body;
   try {
     //form에서 받아온 데이터를, 위에서 Import한 Video스키마 데이터로 만들어주기
     await Video.create({
       title,
       description,
-      hashtags: hashtags.split(",").map((word) => `#${word}`),
-      meta: {
-        views: 0,
-        reating: 0,
-      },
+      hashtags :hashtags.replace(/ /g,"").split(",").filter(n=>n).map((word) => `#${word}`),
+      rating
     });
     return res.redirect(`/`);
   } catch (error) {
@@ -65,6 +73,25 @@ export const postUploadVideo = async (req, res) => {
 };
 
 /* URL : /search */
-export const searchVideo = (req, res) => {
-  return res.send("Search videos.");
+export const searchVideo = async(req, res) => {
+  const searchByTitle = req.query.searchByTitle;
+  const searchByRating = req.query.searchByRating;
+  if (searchByTitle && searchByRating) {
+    const videos = await Video.find({
+      title: { $regex: new RegExp(searchByTitle, "i") },
+      rating: { $gte: searchByRating }
+    });
+    res.render("search", { pageTitle: "Search result", videos ,searchByTitle,searchByRating});
+  } else if (searchByTitle && searchByRating == "") {
+    const videos = await Video.find({
+      title: { $regex: new RegExp(searchByTitle, "i") }
+    });
+    res.render("search", { pageTitle: "Search result", videos ,searchByTitle,searchByRating});
+  } else if (searchByTitle == "" && searchByRating) {
+    const videos = await Video.find({ rating: { $gte: searchByRating } });
+    res.render("search", { pageTitle: "Search result", videos ,searchByTitle,searchByRating});
+  } else {
+    let videos = [];
+    res.render("search", { pageTitle: "Search result", videos ,searchByTitle,searchByRating});
+  }
 };

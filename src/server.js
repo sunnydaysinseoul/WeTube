@@ -1,6 +1,7 @@
 
 import express from "express";
 import session from "express-session";
+import MongoStore from 'connect-mongo';
 import morgan from "morgan"; //유용한 Middleware
 import globalRouter from "./routers/globalRouter.js";
 import userRouter from "./routers/userRouter.js";
@@ -22,10 +23,18 @@ app.use(logger); //morgan middleware
 app.use(express.urlencoded({extended:true}));
 app.use(
   session({
-    secret: "Hello!",
-    resave: true,
-    saveUninitialized: true,
-    createIndexes: true
+    secret: process.env.COOKIE_SECRET, /*우리가 쿠키에 sign할 때 사용하는 string.
+                        해당 쿠키가 내 서버에서 왔다는 것을 증명.
+                        session hijacking방지*/
+    resave: false,
+    saveUninitialized: false,
+    cookie:{
+      // maxAge : 20000 //milliseconds
+    },
+    createIndexes: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_URL,
+    })
   })
 );
 app.use(localsMiddleware);

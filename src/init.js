@@ -1,5 +1,5 @@
 /**  각종 import와 시작명령어들을 포함할 곳 */
-
+import "dotenv/config";
 import "./db.js";
 import "./models/Video.js";
 import "./models/User.js";

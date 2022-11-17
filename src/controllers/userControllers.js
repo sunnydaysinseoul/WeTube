@@ -89,6 +89,38 @@ export const logout = (req,res)=> {
     req.session.user = "";
     return res.redirect("/");
 }
+/* URL : /users/github/login */
+export const startGithubLogin = (req,res)=> {
+  const baseUrl = "https://github.com/login/oauth/authorize?client_id=6d3e472414c6ab1f7f16&scope=read:user&allow_signup=false ";
+  const config ={
+    client_id : process.env.GH_CLIENT,
+    scope:"read:user user:email",
+    allow_signup:"false"
+  };
+  const params = new URLSearchParams(config).toString(); //Object를 url param모양으로 만들어줌..
+  const finalUrl = `${baseUrl}?${params}`;
+  return res.redirect(finalUrl);
+}
+
+/* URL : /users/github/finLogin */
+export const finishGithubLogin = async(req,res)=> {
+  const baseUrl = "https://github.com/login/oauth/access_token";
+  const config = {
+    client_id : process.env.GH_CLIENT,
+    client_secret : process.env.GH_SECRET,
+    code: req.query.code,
+  }
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  const data = await fetch(finalUrl,{ //js에서 url로 data를 보낼 때 fetch사용
+    method:"POST",
+    headers:{
+      Accept:"application/json"
+    }
+  });
+  const json=await data.json();
+  console.log(json);
+}
 
 /* URL : /users/:uId/profile */
 export const profile = (req,res)=> {

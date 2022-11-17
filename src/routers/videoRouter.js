@@ -1,10 +1,8 @@
-/* URL : /videos/ */
-
 import express from "express";
 import { deleteVideo, getEditVideo, watchVideo, postEditVideo, postUploadVideo, getUploadVideo } from "../controllers/videoControllers.js";
 
+/* base URL : /videos/ */
 const videoRouter = express.Router();
-
 
 videoRouter.route("/upload").get(getUploadVideo).post(postUploadVideo)
 

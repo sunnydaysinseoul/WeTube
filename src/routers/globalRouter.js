@@ -2,6 +2,7 @@ import express from "express";
 import { checkLogin, getJoin, getLogin, logout, postJoin, postLogin } from "../controllers/userControllers.js";
 import { searchVideo } from "../controllers/videoControllers.js";
 
+/* base URL : / */
 const globalRouter = express.Router();
 
 globalRouter.route("/").get(checkLogin);

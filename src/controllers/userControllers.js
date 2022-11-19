@@ -112,22 +112,24 @@ export const finishGithubLogin = async(req,res)=> {
   }
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}?${params}`;
-  const data = await fetch(finalUrl,{ //js에서 url로 data를 보낼 때 fetch사용
+
+  const tokenRequest = await(
+    await fetch(finalUrl,{ //js에서 url로 data를 보낼 때 fetch사용
     method:"POST",
     headers:{
       Accept:"application/json" //github에서 text가 아닌 json형식으로 받기위함
     }
-  });
-  const json=await data.json();
-  // console.log(json);
-  if("access_token" in json){
+  })).json();
+
+  if("access_token" in tokenRequest){ //user가 승인버튼을 눌렀을 때
     //access github api
-    const{access_token}=json;
-    const userRequest = await fetch("https://api.github.com/user",{
+    const{access_token}=tokenRequest;
+    const userRequest = await(await fetch("https://api.github.com/user",{
       headers: {
         Authorization : `token  ${access_token}`
       }
-    })
+    })).json();
+    console.log(userRequest);
   }else{
     return res.redirect("/login");
   }

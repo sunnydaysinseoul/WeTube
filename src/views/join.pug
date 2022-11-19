@@ -3,18 +3,19 @@ block headerContent
     if errorMessage
         span=errorMessage
 
-    if userData
+    if gitUserData
         form(method="POST",action="/join")
-            span JOIN VIA GITHUB
+            h4 JOIN VIA GITHUB!
             p Username (변경가능):
-            input(name="username",type="text" ,value=userData.login, required)
+            input(name="username",type="text" ,value=gitUserData.login, required)
             p Email:
-            input(name="email", type="email",value=emailObj.email, required,readonly)
+            input(name="email", type="email",value=gitEmailObj.email, required,readonly)
             p Name:
             input(name="name",type="text",required)
             p Password:
             input(name="password",type="password",required)
             input(name="password2",placeholder="비밀번호확인",type="password",required)
+            input(type="hidden",name="isGithub",value=true)
             input(type="submit",value="회원가입")    
     else
         form(method="POST")
@@ -27,9 +28,12 @@ block headerContent
             p Password:
             input(name="password",type="password",required)
             input(name="password2",placeholder="비밀번호확인",type="password",required)
+            input(type="hidden",name="isGithub",value=false)
             input(type="submit",value="회원가입")
 
     hr
     div
+        a(href="users/github/login") Join with Github &rarr;
+        br
         span Already have an account?
         a(href="/login") Log in &rarr;

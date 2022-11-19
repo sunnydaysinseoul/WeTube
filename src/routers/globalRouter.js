@@ -1,5 +1,5 @@
 import express from "express";
-import { checkLogin, getJoin, getLogin, logout, postJoin, postLogin } from "../controllers/userControllers.js";
+import { checkLogin, confirmEmail, getJoin, getLogin, logout, postJoin, postLogin } from "../controllers/userControllers.js";
 import { searchVideo } from "../controllers/videoControllers.js";
 
 /* base URL : / */
@@ -10,5 +10,5 @@ globalRouter.route("/logout").get(logout)
 globalRouter.route("/join").get(getJoin).post(postJoin);
 globalRouter.route("/login").get(getLogin).post(postLogin);
 globalRouter.get("/search",searchVideo);
-
+globalRouter.get('/confirmation/:email/:token',confirmEmail)
 export default globalRouter;

@@ -18,7 +18,7 @@ export const getJoin = (req, res) => {
   };
 export const postJoin = async (req, res) => {
   const pageTitle = "Join";
-  const { username, name, password, password2 } = req.body;
+  const { username,email, name, password, password2 } = req.body;
   if (password !== password2) {
     return res.status(400).render("join", {
       pageTitle,
@@ -26,14 +26,21 @@ export const postJoin = async (req, res) => {
     });
   }
   try {
-    const exists = await User.exists({ username });
-    if (exists) {
+    const nameExists = await User.exists({ username });
+    if (nameExists) {
       return res.status(400).render("join", {
         pageTitle,
         errorMessage: "이미 사용중인 username입니다.",
       });
     }
-    await User.create({ username, name, password });
+    const emailExists = await User.exists({ email });
+    if (emailExists) {
+      return res.status(400).render("join", {
+        pageTitle,
+        errorMessage: "이미 사용중인 email입니다.",
+      });
+    }
+    await User.create({ username,email, name, password });
     return res.redirect("/login");
   } catch (error) {
     console.log(error);
@@ -144,17 +151,29 @@ export const finishGithubLogin = async(req,res)=> {
     })).json();
     // console.log(emailData);
 
-    const email = emailData.find(
+    const emailObj = emailData.find(
       (email)=>email.primary === true && email.verified ===true);
-      if(!email){
-        //github email data중에 primary이고 verified된 email이 없으면
-        return res.redirect("/login");//나중에 여기에서 notification도 보내줄거임
+       //github email data중에 primary이고 verified된 email이 없으면
+      if(!emailObj){
+        return res.redirect("/login"); //나중에 여기에서 error notification도 보내줄거임
       }
-      /** 여기에서는 github email이 들어왔을 때의 case별 처리방법 필요.
-       * ex)이미 동일 email로 회원가입이 되어있을 경우
-       * ex)github email로 회원가입하기 -> 깃허브로 회원가입했다고 표기?
-       */
 
+
+      const existingUser = await User.findOne({email:emailObj.email}); //해당 email로 가입된 계정이 있는지
+        console.log(existingUser);
+      if(existingUser) {
+        const hasPw = await User.findOne({email:emailObj.email},'password');
+        console.log(hasPw);
+        if(hasPw){
+          /**case2)github email이 usersDB에 존재하고, password도 등록되어있을 때 ->로그인*/
+          req.session.loggedIn=true;
+          req.session.user=existingUser;
+          return res.redirect("/");
+        }
+      }else{
+        /**case3)github email이 usersDB에 없을 때 -> Join페이지로 (깃허브 email,username 자동입력)*/
+       return res.render("join",{ pageTitle: "Login" ,userData,emailObj});
+      }
 
   }else{
     return res.redirect("/login");

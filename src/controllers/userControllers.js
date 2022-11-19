@@ -134,7 +134,7 @@ export const finishGithubLogin = async(req,res)=> {
         },
       })
     ).json();
-    console.log(userData);
+    // console.log(userData);
 
     const emailData = await(
       await fetch(`${apiUrl}/user/emails`,{
@@ -142,7 +142,20 @@ export const finishGithubLogin = async(req,res)=> {
         Authorization : `token  ${access_token}`,
       }
     })).json();
-    console.log(emailData);
+    // console.log(emailData);
+
+    const email = emailData.find(
+      (email)=>email.primary === true && email.verified ===true);
+      if(!email){
+        //github email data중에 primary이고 verified된 email이 없으면
+        return res.redirect("/login");//나중에 여기에서 notification도 보내줄거임
+      }
+      /** 여기에서는 github email이 들어왔을 때의 case별 처리방법 필요.
+       * ex)이미 동일 email로 회원가입이 되어있을 경우
+       * ex)github email로 회원가입하기 -> 깃허브로 회원가입했다고 표기?
+       */
+
+
   }else{
     return res.redirect("/login");
   }

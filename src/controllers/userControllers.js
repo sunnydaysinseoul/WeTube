@@ -91,7 +91,7 @@ export const logout = (req,res)=> {
 }
 /* URL : /users/github/login */
 export const startGithubLogin = (req,res)=> {
-  const baseUrl = "https://github.com/login/oauth/authorize?client_id=6d3e472414c6ab1f7f16&scope=read:user&allow_signup=false ";
+  const baseUrl = "https://github.com/login/oauth/authorize";
   const config ={
     client_id : process.env.GH_CLIENT,
     scope:"read:user user:email",
@@ -115,11 +115,22 @@ export const finishGithubLogin = async(req,res)=> {
   const data = await fetch(finalUrl,{ //js에서 url로 data를 보낼 때 fetch사용
     method:"POST",
     headers:{
-      Accept:"application/json"
+      Accept:"application/json" //github에서 text가 아닌 json형식으로 받기위함
     }
   });
   const json=await data.json();
-  console.log(json);
+  // console.log(json);
+  if("access_token" in json){
+    //access github api
+    const{access_token}=json;
+    const userRequest = await fetch("https://api.github.com/user",{
+      headers: {
+        Authorization : `token  ${access_token}`
+      }
+    })
+  }else{
+    return res.redirect("/login");
+  }
 }
 
 /* URL : /users/:uId/profile */

@@ -124,12 +124,25 @@ export const finishGithubLogin = async(req,res)=> {
   if("access_token" in tokenRequest){ //user가 승인버튼을 눌렀을 때
     //access github api
     const{access_token}=tokenRequest;
-    const userRequest = await(await fetch("https://api.github.com/user",{
+    const apiUrl = "https://api.github.com";
+
+    const userData = await (
+      await fetch(`${apiUrl}/user`, {
+        //데이터에 따라 GET해야할 URL은 Github docs에서.
+        headers: {
+          Authorization: `token  ${access_token}`,
+        },
+      })
+    ).json();
+    console.log(userData);
+
+    const emailData = await(
+      await fetch(`${apiUrl}/user/emails`,{
       headers: {
-        Authorization : `token  ${access_token}`
+        Authorization : `token  ${access_token}`,
       }
     })).json();
-    console.log(userRequest);
+    console.log(emailData);
   }else{
     return res.redirect("/login");
   }

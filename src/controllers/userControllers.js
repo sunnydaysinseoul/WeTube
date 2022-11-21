@@ -94,8 +94,7 @@ export const deleteUser = (req,res)=> {
 }
 /* URL : /users/logout */
 export const logout = (req,res)=> {
-    req.session.loggedIn = false;
-    req.session.user = "";
+    req.session.destroy();
     return res.redirect("/");
 }
 /* URL : /users/github/login */
@@ -196,7 +195,7 @@ export const finishGithubLogin = async(req,res)=> {
         },
       })
     ).json();
-    // console.log(userData);
+    console.log(gitUserData);
 
     const gitEmailData = await(
       await fetch(`${apiUrl}/user/emails`,{
@@ -204,7 +203,7 @@ export const finishGithubLogin = async(req,res)=> {
         Authorization : `token  ${access_token}`,
       }
     })).json();
-    // console.log(emailData);
+    // console.log(gitEmailData);
 
     const gitEmailObj = gitEmailData.find(
       (email)=>email.primary === true && email.verified ===true);
@@ -220,7 +219,7 @@ export const finishGithubLogin = async(req,res)=> {
         const isVerifiedObj = await User.findOne({email:gitEmailObj.email},'isVerified');
         console.log(isVerifiedObj);
         if(isVerifiedObj.isVerified){
-          /**case1)github email이 usersDB에 존재하고, isVerified=true일 때 ->로그인*/
+          /**case1)github email이 usersDB에 존재하고, isVerified=true일 때 ->로그인성공*/
           req.session.loggedIn=true;
           req.session.user=existingUser;
           return res.redirect("/");

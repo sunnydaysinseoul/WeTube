@@ -8,6 +8,8 @@ block headerContent
             h4 JOIN VIA GITHUB!
             p Username (변경가능):
             input(name="username",type="text" ,value=gitUserData.login, required)
+            p Profile Picture:
+            input(name="avatarUrl",type="text" ,value=gitUserData.avatar_url)
             p Email:
             input(name="email", type="email",value=gitEmailObj.email, required,readonly)
             p Name:
@@ -21,6 +23,8 @@ block headerContent
         form(method="POST")
             p Username:
             input(name="username",type="text" ,required)
+            p Profile Picture:
+            input(name="avatarUrl",type="text")
             p Email:
             input(name="email", type="email", required)
             p Name:

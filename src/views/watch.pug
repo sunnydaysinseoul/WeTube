@@ -7,6 +7,7 @@ block content
         a(href=`${video.id}/edit`) Edit
         span &nbsp|&nbsp
         a(href=`${video.id}/delete`) Delete
+    video(src=`/${video.fileUrl}`,controls,width="100%")
     small #{video.views}#{video.views === 1 ? "view" : "views"} | Created: #{video.createdDate} | Rating : #{video.ratings}/5
     h5 #{video.hashtags}
     p=video.description

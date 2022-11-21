@@ -7,7 +7,7 @@ export const watchVideo = async(req, res) => {
     const video = await Video.findById(id);
     video.views++; //조회수 증가
     video.save(); //조회수 저장
-    return res.render("watch", { pageTitle: `Watching ${video.title}` ,video});
+    return res.render("watch", { pageTitle: `${video.title}` ,video});
 };
 
 /* URL : (GET) /videos/:vId/edit */
@@ -52,7 +52,7 @@ export const getUploadVideo = (req, res) => {
 
 /* URL : (POST) /videos/upload */
 export const postUploadVideo = async (req, res) => {
-  //add a video to the videosArr array.
+  const {path} = req.file;
   const { title, description,rating,hashtags } = req.body;
   try {
     //form에서 받아온 데이터를, 위에서 Import한 Video스키마 데이터로 만들어주기
@@ -60,7 +60,8 @@ export const postUploadVideo = async (req, res) => {
       title,
       description,
       hashtags :hashtags.replace(/ /g,"").split(",").filter(n=>n).map((word) => `#${word}`),
-      rating
+      rating,
+      fileUrl : path,
     });
     return res.redirect(`/`);
   } catch (error) {

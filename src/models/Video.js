@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 //복사용 : title,description,createdDate,hashtags,views,rating
 const videoSchema = new mongoose.Schema({
   title: { type: String, required: true, maxlength: 100 },
+  fileUrl : {type:String,required:true},
   description: { type: String, required: true },
   createdDate: { type: Date, required: true, default: Date.now },
   /*

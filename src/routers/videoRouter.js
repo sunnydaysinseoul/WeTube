@@ -1,11 +1,11 @@
 import express from "express";
 import { deleteVideo, getEditVideo, watchVideo, postEditVideo, postUploadVideo, getUploadVideo } from "../controllers/videoControllers.js";
-import { protectorMiddleware } from "../middlewares.js";
+import { protectorMiddleware, videoUpload } from "../middlewares.js";
 
 /* base URL : /videos/ */
 const videoRouter = express.Router();
 
-videoRouter.route("/upload").all(protectorMiddleware).get(getUploadVideo).post(postUploadVideo)
+videoRouter.route("/upload").all(protectorMiddleware).get(getUploadVideo).post(videoUpload.single("video"),postUploadVideo)
 
 videoRouter.get("/:id([0-9a-f]{24})",watchVideo); //regex. vId로 숫자만 올수있다는뜻
 

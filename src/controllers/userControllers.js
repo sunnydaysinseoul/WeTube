@@ -97,7 +97,7 @@ export const postLogin = async (req, res) => {
 /* URL : /users/:userId/edit */
 export const getEditUser = (req, res) => {
   const {user} = req.session;
-  return res.render("editProfile", { PageTitle: " Edit Profile",user });
+  return res.render("editProfile", { pageTitle: " Edit Profile",user });
 };
 
 /* URL : /users/:userId/edit */
@@ -137,7 +137,7 @@ export const postEditUser = async(req, res) => {
 export const profile = async(req, res) => {
   const {userId}= req.params;
   const user = await User.findById(userId);
-  return res.render("viewProfile", { PageTitle: " Profile",user });
+  return res.render("viewProfile", { pageTitle: " Profile",user });
 };
 
 /* URL : /users/delete */

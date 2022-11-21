@@ -9,3 +9,7 @@ block headerContent
     li username = #{user.username}
     li name = #{user.name}
     li user email = #{user.email}
+    
+    li profile image
+    image(src=`/${user.avatarUrl}`,width="200px")
+        p image path : #{user.avatarUrl}

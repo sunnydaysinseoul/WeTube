@@ -1,3 +1,5 @@
+import multer from "multer";
+
 export const localsMiddleware = (req, res, next) => {
     res.locals.siteTitle = "WeTube HYS";
     
@@ -26,3 +28,7 @@ export const localsMiddleware = (req, res, next) => {
       return res.redirect("/");
     }
   }
+
+export const uploadFiles = multer({ //controller가 아닌 router에 사용
+  dest: 'avatars/'
+})

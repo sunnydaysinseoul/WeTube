@@ -37,6 +37,7 @@ app.use(
   })
 );
 app.use(localsMiddleware);
+app.use("/avatars",express.static("avatars")); //static files serving : /avatars라는 url로 가면 avatars폴더안의 내용을 읽으라는뜻
 app.use("/",globalRouter);
 app.use("/users",userRouter);
 app.use("/videos",videoRouter);

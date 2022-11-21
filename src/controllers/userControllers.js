@@ -23,8 +23,9 @@ export const getJoin = (req, res) => {
 };
 export const postJoin = async (req, res) => {
   const pageTitle = "Join";
-  const { username, email, name, password, password2, isVerified, avatarUrl } =
+  const { username, email, name, password, password2, isVerified } =
     req.body;
+  
   if (password !== password2) {
     return res.status(400).render("join", {
       pageTitle,
@@ -95,7 +96,8 @@ export const postLogin = async (req, res) => {
 
 /* URL : /users/:userId/edit */
 export const getEditUser = (req, res) => {
-  return res.render("editProfile", { PageTitle: " Edit Profile" });
+  const {user} = req.session;
+  return res.render("editProfile", { PageTitle: " Edit Profile",user });
 };
 
 /* URL : /users/:userId/edit */
@@ -103,9 +105,10 @@ export const postEditUser = async(req, res) => {
   //form 내용 user에 저장
   const {
     session:{
-      user:{_id},
+      user:{_id,avatarUrl},
     },
-    body : {avatarUrl,password,password2}
+    body : {password,password2},
+    file
   } =req;
 
   const user = await User.findById(_id);
@@ -117,6 +120,14 @@ export const postEditUser = async(req, res) => {
     }
     user.avatarUrl = avatarUrl;
     user.password = password;
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      { password,
+        avatarUrl:file? file.path:avatarUrl},
+      { new: true }
+    );
+    req.session.user = updatedUser;
+    user.password = updatedUser.password;
     await user.save(); //findByIdAndUpdate를 하면 User Schema의 pre("save",())가 안탐
     
   return res.redirect(`/users/${_id}/profile`);

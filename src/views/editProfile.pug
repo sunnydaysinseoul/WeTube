@@ -3,19 +3,19 @@ extends base.pug
 include mixins/video.pug 
     //-아래에서 +기호로 사용
     block headerContent
-        h3 Edit Profile : #{loggedInUser.name}
+        h3 Edit Profile : #{user.name}
 
-        form(method="POST")
-            p Username:
-            input(name="username",type="text" ,readonly,value = loggedInUser.username)
-            p Profile Picture:
-            input(name="avatarUrl",type="text",value=loggedInUser.avatarUrl)
-            p Email:
-            input(name="email", type="email", required,readonly,value=loggedInUser.email)
-            p Name:
-            input(name="name",type="text",required,readonly,value=loggedInUser.name)
-            p Password:
-            input(name="password",type="password",required,value=loggedInUser.password)
-            input(name="password2",placeholder="비밀번호확인",type="password",required)
+        form(method="POST",enctype="multipart/form-data")
+            label(for="username") Username:
+            input(name="username",type="text" ,readonly,value = user.username)
+            label(for="avatarUrl")  Profile Picture:
+            input(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=user.avatarUrl)
+            label(for="email") Email:
+            input(name="email", type="email", required,readonly,value=user.email)
+            label(for="name") Name:
+            input(name="name",type="text",required,readonly,value=user.name)
+            label(for="password") Password:
+            input(name="password",type="password",required,value=user.password)
+            input(name="password2",placeholder="비밀번호확인",type="password",required,value=user.password)
     
             input(type="submit",value="회원정보 수정")

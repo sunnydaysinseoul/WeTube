@@ -9,7 +9,7 @@ block headerContent
             p Username (변경가능):
             input(name="username",type="text" ,value=gitUserData.login, required)
             p Profile Picture:
-            input(name="avatarUrl",type="text" ,value=gitUserData.avatar_url)
+            input(name="avatarUrl",type="hidden" ,value=gitUserData.avatar_url)
             p Email:
             input(name="email", type="email",value=gitEmailObj.email, required,readonly)
             p Name:
@@ -20,11 +20,11 @@ block headerContent
             input(type="hidden",name="isVerified",value=1)
             input(type="submit",value="회원가입")    
     else
-        form(method="POST")
+        form(method="POST",action="/join")
             p Username:
             input(name="username",type="text" ,required)
-            p Profile Picture:
-            input(name="avatarUrl",type="text")
+            //- p Profile Picture:
+            //- input(name="avatarUrl",id="avatarUrl",type="file",accept="image/*")
             p Email:
             input(name="email", type="email", required)
             p Name:
@@ -34,10 +34,12 @@ block headerContent
             input(name="password2",placeholder="비밀번호확인",type="password",required)
             input(type="hidden",name="isVerified",value=0)
             input(type="submit",value="회원가입")
+        
+        a(href="users/github/login") Join with Github &rarr;
 
     hr
     div
-        a(href="users/github/login") Join with Github &rarr;
+        
         br
         span Already have an account?
         a(href="/login") Log in &rarr;

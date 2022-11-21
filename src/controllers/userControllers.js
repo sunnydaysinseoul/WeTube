@@ -26,7 +26,7 @@ export const postJoin = async (req, res) => {
   const pageTitle = "Join";
   const { username, email, name, password, password2, isVerified,avatarUrl } =
     req.body;
-  
+  console.log(req.body);
   if (password !== password2) {
     return res.status(400).render("join", {
       pageTitle,

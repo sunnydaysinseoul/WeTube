@@ -1,13 +1,14 @@
 import express from "express";
 import { deleteUser, profile,startGithubLogin,finishGithubLogin, getEditUser, postEditUser } from "../controllers/userControllers.js";
+import { protectorMiddleware, publicOnlyMiddleware } from "../middlewares.js";
 
 /* base URL : /users/ */
 const userRouter = express.Router();
 
-userRouter.get("/github/login",startGithubLogin);
-userRouter.get("/github/finLogin",finishGithubLogin); //이 url은 https://github.com/settings/developers 에서 지정
-userRouter.route("/:userId/edit").get(getEditUser).post(postEditUser);
+userRouter.route("/github/login").all(publicOnlyMiddleware).get(startGithubLogin);
+userRouter.route("/github/finLogin").all(publicOnlyMiddleware).get(finishGithubLogin); //이 url은 https://github.com/settings/developers 에서 지정
+userRouter.route("/:userId/edit").all(protectorMiddleware).get(getEditUser).post(postEditUser);
 userRouter.get("/:userId/profile",profile);
-userRouter.get("/delete",deleteUser)
+userRouter.get("/delete",deleteUser).all(protectorMiddleware)
 
 export default userRouter;

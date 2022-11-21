@@ -6,12 +6,15 @@ import crypto from "crypto";
 
 /* URL : / */
 export const checkLogin = async (req, res) => {
+  const videos = await Video.find({});
   if (req.session.loggedIn) {
     const user = req.session.user;
-    const videos = await Video.find({});
     return res.render("home", { pageTitle: "Home", videos, user });
   }
-  return res.render("login", { pageTitle: "Login" });
+  // return res.render("login", { pageTitle: "Login" });
+
+  //테스트용
+  return res.render("home", { pageTitle: "Home", videos });
 };
 
 /* URL : /join */
@@ -98,10 +101,14 @@ export const getEditUser = (req, res) => {
 /* URL : /users/:userId/edit */
 export const postEditUser = async(req, res) => {
   //form 내용 user에 저장
-  const { password, password2, avatarUrl } =
-    req.body;
-  const {userId} = req.params;
-  const user = await User.findById(userId);
+  const {
+    session:{
+      user:{_id},
+    },
+    body : {avatarUrl,password,password2}
+  } =req;
+
+  const user = await User.findById(_id);
     if (password !== password2) {
       return res.status(400).render("join", {
         pageTitle,
@@ -111,8 +118,8 @@ export const postEditUser = async(req, res) => {
     user.avatarUrl = avatarUrl;
     user.password = password;
     await user.save(); //findByIdAndUpdate를 하면 User Schema의 pre("save",())가 안탐
-
-  return res.redirect(`/users/${userId}/profile`);
+    
+  return res.redirect(`/users/${_id}/profile`);
 };
 
 /* URL : /users/${user._id}/profile */

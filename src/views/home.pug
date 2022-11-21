@@ -8,6 +8,8 @@ block headerContent
     if !loggedIn
       a(href="/login") login
     else 
+        a(href=`/users/${user._id}/profile`) profile
+        span &nbsp|&nbsp
         a(href="/logout") log out
     span &nbsp|&nbsp
     a(href="/videos/upload") Upload Video

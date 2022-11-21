@@ -215,7 +215,7 @@ export const finishGithubLogin = async(req,res)=> {
 
 
       const existingUser = await User.findOne({email:gitEmailObj.email}); //해당 email로 가입된 계정이 있는지
-        console.log(existingUser);
+        console.log("해당email로 가입된 계정"+existingUser);
       if(existingUser) {
         const isVerifiedObj = await User.findOne({email:gitEmailObj.email},'isVerified');
         console.log(isVerifiedObj);

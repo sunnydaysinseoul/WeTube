@@ -15,7 +15,7 @@ block headerContent
             p Password:
             input(name="password",type="password",required)
             input(name="password2",placeholder="비밀번호확인",type="password",required)
-            input(type="hidden",name="isGithub",value=true)
+            input(type="hidden",name="isVerified",value=1)
             input(type="submit",value="회원가입")    
     else
         form(method="POST")
@@ -28,7 +28,7 @@ block headerContent
             p Password:
             input(name="password",type="password",required)
             input(name="password2",placeholder="비밀번호확인",type="password",required)
-            input(type="hidden",name="isGithub",value=false)
+            input(type="hidden",name="isVerified",value=0)
             input(type="submit",value="회원가입")
 
     hr

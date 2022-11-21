@@ -1,13 +1,14 @@
 import Video from "../models/Video.js";
-
+import User from "../models/User.js";
 
 /* URL : /videos/:vId */
 export const watchVideo = async(req, res) => {
     const { id } = req.params; 
     const video = await Video.findById(id);
+    const owner = await User.findById(video.owner);
     video.views++; //조회수 증가
     video.save(); //조회수 저장
-    return res.render("watch", { pageTitle: `${video.title}` ,video});
+    return res.render("watch", { pageTitle: `${video.title}` ,video,owner});
 };
 
 /* URL : (GET) /videos/:vId/edit */
@@ -52,6 +53,7 @@ export const getUploadVideo = (req, res) => {
 
 /* URL : (POST) /videos/upload */
 export const postUploadVideo = async (req, res) => {
+  const {user:{_id}}=req.session;
   const {path} = req.file;
   const { title, description,rating,hashtags } = req.body;
   try {
@@ -62,6 +64,7 @@ export const postUploadVideo = async (req, res) => {
       hashtags :hashtags.replace(/ /g,"").split(",").filter(n=>n).map((word) => `#${word}`),
       rating,
       fileUrl : path,
+      owner:_id,
     });
     return res.redirect(`/`);
   } catch (error) {

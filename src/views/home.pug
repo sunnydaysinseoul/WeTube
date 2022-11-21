@@ -3,12 +3,12 @@ extends base.pug
 include mixins/video.pug 
     //-아래에서 +기호로 사용
 block headerContent
-    h3 Hello, welcome home, #{user.name}.
+    h3 Hello, welcome home, #{loggedInUser.name}.
 
     if !loggedIn
       a(href="/login") login
     else 
-        a(href=`/users/${user._id}/profile`) profile
+        a(href=`/users/${loggedInUser._id}/profile`) profile
         span &nbsp|&nbsp
         a(href="/logout") log out
     span &nbsp|&nbsp

@@ -3,6 +3,7 @@ import Video from "../models/Video.js";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import { render } from "pug";
 
 /* URL : / */
 export const checkLogin = async (req, res) => {
@@ -96,7 +97,7 @@ export const postLogin = async (req, res) => {
 
 /* URL : /users/:userId/edit */
 export const getEditUser = (req, res) => {
-  const {user} = req.session;
+  const {user} = req.session; //현재 로그인된 유저
   return res.render("editProfile", { pageTitle: " Edit Profile",user });
 };
 
@@ -137,18 +138,23 @@ export const postEditUser = async(req, res) => {
 export const profile = async(req, res) => {
   const {userId}= req.params;
   const user = await User.findById(userId);
-  return res.render("viewProfile", { pageTitle: " Profile",user });
+  if(!user){
+    return res.status(404).render("404");
+  }
+  return res.render("viewProfile", { pageTitle: `${user.name}의 Profile`,user });
 };
 
 /* URL : /users/delete */
 export const deleteUser = (req, res) => {
-  return res.send("Delete user page.");
+  return res.send("회원탈퇴");
 };
+
 /* URL : /users/logout */
 export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
 };
+
 /* URL : /users/github/login */
 export const startGithubLogin = (req, res) => {
   const baseUrl = "https://github.com/login/oauth/authorize";
@@ -161,6 +167,7 @@ export const startGithubLogin = (req, res) => {
   const finalUrl = `${baseUrl}?${params}`;
   return res.redirect(finalUrl);
 };
+
 /* URL : /confirmation/:email/:token (이미 가입된 email로 github로그인 첫 시도할 떄. Email verification)*/
 export const confirmEmail = async (req, res, next) => {
   await Token.findOne({ token: req.params.token }, function (err, token) {

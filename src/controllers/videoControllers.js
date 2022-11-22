@@ -58,7 +58,7 @@ export const postUploadVideo = async (req, res) => {
   const { title, description,rating,hashtags } = req.body;
   try {
     //form에서 받아온 데이터를, 위에서 Import한 Video스키마 데이터로 만들어주기
-    await Video.create({
+    const newVideo = await Video.create({
       title,
       description,
       hashtags :hashtags.replace(/ /g,"").split(",").filter(n=>n).map((word) => `#${word}`),
@@ -66,6 +66,9 @@ export const postUploadVideo = async (req, res) => {
       fileUrl : path,
       owner:_id,
     });
+    const user = await User.findById(_id);
+    user.videos.push(newVideo._id);
+    user.save();
     return res.redirect(`/`);
   } catch (error) {
     console.log(error);

@@ -20,11 +20,11 @@ block headerContent
             input(type="hidden",name="isVerified",value=1)
             input(type="submit",value="회원가입")    
     else
-        form(method="POST",action="/join")
+        form(method="POST",action="/join",enctype="multipart/form-data")
             p Username:
             input(name="username",type="text" ,required)
-            //- p Profile Picture:
-            //- input(name="avatarUrl",id="avatarUrl",type="file",accept="image/*")
+            p Profile Picture:
+            input(name="avatarUrl",id="avatarUrl",type="file",accept="image/*")
             p Email:
             input(name="email", type="email", required)
             p Name:

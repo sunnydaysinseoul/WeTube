@@ -7,7 +7,7 @@ const videoRouter = express.Router();
 
 videoRouter.route("/upload").all(protectorMiddleware).get(getUploadVideo).post(videoUpload.single("video"),postUploadVideo)
 
-videoRouter.get("/:id([0-9a-f]{24})",watchVideo); //regex. vId로 숫자만 올수있다는뜻
+videoRouter.get("/:id([0-9a-f]{24})",watchVideo); //regex.
 
 videoRouter.route("/:id([0-9a-f]{24})/edit").all(protectorMiddleware).get(getEditVideo).post(postEditVideo);
 

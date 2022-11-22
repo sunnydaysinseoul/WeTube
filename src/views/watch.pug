@@ -11,6 +11,7 @@ block content
     video(src=`/${video.fileUrl}`,controls,width="100%")
     small #{video.views}#{video.views === 1 ? "view" : "views"} | Created: #{video.createdDate} | Rating : #{video.ratings}/5
     br
-    small Uploaded by #{video.owner.name}
+    small Uploaded by 
+        a(href=`/users/${video.owner._id}/profile`) #{video.owner.name}
     h5 #{video.hashtags}
     p=video.description

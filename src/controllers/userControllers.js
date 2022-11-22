@@ -3,7 +3,6 @@ import Video from "../models/Video.js";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
-import { render } from "pug";
 
 /* URL : / */
 export const checkLogin = async (req, res) => {

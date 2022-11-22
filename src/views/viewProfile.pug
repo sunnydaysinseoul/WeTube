@@ -1,5 +1,6 @@
 //- URL : /users/${user._id}/profile */
 extends base.pug
+include mixins/video.pug
 block headerContent
 
     //- if 로그인한사람이 해당 user일 때만
@@ -12,4 +13,10 @@ block headerContent
     
     li profile image
     image(src=`/${user.avatarUrl}`,width="200px")
-        p image path : #{user.avatarUrl}
+        //- p image path : #{user.avatarUrl}
+    br
+    p All videos by this user &rarr;
+        each video in user.videos
+            +videoMxn(video)
+        else
+            li Sorry, nothing found.

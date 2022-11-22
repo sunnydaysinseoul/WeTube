@@ -5,7 +5,7 @@ import User from "../models/User.js";
 export const watchVideo = async(req, res) => {
     const { id } = req.params; 
     const video = await Video.findById(id).populate("owner");
-    console.log(video);
+    
     // video.views++; //조회수 증가
     // video.save(); //조회수 저장
     return res.render("watch", { pageTitle: `${video.title}` ,video});

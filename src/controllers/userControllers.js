@@ -136,11 +136,11 @@ export const postEditUser = async(req, res) => {
 /* URL : /users/${user._id}/profile */
 export const profile = async(req, res) => {
   const {userId}= req.params;
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).populate("videos");
   if(!user){
     return res.status(404).render("404");
   }
-  return res.render("viewProfile", { pageTitle: `${user.name}의 Profile`,user });
+  return res.render("viewProfile", { pageTitle: `${user.name}의 Profile`,user});
 };
 
 /* URL : /users/delete */

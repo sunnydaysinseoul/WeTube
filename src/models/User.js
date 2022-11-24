@@ -28,9 +28,11 @@ const UserSchema = mongoose.Schema(
   const tokenSchema = new mongoose.Schema({
     _userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
     token: { type: String, required: true },
-    expireAt: { type: Date, default: Date.now, index: { expires: 1800 } }
-});
+    // expireAt: { type: Date, default: Date.now,expires:3600 }
+  }
+  // , {timestamps: true}
+  );
 
 export const Token = mongoose.model("Token", tokenSchema);
-
+// Token.schema.index({expireAt: 1},{expireAfterSeconds: 600}); //10분후 만료
 export default User;

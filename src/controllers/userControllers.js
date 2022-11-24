@@ -3,6 +3,7 @@ import Video from "../models/Video.js";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import sgMail from "@sendgrid/mail";
 
 /* URL : / */
 export const checkLogin = async (req, res) => {
@@ -25,7 +26,7 @@ export const postJoin = async (req, res) => {
   const pageTitle = "Join";
   const { username, email, name, password, password2, isVerified,avatarUrl } =
     req.body;
-  console.log(req.body);
+  // console.log(req.body);
   if (password !== password2) {
     return res.status(400).render("join", {
       pageTitle,
@@ -169,7 +170,8 @@ export const startGithubLogin = (req, res) => {
 
 /* URL : /confirmation/:email/:token (이미 가입된 email로 github로그인 첫 시도할 떄. Email verification)*/
 export const confirmEmail = async (req, res, next) => {
-  await Token.findOne({ token: req.params.token }, function (err, token) {
+  const token = await Token.findOne({ token: req.params.token });
+  
     // token is not found into database i.e. token may have expired
     if (!token) {
       return res.status(400).send({
@@ -213,7 +215,8 @@ export const confirmEmail = async (req, res, next) => {
         }
       );
     }
-  });
+  
+  console.log(token.token);
 };
 
 /* URL : /users/github/finLogin */
@@ -252,7 +255,7 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log(gitUserData);
+    // console.log(gitUserData);
 
     const gitEmailData = await (
       await fetch(`${apiUrl}/user/emails`, {
@@ -272,13 +275,13 @@ export const finishGithubLogin = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email: gitEmailObj.email }); //해당 email로 가입된 계정이 있는지
-    console.log("해당email로 가입된 계정" + existingUser);
+    // console.log("해당email로 이미 가입된 계정" + existingUser);
     if (existingUser) {
       const isVerifiedObj = await User.findOne(
         { email: gitEmailObj.email },
         "isVerified"
       );
-      console.log(isVerifiedObj);
+      // console.log(isVerifiedObj);
       if (isVerifiedObj.isVerified) {
         /**case1)github email이 usersDB에 존재하고, isVerified=true일 때 ->로그인성공*/
         req.session.loggedIn = true;
@@ -295,38 +298,42 @@ export const finishGithubLogin = async (req, res) => {
           if (err) {
             console.log("tokensave error!");
             res.end();
-          } // Send email (use credintials of SendGrid)
-          var mailer = nodemailer.createTransport({
-            service: "Sendgrid",
-            auth: {
-              user: process.env.SENDGRID_USERNAME,
-              pass: process.env.SENDGRID_PASSWORD,
-            },
-          });
-          var mailOptions = {
-            from: "no-reply@wetubeHYS.com",
-            to: gitEmailObj.email,
-            subject: "Account Verification Link",
-            text:
-              "Hello, " +
-              ",\n\n" +
-              "Please verify your account by clicking the link: \nhttp://" +
-              req.headers.host +
-              "/confirmation/" +
-              gitEmailObj.email +
-              "/" +
-              token.token +
-              "\n\nThank You!\n",
-          };
-          mailer.sendMail(mailOptions, function (err) {
-            if (err) {
-              return res.status(500).send({ msg: err.message });
-            }
-            return res.status(200).send(
-              `A verification email has been sent to
-                  ${gitEmailObj.email}. It will be expire after one hour.`
-            );
-          });
+          }
+          // const sgMail = require('@sendgrid/mail')
+          const setApiKey = () => sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+     
+              console.log('SENDGRID함수안 :'+gitEmailObj.email);
+              setApiKey();
+              const msg = {
+                from: "youngsunhan.kr@gmail.com",
+                // to: gitEmailObj.email,
+                to: "dudtjs9679@gmail.com",
+                subject: "Account Verification Link",
+                text:
+                  "Hello, " +
+                  "\n\n" +
+                  "Please verify your account by clicking the link: \nhttp://" +
+                  req.headers.host +
+                  "/confirmation/" +
+                  gitEmailObj.email +
+                  "/" +
+                  token.token +
+                  "\n\nThank You!\n"
+              };
+              // console.log(msg.text);
+              (async () => {
+                try {
+                  await sgMail.send(msg);
+                  res.send(`${msg.to} 이메일을 확인하세요.`)
+                } catch (error) {
+                  console.error(error);
+              
+                  if (error.response) {
+                    console.error(error.response.body)
+                  }
+                }
+              })();
+          
         });
       }
     } else {

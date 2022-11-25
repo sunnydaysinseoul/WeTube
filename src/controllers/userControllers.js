@@ -71,7 +71,11 @@ export const sendEmail = (uid, uemail,req,res) => {
   });
 };
 
-/* URL : /join */
+/* URL : /users/:userId/reauth */
+export const reauth = (res,res) =>{
+  const{userId : id} = res.params;
+  
+}
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "Join" });
 };

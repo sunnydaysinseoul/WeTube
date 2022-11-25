@@ -7,6 +7,8 @@ block headerContent
 
     if !loggedIn
       a(href="/login") login
+      span &nbsp|&nbsp
+      a(href="/join") Join
     else 
         h3 Hello, welcome home, #{loggedInUser.name}.
         br

@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 import sgMail from "@sendgrid/mail";
+import { request } from "http";
 
 /* URL : / */
 export const checkLogin = async (req, res) => {
@@ -56,7 +57,7 @@ export const postJoin = async (req, res) => {
       isVerified,
       avatarUrl,
     });
-    return res.redirect("/login");
+    return res.status(401).render("emailAuth",{msg:`${email}로 인증링크가 발송되었습니다.`});
   } catch (error) {
     console.log(error);
     return res.render("404");
@@ -73,6 +74,7 @@ export const postLogin = async (req, res) => {
   const { username, password } = req.body;
   //1.account exists?
   const user = await User.findOne({ username });
+  console.log(user);
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
@@ -86,7 +88,11 @@ export const postLogin = async (req, res) => {
       pageTitle,
       errorMessage: "Wrong password.",
     });
-  } else {
+  } 
+  
+  if(user.isVerified == false){
+    return res.status(401).render("emailAuth",{email:user.email});
+  }else {
     //3. Login success
     req.session.loggedIn = true;
     req.session.user = user;
@@ -287,7 +293,7 @@ export const finishGithubLogin = async (req, res) => {
         req.session.loggedIn = true;
         req.session.user = existingUser;
         return res.redirect("/");
-      } else {
+      }
         /**case1)github email이 usersDB에 존재하는데, isVerified=false일 때 ->alert띄워서 email verification후 isVerified=true로 업데이트*/
         /** Alert : "It seemed like you already made an account without Github. Please verify your email to login with Github." */
         var token = new Token({
@@ -344,7 +350,6 @@ export const finishGithubLogin = async (req, res) => {
         gitEmailObj,
       });
     }
-  } else {
-    return res.redirect("/login");
   }
-};
+    // return res.redirect("/login");
+    

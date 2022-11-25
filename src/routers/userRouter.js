@@ -9,7 +9,7 @@ userRouter.route("/github/login").all(publicOnlyMiddleware).get(startGithubLogin
 userRouter.route("/github/finLogin").all(publicOnlyMiddleware).get(finishGithubLogin); //이 url은 https://github.com/settings/developers 에서 지정
 userRouter.route("/:userId/edit").all(protectorMiddleware).get(getEditUser).post(avatarUpload.single("avatarUrl"),postEditUser);
 userRouter.get("/:userId/profile",profile);
-userRouter.route("/:userId/reauth").all(publicOnlyMiddleware).get(reauth);
+userRouter.route("/reauth").all(publicOnlyMiddleware).post(reauth);
 userRouter.get("/delete",deleteUser).all(protectorMiddleware)
 
 export default userRouter;

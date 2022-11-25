@@ -5,9 +5,13 @@ block headerContent
         h3=msg
     if(email)
         p #{email}로 발송된 인증링크를 확인해주세요 
-        
+    
+    if(id)
+        p=id
     h3 Email인증 후 다시 로그인해주세요 
     h5
-        a(href='') 인증링크 다시 보내기 &rarr;
+        form(method="POST",id="reauth",action=`/users/reauth`)
+            input(type="hidden",name="id",value=`${id}`)
+        a(onclick="document.getElementById('reauth').submit();")  인증링크 다시보내기 &rarr;
     h6
         a(href="/login") 로그인화면으로 돌아가기 &rarr;

@@ -1,11 +1,9 @@
 import User, { Token } from "../models/User.js";
 import Video from "../models/Video.js";
 import bcrypt from "bcrypt";
-import nodemailer from "nodemailer";
 import crypto from "crypto";
 import sgMail from "@sendgrid/mail";
-import { request } from "http";
-import res from "express/lib/response.js";
+import { ObjectId } from 'mongodb'
 
 /* URL : / */
 export const checkLogin = async (req, res) => {
@@ -20,7 +18,7 @@ export const checkLogin = async (req, res) => {
   return res.render("home", { pageTitle: "Home", videos });
 };
 
-export const sendEmail = (uid, uemail,req,res) => {
+export const sendEmail = (uid, uemail, req, res) => {
   //필요: user._id, 이메일주소 (gitEmailObj.email)
 
   var token = new Token({
@@ -34,7 +32,7 @@ export const sendEmail = (uid, uemail,req,res) => {
     }
     const setApiKey = () => sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    console.log("SENDGRID함수안 :" + uemail);
+    console.log("sendEmail함수안 :" + uemail);
     setApiKey();
     const msg = {
       from: "youngsunhan.kr@gmail.com",
@@ -55,11 +53,10 @@ export const sendEmail = (uid, uemail,req,res) => {
     (async () => {
       try {
         await sgMail.send(msg);
-        return res
-          .status(401)
-          .render("emailAuth", {
-            msg: `${uemail}로 인증링크가 발송되었습니다.`,
-          });
+        return res.status(401).render("emailAuth", {
+          msg: `${uemail}로 인증링크가 발송되었습니다.`,
+          id: uid,
+        });
       } catch (error) {
         console.error(error);
         if (error.response) {
@@ -71,11 +68,13 @@ export const sendEmail = (uid, uemail,req,res) => {
   });
 };
 
-/* URL : /users/:userId/reauth */
-export const reauth = (res,res) =>{
-  const{userId : id} = res.params;
-  
-}
+/* URL : /users/reauth */
+export const reauth = async(req, res) => {
+  const user = await User.findById(req.body.id);
+  // console.log("======================="+user);
+  console.log(user.id,user.email);
+  sendEmail(user._id, user.email, req, res);
+};
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "Join" });
 };
@@ -113,7 +112,7 @@ export const postJoin = async (req, res) => {
       isVerified,
       avatarUrl,
     });
-    sendEmail(newUser._id, email,req,res);
+    sendEmail(newUser._id, email, req, res);
   } catch (error) {
     console.log(error);
     return res.render("404");
@@ -130,7 +129,6 @@ export const postLogin = async (req, res) => {
   const { username, password } = req.body;
   //1.account exists?
   const user = await User.findOne({ username });
-  console.log(user);
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
@@ -147,7 +145,9 @@ export const postLogin = async (req, res) => {
   }
 
   if (user.isVerified == false) {
-    return res.status(401).render("emailAuth", { email: user.email });
+    return res
+      .status(401)
+      .render("emailAuth", { email: user.email, id: user._id });
   } else {
     //3. Login success
     req.session.loggedIn = true;
@@ -352,60 +352,14 @@ export const finishGithubLogin = async (req, res) => {
         req.session.user = existingUser;
         return res.redirect("/");
       }
-      /**case1)github email이 usersDB에 존재하는데, isVerified=false일 때 ->alert띄워서 email verification후 isVerified=true로 업데이트*/
-      /** Alert : "It seemed like you already made an account without Github. Please verify your email to login with Github." */
-      var token = new Token({
-        _userId: existingUser._id,
-        token: crypto.randomBytes(16).toString("hex"),
-      });
-      token.save(function (err) {
-        if (err) {
-          console.log("tokensave error!");
-          res.end();
-        }
-        // const sgMail = require('@sendgrid/mail')
-        const setApiKey = () => sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-        console.log("SENDGRID함수안 :" + gitEmailObj.email);
-        setApiKey();
-        const msg = {
-          from: "youngsunhan.kr@gmail.com",
-          // to: gitEmailObj.email,
-          to: "dudtjs9679@gmail.com",
-          subject: "Account Verification Link",
-          text:
-            "Hello, " +
-            "\n\n" +
-            "Please verify your account by clicking the link: \nhttp://" +
-            req.headers.host +
-            "/confirmation/" +
-            gitEmailObj.email +
-            "/" +
-            token.token +
-            "\n\nThank You!\n",
-        };
-        // console.log(msg.text);
-        (async () => {
-          try {
-            await sgMail.send(msg);
-            res.send(`${msg.to} 이메일을 확인하세요.`);
-          } catch (error) {
-            console.error(error);
-
-            if (error.response) {
-              console.error(error.response.body);
-            }
-          }
-        })();
-      });
     }
-  } else {
-    /**case3)github email이 usersDB에 없을 때 -> Join페이지로 (깃허브 email,username 자동입력)*/
-    return res.render("join", {
-      pageTitle: "Join",
-      gitUserData,
-      gitEmailObj,
-    });
   }
+  /**case2)github email이 usersDB에 없을 때 -> Join페이지로 (깃허브 email,username 자동입력)*/
+  return res.render("join", {
+    pageTitle: "Join",
+    gitUserData,
+    gitEmailObj,
+  });
 };
+
 // return res.redirect("/login");

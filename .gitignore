@@ -3,5 +3,4 @@ node_modules/
 /uploads
 
 # 아래는 임시
-webpack.config.js
-/src/client/
+/assets

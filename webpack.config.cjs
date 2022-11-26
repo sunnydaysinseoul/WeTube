@@ -1,14 +1,20 @@
 // It's not webpack converting New JS to Old JS.
 // Webpack is running the 'loaders' which are the ones transforming the code.
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
 module.exports = {
   entry: "./src/client/js/main.js", //webpack으로 변환할 원본파일
   mode: "development",
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "css/styles.css",
+    }),
+  ],
   output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "assets", "js"), //변환된 파일의 위치
+    filename: "js/main.js",
+    path: path.resolve(__dirname, "assets"), //변환된 파일의 위치
+    clean:true
   },
   module: {
     rules: [
@@ -24,8 +30,7 @@ module.exports = {
       {
         test:/\.scss$/,
         use:
-            //transform scss to css(sass)->css->style(applies it on browser) : webpack은 여러개 loader를 지정하면 뒤에서부터 실행함.
-        ["style-loader","css-loader","sass-loader"],
+        [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },

@@ -38,7 +38,7 @@ app.use(
 );
 app.use(localsMiddleware);
 app.use("/uploads",express.static("uploads")); //static files serving : /uploads라는 url로 가면 uploads폴더안의 내용을 읽으라는뜻
-app.use("/assets",express.static("assets"));
+app.use("/static",express.static("assets"));
 app.use("/",globalRouter);
 app.use("/users",userRouter);
 app.use("/videos",videoRouter);

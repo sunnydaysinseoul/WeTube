@@ -21,6 +21,12 @@ module.exports = {
           },
         },
       },
+      {
+        test:/\.scss$/,
+        use:
+            //transform scss to css(sass)->css->style(applies it on browser) : webpack은 여러개 loader를 지정하면 뒤에서부터 실행함.
+        ["style-loader","css-loader","sass-loader"],
+      },
     ],
   },
   //파일 변경될때마다 자동실행되도록

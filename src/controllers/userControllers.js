@@ -3,7 +3,6 @@ import Video from "../models/Video.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import sgMail from "@sendgrid/mail";
-import { ObjectId } from 'mongodb'
 
 /* URL : / */
 export const checkLogin = async (req, res) => {
@@ -12,9 +11,6 @@ export const checkLogin = async (req, res) => {
     const user = req.session.user;
     return res.render("home", { pageTitle: "Home", videos, user });
   }
-  // return res.render("login", { pageTitle: "Login" });
-
-  //테스트용
   return res.render("home", { pageTitle: "Home", videos });
 };
 
@@ -71,6 +67,9 @@ export const sendEmail = (uid, uemail, req, res) => {
 /* URL : /users/reauth */
 export const reauth = async(req, res) => {
   const user = await User.findById(req.body.id);
+  if(user.isVerified==true){
+    return res.status(401).send("이미 이메일 인증이 완료된 아이디입니다.")
+  }
   // console.log("======================="+user);
   console.log(user.id,user.email);
   sendEmail(user._id, user.email, req, res);

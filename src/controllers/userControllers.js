@@ -258,16 +258,21 @@ export const confirmEmail = async (req, res, next) => {
       { _id: token._userId, email: req.params.email },
       function (err, user) {
         // not valid user
+        if(req.session.loggedIn == true){
+          req.flash("error","유효하지 않은 인증링크입니다.");
+          return res.status(400).redirect("/");
+        }
         if (!user) {
-          return res.status(401).send({
-            msg: "We were unable to find a user for this verification. Please SignUp!",
-          });
+          req.flash("error","인증요청 내용을 찾을 수 없습니다. 가입해주세요.");
+          return res.status(401).redirect("/join");
         }
         // user is already verified
         else if (user.isVerified) {
-          return res
-            .status(200)
-            .send("User has been already verified. Please Login");
+          req.flash("info","이미 인증이 완료되었습니다. 로그인해주세요.");
+              return res
+                .status(200)
+                .redirect("/login");
+
         }
         // verify user
         else {
@@ -276,13 +281,16 @@ export const confirmEmail = async (req, res, next) => {
           user.save(function (err) {
             // error occur
             if (err) {
-              return res.status(500).send({ msg: err.message });
+              req.flash("error","서버에 일시적인 문제가 발생했습니다.")
+              return res.status(500).redirect("/");
+              console.log(err.message);
             }
             // account successfully verified
             else {
+              req.flash("info","정상적으로 인증이 완료되었습니다. 로그인해주세요.");
               return res
                 .status(200)
-                .send("Your account has been successfully verified");
+                .redirect("/login");
             }
           });
         }

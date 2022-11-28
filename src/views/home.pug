@@ -21,8 +21,6 @@ block headerContent
     include partials/search.pug
 
 block content
-    if deletedVideo
-        small Just deleted : #{deletedVideo}
     each video in videos
         +videoMxn(video)
     else

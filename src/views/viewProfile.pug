@@ -12,7 +12,10 @@ block headerContent
     li user email = #{user.email}
     
     li profile image
-    image(src=`/${user.avatarUrl}`,width="200px")
+    if user.avatarUrl
+        image(src=`${user.avatarUrl}`)
+    else
+        p 이미지가 없습니다.
         //- p image path : #{user.avatarUrl}
     br
     p All videos by this user &rarr;

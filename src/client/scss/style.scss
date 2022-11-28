@@ -37,6 +37,7 @@ main {
   left: 50%; /* Center the snackbar */
   top: 30px; /* 30px from the top */
   animation: goAway 0.5s ease-in-out forwards;
+  box-shadow: 2px 2px 5px rgb(198, 198, 198);
 
   &.error {
     background-color: rgb(205, 43, 43);

@@ -37,7 +37,7 @@ export const postEditVideo = async (req, res) => {
   }
   // console.log(typeof video.owner,typeof _id);
   if (String(video.owner) !== String(_id)) {
-    req.flash("error","Not authorized");
+    req.flash("error","접근권한이 없습니다.");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {
@@ -50,6 +50,7 @@ export const postEditVideo = async (req, res) => {
       .map((word) => `#${word}`),
     rating,
   });
+  req.flash("info","저장되었습니다.")
   return res.redirect(`/videos/${id}`);
 };
 
@@ -68,11 +69,12 @@ export const deleteVideo = async (req, res) => {
   }
   await Video.findByIdAndDelete(id);
   const videos = await Video.find({});
+  req.flash("info",`'${deletedVideo.title}' 동영상이 삭제되었습니다.`);
   res.render("home", {
     pageTitle: "Home",
-    videos,
-    deletedVideo: deletedVideo.title,
+    videos
   });
+   
 };
 
 /* URL : (GET) /videos/upload */
@@ -104,9 +106,11 @@ export const postUploadVideo = async (req, res) => {
     const user = await User.findById(_id);
     user.videos.push(newVideo._id);
     user.save();
+    req.flash("info","업로드 성공");
     return res.redirect(`/`);
   } catch (error) {
     console.log(error);
+    req.flash("error","업로드 실패");
     return res.render("upload", {
       pageTitle: "Upload Video",
       errorMessage: error._message,

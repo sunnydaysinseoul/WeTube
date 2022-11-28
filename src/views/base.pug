@@ -1,3 +1,4 @@
+include mixins/messages.pug 
 doctype html
 html(lang="ko")
     head
@@ -6,6 +7,10 @@ html(lang="ko")
         link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css")
         link(rel="stylesheet", href="/static/css/styles.css")
     body
+        if messages.error
+            +messagesMxn("error",messages.error)
+        if messages.info
+            +messagesMxn("info",messages.info)
         header
             h1=pageTitle
             

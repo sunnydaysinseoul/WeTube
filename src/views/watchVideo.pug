@@ -2,8 +2,11 @@
 extends base.pug
 include mixins/video.pug 
 
-block headerContent
-    include partials/header.pug
+include partials/header.pug
+    block headerContent
+        if loggedInUser
+        span &nbsp|&nbsp
+        a(href="/videos/upload") Upload New    
 block content
     if loggedInUser
         if String(loggedInUser._id) === String(video.owner._id)

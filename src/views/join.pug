@@ -1,5 +1,7 @@
 extends base.pug
-block headerContent
+include partials/header.pug
+
+    block headerContent
     if errorMessage
         span=errorMessage
 

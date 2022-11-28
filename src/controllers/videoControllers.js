@@ -8,7 +8,7 @@ export const watchVideo = async (req, res) => {
 
   // video.views++; //조회수 증가
   // video.save(); //조회수 저장
-  return res.render("watch", { pageTitle: `${video.title}`, video });
+  return res.render("watchVideo", { pageTitle: `${video.title}`, video });
 };
 
 /* URL : (GET) /videos/:vId/edit */
@@ -23,7 +23,7 @@ export const getEditVideo = async (req, res) => {
   if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
   }
-  return res.render("edit", { pageTitle: `Editing ${video.title}`, video });
+  return res.render("editVideo", { pageTitle: `Editing ${video.title}`, video });
 };
 /* URL : (POST) /videos/:vId/edit */
 export const postEditVideo = async (req, res) => {

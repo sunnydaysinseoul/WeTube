@@ -1,7 +1,9 @@
 //- URL : /users/${user._id}/profile */
 extends base.pug
 include mixins/video.pug
-block headerContent
+include partials/header.pug
+
+    block headerContent
 
     //- if 로그인한사람이 해당 user일 때만
     if user._id == loggedInUser._id

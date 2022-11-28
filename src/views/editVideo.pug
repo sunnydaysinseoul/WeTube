@@ -1,7 +1,9 @@
 //- URL : /videos/:vId/edit
 extends base.pug
-block headerContent
-    include partials/headerHome.pug
+include partials/header.pug
+
+    block headerContent
+
 block content
     h4 Change the video Title from "#{video.title}" to...
     form(method="POST",action=`/videos/${video.id}/edit`)

@@ -2,6 +2,8 @@
 extends base.pug
 include mixins/video.pug 
     //-아래에서 +기호로 사용
+include partials/header.pug
+
     block headerContent
         h3 Edit Profile : #{user.name}
 

@@ -1,7 +1,9 @@
 //- URL : /videos/upload
 extends base.pug
-block headerContent
-    include partials/headerHome.pug
+include partials/header.pug
+
+    block headerContent
+
 block content
     if errorMessage
         span=errorMessage

@@ -14,7 +14,7 @@ export const checkLogin = async (req, res) => {
   return res.render("home", { pageTitle: "Home", videos });
 };
 
-export const sendEmail = (uid, uemail, req, res) => {
+export const sendEmail = (uid, uemail, req, res ,resend) => {
   //필요: user._id, 이메일주소 (gitEmailObj.email)
 
   var token = new Token({
@@ -49,6 +49,9 @@ export const sendEmail = (uid, uemail, req, res) => {
     (async () => {
       try {
         await sgMail.send(msg);
+        if(resend == true){
+          req.flash("info","인증링크 재발송완료");
+        }
         return res.status(401).render("emailAuth", {
           msg: `${uemail}로 인증링크가 발송되었습니다.`,
           id: uid,
@@ -65,43 +68,47 @@ export const sendEmail = (uid, uemail, req, res) => {
 };
 
 /* URL : /users/reauth */
-export const reauth = async(req, res) => {
+export const reauth = async (req, res) => {
   const user = await User.findById(req.body.id);
-  if(user.isVerified==true){
-    return res.status(401).send("이미 이메일 인증이 완료된 아이디입니다.")
+  if (user.isVerified == true) {
+    req.flash("error","이미 이메일 인증이 완료된 아이디입니다.");
+    return res.redirect("/login");
   }
   // console.log("======================="+user);
-  console.log(user.id,user.email);
-  sendEmail(user._id, user.email, req, res);
+  console.log(user.id, user.email);
+  sendEmail(user._id, user.email, req, res,true);
 };
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "Join" });
 };
 export const postJoin = async (req, res) => {
-  const pageTitle = "Join";
   const { username, email, name, password, password2, isVerified, avatarUrl } =
     req.body;
   // console.log(req.body);
   if (password !== password2) {
-    return res.status(400).render("join", {
-      pageTitle,
-      errorMessage: "비밀번호 확인이 일치하지 않습니다.",
-    }); ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
+    req.flash("error", "비밀번호 확인이 일치하지 않습니다.");
+
+    // return res.status(400).render("join", {
+    //   pageTitle,
+    //   errorMessage: "비밀번호 확인이 일치하지 않습니다.",
+    // }); ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
   }
   try {
     const nameExists = await User.exists({ username });
     if (nameExists) {
-      return res.status(400).render("join", {
-        pageTitle,
-        errorMessage: "이미 사용중인 username입니다.", ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
-      });
+      // return res.status(400).render("join", {
+      //   pageTitle,
+      //   errorMessage: "이미 사용중인 username입니다.", ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
+      // });
+      req.flash("error", "이미 사용중인 username입니다.");
     }
     const emailExists = await User.exists({ email });
     if (emailExists) {
-      return res.status(400).render("join", {
-        pageTitle,
-        errorMessage: "이미 사용중인 email입니다.", ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
-      });
+      // return res.status(400).render("join", {
+      //   pageTitle,
+      //   errorMessage: "이미 사용중인 email입니다.", ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
+      // });
+      req.flash("error", "이미 사용중인 email입니다..");
     }
     const newUser = await User.create({
       username,
@@ -111,7 +118,10 @@ export const postJoin = async (req, res) => {
       isVerified,
       avatarUrl,
     });
-    sendEmail(newUser._id, email, req, res);
+    if (newUser.isVerified !== true) {
+      sendEmail(newUser._id, email, req, res,false);
+    }else{
+    return res.redirect("/login");}
   } catch (error) {
     console.log(error);
     return res.render("404");
@@ -175,23 +185,23 @@ export const postEditUser = async (req, res) => {
 
   const user = await User.findById(_id);
   if (password !== password2) {
-    return res.status(400).render("join", {
-      pageTitle,
-      errorMessage: "비밀번호 확인이 일치하지 않습니다.",
-    }); ///=========나중에 render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
-  }
+    req.flash("error", "비밀번호 확인이 일치하지 않습니다");
+    return res.redirect(`/users/${user._id}/edit`);
+  }else{
   user.avatarUrl = avatarUrl;
   user.password = password;
-  const updatedUser = await User.findByIdAndUpdate(
-    _id,
-    { password, avatarUrl: file ? file.path : avatarUrl },
-    { new: true }
-  );
-  req.session.user = updatedUser;
-  user.password = updatedUser.password;
-  await user.save(); //findByIdAndUpdate를 하면 User Schema의 pre("save",())가 안탐
-
-  return res.redirect(`/users/${_id}/profile`);
+  user.avatarUrl= file ? file.path : avatarUrl;
+  user.new=true;
+  // const updatedUser = await User.findByIdAndUpdate(
+  //   _id,
+  //   { avatarUrl: file ? file.path : avatarUrl },
+  //   { new: true }
+  // );
+  await user.save();//findByIdAndUpdate를 하면 User Schema의 pre("save",())가 안탐
+  req.session.user = user;
+  req.flash("info", "회원정보가 저장되었습니다.");
+  return res.redirect(`/users/${_id}/edit`);
+  }
 };
 
 /* URL : /users/${user._id}/profile */
@@ -214,6 +224,7 @@ export const deleteUser = (req, res) => {
 
 /* URL : /users/logout */
 export const logout = (req, res) => {
+  req.flash("info", "Bye...See you later!");
   req.session.destroy();
   return res.redirect("/");
 };
@@ -352,13 +363,13 @@ export const finishGithubLogin = async (req, res) => {
         return res.redirect("/");
       }
     }
+    return res.render("join", {
+      pageTitle: "Join",
+      gitUserData,
+      gitEmailObj,
+    });
   }
   /**case2)github email이 usersDB에 없을 때 -> Join페이지로 (깃허브 email,username 자동입력)*/
-  return res.render("join", {
-    pageTitle: "Join",
-    gitUserData,
-    gitEmailObj,
-  });
 };
 
 // return res.redirect("/login");

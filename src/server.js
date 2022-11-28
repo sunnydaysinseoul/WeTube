@@ -1,5 +1,6 @@
 import express from "express";
 import session from "express-session";
+import flash from 'express-flash';
 import MongoStore from 'connect-mongo';
 import morgan from "morgan"; //유용한 Middleware
 import globalRouter from "./routers/globalRouter.js";
@@ -36,6 +37,7 @@ app.use(
     })
   })
 );
+app.use(flash());
 app.use(localsMiddleware);
 app.use("/uploads",express.static("uploads")); //static files serving : /uploads라는 url로 가면 uploads폴더안의 내용을 읽으라는뜻
 app.use("/static",express.static("assets"));

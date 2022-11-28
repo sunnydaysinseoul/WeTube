@@ -37,6 +37,7 @@ export const postEditVideo = async (req, res) => {
   }
   // console.log(typeof video.owner,typeof _id);
   if (String(video.owner) !== String(_id)) {
+    req.flash("error","Not authorized");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {

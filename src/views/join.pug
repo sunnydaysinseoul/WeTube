@@ -1,10 +1,5 @@
 extends base.pug
-include partials/header.pug
-
-    block headerContent
-    if errorMessage
-        span=errorMessage
-
+block content    
     if gitUserData
         form(method="POST",action="/join")
             h4 JOIN VIA GITHUB!

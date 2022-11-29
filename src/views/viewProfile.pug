@@ -1,18 +1,17 @@
 //- URL : /users/${user._id}/profile */
 extends base.pug
 include mixins/video.pug
-include partials/header.pug
-
-    block headerContent
-
-    //- if 로그인한사람이 해당 user일 때만
+ 
+block headerContent
     if user._id == loggedInUser._id
         a(href=`/users/${loggedInUser._id}/edit`) Edit Profile
+        //- 로그인한사람이 해당 user일 때만 
 
+block content
     li username = #{user.username}
     li name = #{user.name}
     li user email = #{user.email}
-    
+
     li profile image
     if user.avatarUrl
         image(src=`${user.avatarUrl}`)

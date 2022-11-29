@@ -3,17 +3,13 @@ doctype html
 html(lang="ko")
     head
         title #{pageTitle} | WeTube HYS
-        //변수는 이 pug파일 (html)을 불러오는 Controller에서 지정!
+        //-변수는 이 pug파일 (html)을 불러오는 Controller에서 지정!
         link(rel="stylesheet",href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css")
         link(rel="stylesheet", href="/static/css/styles.css")
     body
-        if messages.error
-            +messagesMxn("error",messages.error)
-        if messages.info
-            +messagesMxn("info",messages.info)
+
         include partials/header.pug
-            h1=pageTitle
-            block headerContent
+            
 
         main
             block content

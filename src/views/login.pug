@@ -1,9 +1,6 @@
 extends base.pug
-include partials/header.pug
 
-    block headerContent
-    if errorMessage
-    span=errorMessage
+block content
     form(method="POST",action="/login")
       p Username:
         input(name="username",type="text",required)

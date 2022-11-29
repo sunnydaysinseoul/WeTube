@@ -1,4 +1,10 @@
 header
     a(href="/")
         i.fa-solid.fa-house
+    h1=pageTitle
     
+    if messages.error
+        +messagesMxn("error",messages.error)
+    if messages.info
+        +messagesMxn("info",messages.info)
+    block headerContent

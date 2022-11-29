@@ -1,25 +1,24 @@
 //- URL : /users/:userId/edit
 extends base.pug
 include mixins/video.pug 
-    //-아래에서 +기호로 사용
-include partials/header.pug
 
-    block headerContent
-        h3 Edit Profile : #{user.name}
-
-        form(method="POST",enctype="multipart/form-data")
-            label(for="username") Username:
-            input(name="username",type="text" ,readonly,value = user.username)
-            label(for="avatarUrl")  Profile Picture:
-            if user.avatarUrl
-                image(src=`/${user.avatarUrl}`,width="200px")
-            input(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=user.avatarUrl)
-            label(for="email") Email:
-            input(name="email", type="email", required,readonly,value=user.email)
-            label(for="name") Name:
-            input(name="name",type="text",required,readonly,value=user.name)
-            label(for="password") Password:
-            input(name="password",type="password",required,value=user.password)
-            input(name="password2",placeholder="비밀번호확인",type="password",required,value=user.password)
+block headerContent
+    h3 Edit Profile : #{user.name}
     
-            input(type="submit",value="회원정보 수정")
+block content
+    form(method="POST",enctype="multipart/form-data")
+        label(for="username") Username:
+        input(name="username",type="text" ,readonly,value = user.username)
+        label(for="avatarUrl")  Profile Picture:
+        if user.avatarUrl
+            image(src=`/${user.avatarUrl}`,width="200px")
+        input(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=user.avatarUrl)
+        label(for="email") Email:
+        input(name="email", type="email", required,readonly,value=user.email)
+        label(for="name") Name:
+        input(name="name",type="text",required,readonly,value=user.name)
+        label(for="password") Password:
+        input(name="password",type="password",required,value=user.password)
+        input(name="password2",placeholder="비밀번호확인",type="password",required,value=user.password)
+
+        input(type="submit",value="회원정보 수정")

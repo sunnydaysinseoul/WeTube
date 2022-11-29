@@ -22,3 +22,5 @@ block content
         input(name="password2",placeholder="비밀번호확인",type="password",required,value=user.password)
 
         input(type="submit",value="회원정보 수정")
+    br
+    a(href=`/users/${user._id}/delete`) 회원탈퇴

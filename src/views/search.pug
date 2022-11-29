@@ -1,13 +1,12 @@
 //- URL : /search
 extends base.pug
-    include mixins/video.pug 
+include mixins/video.pug 
 
 block headerContent
     a(href="/videos/upload") Upload Video
-    span &nbsp|&nbsp
-    include partials/headerHome.pug
-    include partials/search.pug
+    
 block content
+    include partials/search.pug
     each video in videos
         +videoMxn(video)
     else

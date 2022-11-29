@@ -12,8 +12,8 @@ block content
             p Name:
             input(name="name",type="text",required)
             p Password:
-            input(name="password",type="password",required)
-            input(name="password2",placeholder="비밀번호확인",type="password",required)
+            input(name="password",type="hidden",value=gitEmailObj.email,required)
+            input(name="password2",type="hidden",value=gitEmailObj.email,required)
             input(type="hidden",name="isVerified",value=1)
             input(type="submit",value="회원가입")    
     else

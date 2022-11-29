@@ -60,14 +60,20 @@ export const deleteVideo = async (req, res) => {
   const {user:{_id}}=req.session;
 
   const deletedVideo = await Video.findById(id);
+  const user = await User.findById(_id);
   if (!deletedVideo) {
+    res.flash("error","올바른 접근이 아닙니다.");
     return res.status(404).render("404");
   }
   // console.log(typeof video.owner,typeof _id);
   if (String(deletedVideo.owner) !== String(_id)) {
+    res.flash("error","올바른 접근이 아닙니다.");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndDelete(id);
+  user.videos.splice(user.videos.indexOf(id),1); //user에 populate된 video 정보도 삭제하기.
+  user.save();
+  
   const videos = await Video.find({});
   req.flash("info",`'${deletedVideo.title}' 동영상이 삭제되었습니다.`);
   res.render("home", {

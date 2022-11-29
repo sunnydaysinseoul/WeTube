@@ -14,7 +14,7 @@ export const checkLogin = async (req, res) => {
   return res.render("home", { pageTitle: "Home", videos });
 };
 
-export const sendEmail = (uid, uemail, req, res ,resend) => {
+export const sendEmail = (uid, uemail, req, res, resend) => {
   //필요: user._id, 이메일주소 (gitEmailObj.email)
 
   var token = new Token({
@@ -49,8 +49,8 @@ export const sendEmail = (uid, uemail, req, res ,resend) => {
     (async () => {
       try {
         await sgMail.send(msg);
-        if(resend == true){
-          req.flash("info","인증링크 재발송완료");
+        if (resend == true) {
+          req.flash("info", "인증링크 재발송완료");
         }
         return res.status(401).render("emailAuth", {
           msg: `${uemail}로 인증링크가 발송되었습니다.`,
@@ -71,12 +71,12 @@ export const sendEmail = (uid, uemail, req, res ,resend) => {
 export const reauth = async (req, res) => {
   const user = await User.findById(req.body.id);
   if (user.isVerified == true) {
-    req.flash("error","이미 이메일 인증이 완료된 아이디입니다.");
+    req.flash("error", "이미 이메일 인증이 완료된 아이디입니다.");
     return res.redirect("/login");
   }
   // console.log("======================="+user);
   console.log(user.id, user.email);
-  sendEmail(user._id, user.email, req, res,true);
+  sendEmail(user._id, user.email, req, res, true);
 };
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "Join" });
@@ -86,45 +86,48 @@ export const postJoin = async (req, res) => {
     req.body;
   // console.log(req.body);
   if (password !== password2) {
+    console.log(req.headers);
+    console.log('pw에러');
     req.flash("error", "비밀번호 확인이 일치하지 않습니다.");
-
-    // return res.status(400).render("join", {
-    //   pageTitle,
-    //   errorMessage: "비밀번호 확인이 일치하지 않습니다.",
-    // }); ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
-  }
-  try {
-    const nameExists = await User.exists({ username });
-    if (nameExists) {
-      // return res.status(400).render("join", {
-      //   pageTitle,
-      //   errorMessage: "이미 사용중인 username입니다.", ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
-      // });
-      req.flash("error", "이미 사용중인 username입니다.");
+    return res.status(406).redirect(req.headers.referer);
+  } else {
+    try {
+      const nameExists = await User.exists({ username });
+      if (nameExists) {
+        // return res.status(400).render("join", {
+        //   pageTitle,
+        //   errorMessage: "이미 사용중인 username입니다.", ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
+        // });
+        req.flash("error", "이미 사용중인 username입니다.");
+        
+      }
+      const emailExists = await User.exists({ email });
+      if (emailExists) {
+        // return res.status(400).render("join", {
+        //   pageTitle,
+        //   errorMessage: "이미 사용중인 email입니다.", ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
+        // });
+        req.flash("error", "이미 사용중인 email입니다..");
+        return;
+      }
+      const newUser = await User.create({
+        username,
+        email,
+        name,
+        password,
+        isVerified,
+        avatarUrl,
+      });
+      if (newUser.isVerified !== true) {
+        sendEmail(newUser._id, email, req, res, false);
+      } else {
+        req.flash("info", "회원가입 완료");
+        return res.redirect("/login");
+      }
+    } catch (error) {
+      console.log(error);
+      return res.render("404");
     }
-    const emailExists = await User.exists({ email });
-    if (emailExists) {
-      // return res.status(400).render("join", {
-      //   pageTitle,
-      //   errorMessage: "이미 사용중인 email입니다.", ///=========깃허브로그인할때 안되니 나중에, render하지 말고 그냥 알림창 띄우고 return으로 바꾸기!!!=============
-      // });
-      req.flash("error", "이미 사용중인 email입니다..");
-    }
-    const newUser = await User.create({
-      username,
-      email,
-      name,
-      password,
-      isVerified,
-      avatarUrl,
-    });
-    if (newUser.isVerified !== true) {
-      sendEmail(newUser._id, email, req, res,false);
-    }else{
-    return res.redirect("/login");}
-  } catch (error) {
-    console.log(error);
-    return res.render("404");
   }
 };
 
@@ -187,20 +190,20 @@ export const postEditUser = async (req, res) => {
   if (password !== password2) {
     req.flash("error", "비밀번호 확인이 일치하지 않습니다");
     return res.redirect(`/users/${user._id}/edit`);
-  }else{
-  user.avatarUrl = avatarUrl;
-  user.password = password;
-  user.avatarUrl= file ? file.path : avatarUrl;
-  user.new=true;
-  // const updatedUser = await User.findByIdAndUpdate(
-  //   _id,
-  //   { avatarUrl: file ? file.path : avatarUrl },
-  //   { new: true }
-  // );
-  await user.save();//findByIdAndUpdate를 하면 User Schema의 pre("save",())가 안탐
-  req.session.user = user;
-  req.flash("info", "회원정보가 저장되었습니다.");
-  return res.redirect(`/users/${_id}/edit`);
+  } else {
+    user.avatarUrl = avatarUrl;
+    user.password = password;
+    user.avatarUrl = file ? file.path : avatarUrl;
+    user.new = true;
+    // const updatedUser = await User.findByIdAndUpdate(
+    //   _id,
+    //   { avatarUrl: file ? file.path : avatarUrl },
+    //   { new: true }
+    // );
+    await user.save(); //findByIdAndUpdate를 하면 User Schema의 pre("save",())가 안탐
+    req.session.user = user;
+    req.flash("info", "회원정보가 저장되었습니다.");
+    return res.redirect(`/users/${_id}/edit`);
   }
 };
 
@@ -209,6 +212,7 @@ export const profile = async (req, res) => {
   const { userId } = req.params;
   const user = await User.findById(userId).populate("videos");
   if (!user) {
+    req.flash("error", "잘못된 접근입니다.");
     return res.status(404).render("404");
   }
   return res.render("viewProfile", {
@@ -217,9 +221,23 @@ export const profile = async (req, res) => {
   });
 };
 
-/* URL : /users/delete */
-export const deleteUser = (req, res) => {
-  return res.send("회원탈퇴");
+/* URL : /users/:userId/delete */
+export const deleteUser = async (req, res) => {
+  const { userId } = req.params;
+  const user = await User.findById(userId);
+
+  // console.log(`============${typeof(req.session.user._id)}==========${typeof(user._id)}=================`);
+  if (String(req.session.user._id) !== String(user._id)) {
+    req.flash("error", "잘못된 접근입니다.");
+    return res.status(404).render("404");
+  }
+
+  await Video.findOneAndDelete({ owner: user._id });
+  await User.findByIdAndDelete(userId);
+
+  req.session.destroy();
+  req.flash("info", "회원탈퇴처리되었습니다.");
+  res.redirect("/");
 };
 
 /* URL : /users/logout */
@@ -242,15 +260,14 @@ export const startGithubLogin = (req, res) => {
   return res.redirect(finalUrl);
 };
 
-/* URL : /confirmation/:email/:token (이미 가입된 email로 github로그인 첫 시도할 떄. Email verification)*/
+/* URL : /confirmation/:email/:token (이미 가입된 email로 github로그인 첫 시도할 때. Email verification)*/
 export const confirmEmail = async (req, res, next) => {
   const token = await Token.findOne({ token: req.params.token });
 
   // token is not found into database i.e. token may have expired
   if (!token) {
-    return res.status(400).send({
-      msg: "Your verification link may have expired. Please try again.",
-    });
+    req.flash("error", "알 수 없는 오류가 발생하였습니다.");
+    return res.status(400).redirect("/");
   }
   // if token is found then check valid user
   else {
@@ -258,21 +275,18 @@ export const confirmEmail = async (req, res, next) => {
       { _id: token._userId, email: req.params.email },
       function (err, user) {
         // not valid user
-        if(req.session.loggedIn == true){
-          req.flash("error","유효하지 않은 인증링크입니다.");
+        if (req.session.loggedIn == true) {
+          req.flash("error", "접근권한이 없습니다.");
           return res.status(400).redirect("/");
         }
         if (!user) {
-          req.flash("error","인증요청 내용을 찾을 수 없습니다. 가입해주세요.");
+          req.flash("error", "인증요청 내용을 찾을 수 없습니다. 가입해주세요.");
           return res.status(401).redirect("/join");
         }
         // user is already verified
         else if (user.isVerified) {
-          req.flash("info","이미 인증이 완료되었습니다. 로그인해주세요.");
-              return res
-                .status(200)
-                .redirect("/login");
-
+          req.flash("info", "이미 인증이 완료되었습니다. 로그인해주세요.");
+          return res.status(200).redirect("/login");
         }
         // verify user
         else {
@@ -281,16 +295,17 @@ export const confirmEmail = async (req, res, next) => {
           user.save(function (err) {
             // error occur
             if (err) {
-              req.flash("error","서버에 일시적인 문제가 발생했습니다.")
+              req.flash("error", "서버에 일시적인 문제가 발생했습니다.");
               return res.status(500).redirect("/");
               console.log(err.message);
             }
             // account successfully verified
             else {
-              req.flash("info","정상적으로 인증이 완료되었습니다. 로그인해주세요.");
-              return res
-                .status(200)
-                .redirect("/login");
+              req.flash(
+                "info",
+                "정상적으로 인증이 완료되었습니다. 로그인해주세요."
+              );
+              return res.status(200).redirect("/login");
             }
           });
         }
@@ -298,7 +313,7 @@ export const confirmEmail = async (req, res, next) => {
     );
   }
 
-  console.log(token.token);
+  // console.log(token.token);
 };
 
 /* URL : /users/github/finLogin */
@@ -353,7 +368,8 @@ export const finishGithubLogin = async (req, res) => {
     );
     //github email data중에 primary이고 verified된 email이 없으면
     if (!gitEmailObj) {
-      return res.redirect("/login"); //=======나중에 여기에서 error notification도 보내줄거임
+      req.flash("error","Github 계정 설정에서 email 본인인증을 먼저 해주세요.")
+      return res.redirect("/login"); 
     }
 
     const existingUser = await User.findOne({ email: gitEmailObj.email }); //해당 email로 가입된 계정이 있는지
@@ -371,13 +387,11 @@ export const finishGithubLogin = async (req, res) => {
         return res.redirect("/");
       }
     }
+      /**case2)github email이 usersDB에 없을 때 -> Join페이지로 (깃허브 email,username 자동입력)*/
     return res.render("join", {
       pageTitle: "Join",
       gitUserData,
       gitEmailObj,
     });
   }
-  /**case2)github email이 usersDB에 없을 때 -> Join페이지로 (깃허브 email,username 자동입력)*/
 };
-
-// return res.redirect("/login");

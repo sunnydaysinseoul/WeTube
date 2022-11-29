@@ -10,6 +10,6 @@ userRouter.route("/github/finLogin").all(publicOnlyMiddleware).get(finishGithubL
 userRouter.route("/:userId/edit").all(protectorMiddleware).get(getEditUser).post(avatarUpload.single("avatarUrl"),postEditUser);
 userRouter.get("/:userId/profile",profile);
 userRouter.route("/reauth").all(publicOnlyMiddleware).post(reauth);
-userRouter.get("/delete",deleteUser).all(protectorMiddleware)
+userRouter.route("/:userId/delete").all(protectorMiddleware).get(deleteUser);
 
 export default userRouter;

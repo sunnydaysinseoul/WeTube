@@ -6,7 +6,7 @@ import sgMail from "@sendgrid/mail";
 
 /* URL : / */
 export const checkLogin = async (req, res) => {
-  const videos = await Video.find({}).populate('owner');
+  const videos = await Video.find({}).populate("owner");
   console.log(videos);
   if (req.session.loggedIn) {
     const user = req.session.user;

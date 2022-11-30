@@ -9,6 +9,8 @@ const timeline = document.getElementById("timeline");
 const fullScreen = document.getElementById("fullScreen");
 const videoContainer = document.getElementById("videoContainer");
 
+let controlsTimeout = null;
+let controlsMovementTimeout = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
 
@@ -69,10 +71,10 @@ const handleFullscreen = () => {
   const full = document.fullscreenElement;
   if (full) {
     document.exitFullscreen();
-    fullScreen.innerText = "Fullscreen";
+    fullScreen.className = "fa-solid fa-compress";
   }
   videoContainer.requestFullscreen();
-  fullScreen.innerText = "Exit Fullscreen";
+  fullScreen.className = "fa-solid fa-expand";
 };
 const handleKeydown = (event) => {
   if (event.code === "Space") {
@@ -92,12 +94,31 @@ const handleKeydown = (event) => {
   }
 };
 
-const handleEnded = () =>{
+const handleEnded = async() =>{
+  psBtn.className = "fas fa-play";
   const {id} = videoContainer.dataset;
   //views api로 요청보내기
-  fetch(`/api/videos/${id}/view`,{method:"POST"});
+  await fetch(`/api/videos/${id}/view`,{method:"POST"});
   //apiRouter.js에 있는 post url형태 ->필요한 video id는 template(watchVideo.pug)에서 data attribute(dataset)를 사용해 HTML에 저장해줌.
 }
+
+const hideControls = () => videoController.classList.remove("showing");
+const handleMouseMove = () => {
+  if (controlsTimeout) {
+    clearTimeout(controlsTimeout);
+    controlsTimeout = null;
+  }
+  if (controlsMovementTimeout) {
+    clearTimeout(controlsMovementTimeout);
+    controlsMovementTimeout = null;
+  }
+  videoController.classList.add("showing");
+  controlsMovementTimeout = setTimeout(hideControls, 3000);
+};
+
+const handleMouseLeave = () => {
+  controlsTimeout = setTimeout(hideControls, 1000);
+};
 psBtn.addEventListener("click", handlePlayAndStop);
 volumeBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolume);
@@ -107,3 +128,5 @@ timeline.addEventListener("input", handleTimelineChange);
 fullScreen.addEventListener("click", handleFullscreen);
 window.addEventListener("keydown", handleKeydown);
 video.addEventListener("ended",handleEnded); //ended는 video(HTMLMediaElement)에서만 쓸 수 있는 event
+videoContainer.addEventListener("mousemove", handleMouseMove);
+videoContainer.addEventListener("mouseleave", handleMouseLeave);

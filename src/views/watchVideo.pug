@@ -14,23 +14,23 @@ block content
             span &nbsp|&nbsp
             a(href=`${video.id}/delete`) Delete
 
-    #videoContainer(data-videoId=video.id)
+    #videoContainer(data-id=video.id)
         video(src=`/${video.fileUrl}`,width="100%")
-        .videoController
+        #videoController.showing
             i#playPauseBtn.fas.fa-play
             span &nbsp
             i#volume.fas.fa-volume-up 
             input#volumeRange(type="range" step="0.1" value="0.5" min="0" max="1")
             span &nbsp
-            span#currentTime 00:00:00
-            span  / 
-            span#totalTime 00:00:00
+            div.control-time
+                span#currentTime 00:00:00
+                span  / 
+                span#totalTime 00:00:00
             span &nbsp
             input#timeline(type="range" step="1" value="0" min="0")
-        div 
-            button#fullScreen Fullscreen
+            i#fullScreen.fa-solid.fa-expand
     hr
-    small #{video.views}#{video.views === 1 ? "view" : "views"} | Created: #{video.createdDate} | Rating : #{video.ratings}/5
+    small #{video.meta.views}#{video.meta.views === 1 ? " view" : " views"} | Uploaded: #{video.createdDate}
     br
     small Uploaded by 
         a(href=`/users/${video.owner._id}/profile`) #{video.owner.name}

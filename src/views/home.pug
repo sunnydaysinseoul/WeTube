@@ -21,8 +21,8 @@ block headerContent
 block content
     include partials/search.pug
     .videoGrid 
-        .videoGrid-child 
-            each video in videos
+        each video in videos
+            .videoGrid-child 
                 +videoMxn(video)
-            else
-                li Sorry, nothing found.
+        else
+            li Sorry, nothing found.

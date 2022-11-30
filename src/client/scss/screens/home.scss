@@ -1,8 +1,9 @@
 .videoGrid{
     display:flex;
     flex-wrap: wrap;
+    width:100%;
     .videoGrid-child {
-        flex: 1 1 23%;
-        padding : 20px;
+        flex: 1 1 30%;
+        padding : 10px;
     }
 }

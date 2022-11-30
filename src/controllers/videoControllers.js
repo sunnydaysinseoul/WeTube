@@ -167,3 +167,12 @@ export const searchVideo = async (req, res) => {
     });
   }
 };
+
+export const registerView=async(req,res)=>{
+  const {id} = req.params;
+  const video = await Video.findById(id);
+  if(video){
+    //
+  }
+  return res.status(404);
+}

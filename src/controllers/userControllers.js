@@ -189,7 +189,9 @@ export const postEditUser = async (req, res) => {
   const user = await User.findById(_id);
   if (password !== password2) {
     req.flash("error", "비밀번호 확인이 일치하지 않습니다");
-    return res.redirect(`/users/${user._id}/edit`);
+    // return res.redirect(`/users/${user._id}/edit`);
+    console.log("비밀번호 오류");
+    return res.status(406);
   } else {
     user.avatarUrl = avatarUrl;
     user.password = password;

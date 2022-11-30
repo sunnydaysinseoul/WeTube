@@ -7,6 +7,7 @@ import globalRouter from "./routers/globalRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
 import { localsMiddleware } from "./middlewares.js";
+import apiRouter from "./routers/apiRouter.js";
 
 /************************************변수지정************************************/
 //Express Application(서버) 생성하기
@@ -44,5 +45,6 @@ app.use("/static",express.static("assets"));
 app.use("/",globalRouter);
 app.use("/users",userRouter);
 app.use("/videos",videoRouter);
+app.use("/api",apiRouter);
 
 export default app;

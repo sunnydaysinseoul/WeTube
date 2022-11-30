@@ -4,7 +4,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
 module.exports = {
-  entry: "./src/client/js/main.js", //webpack으로 변환할 원본파일
+  //webpack으로 변환할 원본파일
+  entry: {
+    main: "./src/client/js/main.js",
+    videoPlayer: "./src/client/js/videoPlayer.js",
+  },
   mode: "development",
   plugins: [
     new MiniCssExtractPlugin({
@@ -12,9 +16,9 @@ module.exports = {
     }),
   ],
   output: {
-    filename: "js/main.js",
+    filename: "js/[name].js", //[entry에 있는 name을 가져옴]
     path: path.resolve(__dirname, "assets"), //변환된 파일의 위치
-    clean:true
+    clean: true,
   },
   module: {
     rules: [
@@ -28,9 +32,8 @@ module.exports = {
         },
       },
       {
-        test:/\.scss$/,
-        use:
-        [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
@@ -40,5 +43,5 @@ module.exports = {
     ignored: /node_modules/,
     aggregateTimeout: 5000,
     poll: 1000,
-  }
+  },
 };

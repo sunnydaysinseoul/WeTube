@@ -13,7 +13,8 @@ block content
             a(href=`${video.id}/edit`) Edit
             span &nbsp|&nbsp
             a(href=`${video.id}/delete`) Delete
-    #videoContainer
+
+    #videoContainer(data-videoId=video.id)
         video(src=`/${video.fileUrl}`,width="100%")
         .videoController
             i#playPauseBtn.fas.fa-play

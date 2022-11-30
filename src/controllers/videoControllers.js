@@ -5,10 +5,12 @@ import User from "../models/User.js";
 export const watchVideo = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id).populate("owner");
-
+  const owner = await User.findOne({id:owner});
+  const name = owner.name;
+  console.log(name);
   // video.views++; //조회수 증가
   // video.save(); //조회수 저장
-  return res.render("watchVideo", { pageTitle: `${video.title}`, video });
+  return res.render("watchVideo", { pageTitle: `${video.title}`, video,name });
 };
 
 /* URL : (GET) /videos/:vId/edit */
@@ -171,8 +173,10 @@ export const searchVideo = async (req, res) => {
 export const registerView=async(req,res)=>{
   const {id} = req.params;
   const video = await Video.findById(id);
-  if(video){
-    //
+  if(!video){
+    return res.status(404);
   }
-  return res.status(404);
+  video.meta.views = video.meta.views+1;
+  await video.save();
+  return res.status(200);
 }

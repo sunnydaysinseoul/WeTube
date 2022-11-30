@@ -1,6 +1,8 @@
 .videoGrid{
-    display: grid;
-    gap : 50px;
-    grid-template-columns: repeat(4,1fr);
-    margin:50px 50px;
+    display:flex;
+    flex-wrap: wrap;
+    .videoGrid-child {
+        flex: 1 1 23%;
+        padding : 20px;
+    }
 }

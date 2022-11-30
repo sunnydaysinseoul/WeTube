@@ -1,19 +1,20 @@
 .videoMxn{
+    display:block;   
     .thumbnail{
         width:250px;
         height:100px;
         border-radius: 5px;
         background-color: ivory;
     }
+    .title {
+        font-weight: bold;
+        font-size : 18px;
+        padding:15px 0px;
+    }
     .data{
-        padding:0px 15px;
-        
-        .title {
-            display:block;
-            font-weight: bold;
-            font-size : 15px;
-            margin-top:10px;
-        }
+        display:flex;
+        padding:5px 5px;   
+        font-size : 14px;
     }
 
     

@@ -6,12 +6,13 @@ import sgMail from "@sendgrid/mail";
 
 /* URL : / */
 export const checkLogin = async (req, res) => {
-  const videos = await Video.find({});
+  const videos = await Video.find({}).populate('owner');
+  console.log(videos);
   if (req.session.loggedIn) {
     const user = req.session.user;
     return res.render("home", { pageTitle: "Home", videos, user });
   }
-  return res.render("home", { pageTitle: "Home", videos });
+  return res.render("home", { pageTitle: "Home",videos });
 };
 
 export const sendEmail = (uid, uemail, req, res, resend) => {

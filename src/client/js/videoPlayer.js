@@ -91,13 +91,19 @@ const handleKeydown = (event) => {
     document.exitFullscreen();
   }
 };
+
+const handleEnded = () =>{
+  const {id} = videoContainer.dataset;
+  //views api로 요청보내기
+  fetch(`/api/videos/${id}/view`,{method:"POST"});
+  //apiRouter.js에 있는 post url형태 ->필요한 video id는 template(watchVideo.pug)에서 data attribute(dataset)를 사용해 HTML에 저장해줌.
+}
 psBtn.addEventListener("click", handlePlayAndStop);
 volumeBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolume);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeupdate);
-
 timeline.addEventListener("input", handleTimelineChange);
 fullScreen.addEventListener("click", handleFullscreen);
-
 window.addEventListener("keydown", handleKeydown);
+video.addEventListener("ended",handleEnded); //ended는 video(HTMLMediaElement)에서만 쓸 수 있는 event

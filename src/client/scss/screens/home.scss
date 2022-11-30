@@ -1,0 +1,6 @@
+.videoGrid{
+    display: grid;
+    gap : 50px;
+    grid-template-columns: repeat(4,1fr);
+    margin:50px 50px;
+}

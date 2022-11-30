@@ -1,9 +1,6 @@
 mixin videoMxn(video)
-    div
-        h4
-            a(href=`/videos/${video.id}`)=video.title
-        ul
-            li #{video.hashtags}
-            li Uploaded: #{video.createdDate}
-            li rating: #{video.rating}/5
-            li #{video.views} views
+    div.videoMxn
+        div.thumbnail(href=`/videos/${video.id}`)
+            a(href=`/videos/${video.id}`)
+        div.data
+            span.title=video.title

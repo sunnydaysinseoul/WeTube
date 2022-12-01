@@ -11,6 +11,5 @@ block content
         input(type="file",accept="video/*",required,id="video",name="video")
         //-name="video"는 controller가 아니라 router의 videoUpload.single("video") 에서 사용함
         input(name="description",type="text",placeholder="Description",required)
-        input(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)",required)
-        input(name="rating",type="number",min=0,max=5,step=0.5,placeholder="Rating",required)
+        input(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)")
         input(type="submit",value="Upload Video")

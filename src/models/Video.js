@@ -10,9 +10,8 @@ const videoSchema = new mongoose.Schema({
     ()가 없이 써두면, video.create할 때 mongoose가 알아서 함수를 실행해서 처리할 것임.
     */
 
-  hashtags: [{ type: String, required: true, trim: true }],
-  // views: { type: Number, default: 0 },
-  // rating: { type: Number, default: 0, required: true },
+  hashtags: [{ type: String, trim: true }],
+
   //meta data는 자동으로 생성될 정보
   meta: {
     views: { type: Number, default: 0, required: true },

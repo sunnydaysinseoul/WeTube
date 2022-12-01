@@ -36,7 +36,7 @@ export const postEditVideo = async (req, res) => {
   const {
     user: { _id },
   } = req.session;
-  const { title, description, hashtags, rating } = req.body;
+  const { title, description, hashtags } = req.body;
 
   const video = await Video.findById(id);
   if (!video) {
@@ -55,7 +55,6 @@ export const postEditVideo = async (req, res) => {
       .split(",")
       .filter((n) => n)
       .map((word) => `#${word}`),
-    rating,
   });
   req.flash("info", "저장되었습니다.");
   return res.redirect(`/videos/${id}`);
@@ -102,7 +101,7 @@ export const postUploadVideo = async (req, res) => {
     user: { _id },
   } = req.session;
   const { path } = req.file;
-  const { title, description, rating, hashtags } = req.body;
+  const { title, description, hashtags } = req.body;
   try {
     //form에서 받아온 데이터를, 위에서 Import한 Video스키마 데이터로 만들어주기
     const newVideo = await Video.create({
@@ -113,7 +112,6 @@ export const postUploadVideo = async (req, res) => {
         .split(",")
         .filter((n) => n)
         .map((word) => `#${word}`),
-      rating,
       fileUrl: path,
       owner: _id,
     });
@@ -134,46 +132,18 @@ export const postUploadVideo = async (req, res) => {
 
 /* URL : /search */
 export const searchVideo = async (req, res) => {
-  const searchByTitle = req.query.searchByTitle;
-  const searchByRating = req.query.searchByRating;
-  if (searchByTitle && searchByRating) {
-    const videos = await Video.find({
-      title: { $regex: new RegExp(searchByTitle, "i") },
-      rating: { $gte: searchByRating },
-    });
-    res.render("search", {
-      pageTitle: "Search result",
-      videos,
-      searchByTitle,
-      searchByRating,
-    });
-  } else if (searchByTitle && searchByRating == "") {
-    const videos = await Video.find({
-      title: { $regex: new RegExp(searchByTitle, "i") },
-    });
-    res.render("search", {
-      pageTitle: "Search result",
-      videos,
-      searchByTitle,
-      searchByRating,
-    });
-  } else if (searchByTitle == "" && searchByRating) {
-    const videos = await Video.find({ rating: { $gte: searchByRating } });
-    res.render("search", {
-      pageTitle: "Search result",
-      videos,
-      searchByTitle,
-      searchByRating,
-    });
-  } else {
+  const search = req.query.search;
+  const videos = await Video.find({
+    title: { $regex: new RegExp(search, "i") },
+  });
+  if (!videos) {
     let videos = [];
-    res.render("search", {
-      pageTitle: "Search result",
-      videos,
-      searchByTitle,
-      searchByRating,
-    });
   }
+
+  res.render("search", {
+    pageTitle: "Search result",
+    videos,search
+  });
 };
 
 export const registerView = async (req, res) => {
@@ -216,11 +186,11 @@ export const deleteComment = async (req, res) => {
     params: { id },
   } = req;
   const comment = await Comment.findById(id).populate("video");
-  if(!comment) {
+  if (!comment) {
     return res.sendStatus(404);
-  }else{
-  const video = await Video.findById(comment.video._id);
-  
+  } else {
+    const video = await Video.findById(comment.video._id);
+
     video.comments.splice(video.comments.indexOf(id), 1);
     video.save();
     await Comment.findByIdAndDelete(id);

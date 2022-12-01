@@ -2,13 +2,33 @@ const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 const deleteBtns = document.querySelectorAll("#deleteBtn");
 
-const handleDeleteComment = (event) =>{
-    console.log(event);
-}
+const deleteNewComment = async(event) =>{
+    const videoComments = document.querySelector(".video__comments ul");
+    const comment = event.target.parentElement;
+    videoComments.removeChild(comment);
+    const commentId = comment.dataset.id;
+    await fetch(`/api/videos/${commentId}/delete`, {method: "POST"});
+};
+
+const handleDeleteComment = async (event) =>{
+    // console.log(event.target.parentElement);
+    // const videoComments = document.querySelector(".video__comments ul");
+    const comment = event.target.parentElement;
+    const videoComments = comment.parentElement;
+    console.log(videoComments);
+    console.log(comment);
+
+    videoComments.removeChild(comment);
+
+    const commentId = comment.dataset.id;
+    await fetch(`/api/videos/${commentId}/delete`, {method: "POST"});
+
+};
 
 
 const addComment = (text, id) => {
   const videoComments = document.querySelector(".video__comments ul");
+  console.log(videoComments);
   const newComment = document.createElement("li");
   newComment.dataset.id = id; //삭제를 위해 backend에서 만드는 dataset과 똑같이 만들어줌.
   newComment.className = "video__comment";
@@ -18,10 +38,14 @@ const addComment = (text, id) => {
   span.innerText = ` ${text}`;
   const span2 = document.createElement("span");
   span2.className = "fa-solid fa-delete-left";
+  span2.id = "newComt"+Math.random();
   newComment.appendChild(icon);
   newComment.appendChild(span);
   newComment.appendChild(span2);
   videoComments.prepend(newComment);
+
+  span2.addEventListener("click",deleteNewComment);
+
 };
 
 const handleSubmit = async (event) => {
@@ -33,7 +57,7 @@ const handleSubmit = async (event) => {
   if (text === "" || text.trim() === "") {
     return;
   }
-  const { res } = await fetch(`/api/videos/${videoId}/comment`, {
+  const response  = await fetch(`/api/videos/${videoId}/comment`, {
     //fetch request를 보낼때는 cookie도 같이 보내기때문에 backend에서 session.user값도 사용할 수 있음.
     method: "POST",
     headers: {
@@ -43,7 +67,7 @@ const handleSubmit = async (event) => {
   }); //backend에서 req.body로 데이터 사용!
   textarea.value = "";
   const { newCommentId } = await response.json();
-  if (res.status === 201) {
+  if (response.status === 201) {
     addComment(text, newCommentId); //newCommentId는 backend createComment()에서 오는 값
   }
 };

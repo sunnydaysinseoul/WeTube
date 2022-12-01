@@ -45,12 +45,12 @@ block content
                 button Add comment
             ul
             each comment in video.comments.reverse()
-                li.video__comment(data-id=comment._id)
-                    i.fas.fa-comment
-                        span &nbsp#{comment.text}
-                        if loggedInUser
-                            if String(loggedInUser._id) === String(comment.owner)
-                                span#deleteBtn.fa-solid.fa-delete-left
+                //- li
+                i.video__comment.fas.fa-comment(data-id=comment._id)
+                    span &nbsp#{comment.text}
+                    if loggedInUser
+                        if String(loggedInUser._id) === String(comment.owner)
+                            span#deleteBtn.fa-solid.fa-delete-left
 
 block scripts
     script(src="/static/js/videoPlayer.js")

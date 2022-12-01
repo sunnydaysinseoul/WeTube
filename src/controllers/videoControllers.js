@@ -1,6 +1,7 @@
 import Video from "../models/Video.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
+import { ObjectId } from "mongodb";
 /* URL : /videos/:vId */
 export const watchVideo = async (req, res) => {
   const { id } = req.params;
@@ -193,17 +194,36 @@ export const createComment = async (req, res) => {
     body: { text },
     params: { id },
   } = req;
-// console.log(user,text,id);
+  // console.log(user,text,id);
   const video = await Video.findById(id).populate("owner").populate("comments");
-  console.log(video);
-  if(!video){
+  if (!video) {
+    console.log("No video!");
     return res.sendStatus(404);
-  }else{
+  } else {
     const comment = await Comment.create({
-      text,owner:user._id,video:id
+      text,
+      owner: user._id,
+      video: id,
     });
     video.comments.push(comment._id);
-    video.save()
-    return res.sendStatus(201).json({newCommentId:comment._id});
+    video.save();
+    return res.status(201).json({ newCommentId: comment._id });
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const comment = await Comment.findById(id).populate("video");
+  if(!comment) {
+    return res.sendStatus(404);
+  }else{
+  const video = await Video.findById(comment.video._id);
+  
+    video.comments.splice(video.comments.indexOf(id), 1);
+    video.save();
+    await Comment.findByIdAndDelete(id);
+    return res.sendStatus(201);
   }
 };

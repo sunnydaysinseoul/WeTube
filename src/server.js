@@ -22,6 +22,7 @@ app.set("view engine", "pug");
 app.set("views",process.cwd() + "/src/views");
 app.use(logger); //morgan middleware
 app.use(express.urlencoded({extended:true}));
+app.use(express.json());
 app.use(
   session({
     secret: process.env.COOKIE_SECRET, /*우리가 쿠키에 sign할 때 사용하는 string.

@@ -50,17 +50,6 @@
       }
 }
 
-//     input {
-
-//         .volumeRange {
-//             width: 100px;
-//         }
-
-//         .timeline {
-//             width: 1000px;
-//         }
-//     }
-
     input[type=range] {
         height: 15px;
         -webkit-appearance: none;
@@ -160,3 +149,19 @@
     input[type=range]:focus::-ms-fill-upper {
         background: #D9D9D9;
     }
+
+.video__comments{
+    display:flex;
+    flex-direction: column;
+    max-width:320px;
+    width:100%;
+    margin: 0 auto; //centering
+    margin-top:20px;
+    .video__comment {
+        padding:10px;
+        border-radius: 10px;
+        background-color: white;
+        color:black;
+        margin-bottom: 10px;
+    }
+}

@@ -1,10 +1,10 @@
 import Video from "../models/Video.js";
 import User from "../models/User.js";
-
+import Comment from "../models/Comment.js";
 /* URL : /videos/:vId */
 export const watchVideo = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("owner");
+  const video = await Video.findById(id).populate("owner").populate("comments");
   // video.views++; //조회수 증가
   // video.save(); //조회수 저장
   return res.render("watchVideo", { pageTitle: `${video.title}`, video });
@@ -13,7 +13,9 @@ export const watchVideo = async (req, res) => {
 /* URL : (GET) /videos/:vId/edit */
 export const getEditVideo = async (req, res) => {
   const { id } = req.params;
-  const {user:{_id}}=req.session;
+  const {
+    user: { _id },
+  } = req.session;
   const video = await Video.findById(id);
   if (!video) {
     return res.status(404).render("404");
@@ -22,12 +24,17 @@ export const getEditVideo = async (req, res) => {
   if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
   }
-  return res.render("editVideo", { pageTitle: `Editing ${video.title}`, video });
+  return res.render("editVideo", {
+    pageTitle: `Editing ${video.title}`,
+    video,
+  });
 };
 /* URL : (POST) /videos/:vId/edit */
 export const postEditVideo = async (req, res) => {
   const { id } = req.params;
-  const {user:{_id}}=req.session;
+  const {
+    user: { _id },
+  } = req.session;
   const { title, description, hashtags, rating } = req.body;
 
   const video = await Video.findById(id);
@@ -36,7 +43,7 @@ export const postEditVideo = async (req, res) => {
   }
   // console.log(typeof video.owner,typeof _id);
   if (String(video.owner) !== String(_id)) {
-    req.flash("error","접근권한이 없습니다.");
+    req.flash("error", "접근권한이 없습니다.");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {
@@ -49,37 +56,38 @@ export const postEditVideo = async (req, res) => {
       .map((word) => `#${word}`),
     rating,
   });
-  req.flash("info","저장되었습니다.")
+  req.flash("info", "저장되었습니다.");
   return res.redirect(`/videos/${id}`);
 };
 
 /* URL : /videos/:vId/delete */
 export const deleteVideo = async (req, res) => {
   const { id } = req.params;
-  const {user:{_id}}=req.session;
+  const {
+    user: { _id },
+  } = req.session;
 
   const deletedVideo = await Video.findById(id);
   const user = await User.findById(_id);
   if (!deletedVideo) {
-    res.flash("error","올바른 접근이 아닙니다.");
+    res.flash("error", "올바른 접근이 아닙니다.");
     return res.status(404).render("404");
   }
   // console.log(typeof video.owner,typeof _id);
   if (String(deletedVideo.owner) !== String(_id)) {
-    res.flash("error","올바른 접근이 아닙니다.");
+    res.flash("error", "올바른 접근이 아닙니다.");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndDelete(id);
-  user.videos.splice(user.videos.indexOf(id),1); //user에 populate된 video 정보도 삭제하기.
+  user.videos.splice(user.videos.indexOf(id), 1); //user에 populate된 video 정보도 삭제하기.
   user.save();
-  
+
   const videos = await Video.find({});
-  req.flash("info",`'${deletedVideo.title}' 동영상이 삭제되었습니다.`);
+  req.flash("info", `'${deletedVideo.title}' 동영상이 삭제되었습니다.`);
   res.render("home", {
     pageTitle: "Home",
-    videos
+    videos,
   });
-   
 };
 
 /* URL : (GET) /videos/upload */
@@ -111,11 +119,11 @@ export const postUploadVideo = async (req, res) => {
     const user = await User.findById(_id);
     user.videos.push(newVideo._id);
     user.save();
-    req.flash("info","업로드 성공");
+    req.flash("info", "업로드 성공");
     return res.redirect(`/`);
   } catch (error) {
     console.log(error);
-    req.flash("error","업로드 실패");
+    req.flash("error", "업로드 실패");
     return res.render("upload", {
       pageTitle: "Upload Video",
       errorMessage: error._message,
@@ -167,14 +175,35 @@ export const searchVideo = async (req, res) => {
   }
 };
 
-export const registerView=async(req,res)=>{
-  const {id} = req.params;
+export const registerView = async (req, res) => {
+  const { id } = req.params;
   const video = await Video.findById(id);
+  if (!video) {
+    return res.sendStatus(404);
+  } else {
+    video.meta.views = video.meta.views + 1;
+    await video.save();
+    return res.sendStatus(200);
+  }
+};
+
+export const createComment = async (req, res) => {
+  const {
+    session: { user },
+    body: { text },
+    params: { id },
+  } = req;
+// console.log(user,text,id);
+  const video = await Video.findById(id).populate("owner").populate("comments");
+  console.log(video);
   if(!video){
     return res.sendStatus(404);
   }else{
-  video.meta.views = video.meta.views+1;
-  await video.save();
-  return res.sendStatus(200);
+    const comment = await Comment.create({
+      text,owner:user._id,video:id
+    });
+    video.comments.push(comment._id);
+    video.save()
+    return res.sendStatus(201).json({newCommentId:comment._id});
   }
-}
+};

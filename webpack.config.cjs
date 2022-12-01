@@ -10,6 +10,8 @@ module.exports = {
     videoPlayer: "./src/client/js/videoPlayer.js",
     commentSection : "./src/client/js/commentSection.js",
   },
+
+  target : 'node',
   mode: "development",
   plugins: [
     new MiniCssExtractPlugin({

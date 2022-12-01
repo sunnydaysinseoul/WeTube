@@ -1,108 +1,88 @@
 const video = document.querySelector("video");
-const videoController = document.getElementById("videoController");
-const psBtn = videoController.querySelector("#playPauseBtn");
-const volumeBtn = videoController.querySelector("#volume");
-const volumeRange = videoController.querySelector("#volumeRange");
-const currentTime = document.getElementById("currentTime");
+const playBtn = document.getElementById("play");
+const playBtnIcon = playBtn.querySelector("i");
+const muteBtn = document.getElementById("mute");
+const muteBtnIcon = muteBtn.querySelector("i");
+const volumeRange = document.getElementById("volume");
+const currenTime = document.getElementById("currenTime");
 const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
-const fullScreen = document.getElementById("fullScreen");
+const fullScreenBtn = document.getElementById("fullScreen");
+const fullScreenIcon = fullScreenBtn.querySelector("i");
 const videoContainer = document.getElementById("videoContainer");
+const videoControls = document.getElementById("videoControls");
 
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
 
-const handlePlayAndStop = () => {
+const handlePlayClick = (e) => {
   if (video.paused) {
     video.play();
-    psBtn.className = "fas fa-pause";
   } else {
     video.pause();
-    psBtn.className = "fas fa-play";
   }
+  playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
 
-const handleMute = () => {
+const handleMuteClick = (e) => {
   if (video.muted) {
     video.muted = false;
-    volumeRange.value = volumeValue;
-    volumeBtn.className = "fas fa-volume-up";
   } else {
     video.muted = true;
-    volumeRange.value = 0;
-    volumeBtn.className = "fas fa-volume-mute";
   }
+  muteBtnIcon.classList = video.muted
+    ? "fas fa-volume-mute"
+    : "fas fa-volume-up";
+  volumeRange.value = video.muted ? 0 : volumeValue;
 };
-const formatTIme = (sec) => new Date(sec * 1000).toISOString().substr(11, 8);
-const handleVolume = (event) => {
-  const {
-    target: { value }
-  } = event;
 
-  if (value == '0') {
-    video.muted = true;
-    volumeBtn.className = "fas fa-volume-mute";
-    volumeValue = 0.5; //드래그로 mute했으면 unmute할 때 0.5로 세팅
-  } else {
-    volumeBtn.className = "fas fa-volume-up";
-    video.volume = volumeValue = value;
+const handleVolumeChange = (event) => {
+  const {
+    target: { value },
+  } = event;
+  if (video.muted) {
+    video.muted = false;
+    muteBtn.innerText = "Mute";
   }
+  volumeValue = value;
+  video.volume = value;
 };
+
+const formatTime = (seconds) =>
+  new Date(seconds * 1000).toISOString().substr(14, 5);
 
 const handleLoadedMetadata = () => {
-  var dur = Math.floor(video.duration);
-  totalTime.innerText = formatTIme(dur);
-  timeline.max = dur;
+  totalTime.innerText = formatTime(Math.floor(video.duration));
+  timeline.max = Math.floor(video.duration);
 };
-const handleTimeupdate = () => {
-  var cur = Math.floor(video.currentTime);
-  currentTime.innerText = formatTIme(cur);
-  timeline.value = cur;
+
+const handleTimeUpdate = () => {
+  currenTime.innerText = formatTime(Math.floor(video.currentTime));
+  timeline.value = Math.floor(video.currentTime);
 };
+
 const handleTimelineChange = (event) => {
   const {
-    target: { value }
+    target: { value },
   } = event;
   video.currentTime = value;
 };
+
 const handleFullscreen = () => {
-  const full = document.fullscreenElement;
-  if (full) {
+  const fullscreen = document.fullscreenElement;
+  if (fullscreen) {
     document.exitFullscreen();
-    fullScreen.className = "fa-solid fa-compress";
-  }
-  videoContainer.requestFullscreen();
-  fullScreen.className = "fa-solid fa-expand";
-};
-const handleKeydown = (event) => {
-  if (event.code === "Space") {
-    if (video.paused) {
-      video.play();
-      psBtn.className = "fas fa-pause";
-    } else {
-      video.pause();
-      psBtn.className = "fas fa-play";
-    }
-  } else if (event.keyCode === 70) {
-    //F
+    fullScreenIcon.classList = "fas fa-expand";
+  } else {
     videoContainer.requestFullscreen();
-  } else if (event.keyCode === 27) {
-    //esc
-    document.exitFullscreen();
+    fullScreenIcon.classList = "fas fa-compress";
   }
 };
 
-const handleEnded = async() =>{
-  psBtn.className = "fas fa-play";
-  const {id} = videoContainer.dataset;
-  //views api로 요청보내기
-  await fetch(`/api/videos/${id}/view`,{method:"POST"});
-  //apiRouter.js에 있는 post url형태 ->필요한 video id는 template(watchVideo.pug)에서 data attribute(dataset)를 사용해 HTML에 저장해줌.
-}
+const hideControls = () => videoControls.classList.remove("showing");
 
-const hideControls = () => videoController.classList.remove("showing");
 const handleMouseMove = () => {
   if (controlsTimeout) {
     clearTimeout(controlsTimeout);
@@ -112,21 +92,29 @@ const handleMouseMove = () => {
     clearTimeout(controlsMovementTimeout);
     controlsMovementTimeout = null;
   }
-  videoController.classList.add("showing");
-  controlsMovementTimeout = setTimeout(hideControls, 3000);
+  videoControls.classList.add("showing");
+  controlsMovementTimeout = setTimeout(hideControls, 1500);
 };
 
 const handleMouseLeave = () => {
-  controlsTimeout = setTimeout(hideControls, 1000);
+  controlsTimeout = setTimeout(hideControls, 1500);
 };
-psBtn.addEventListener("click", handlePlayAndStop);
-volumeBtn.addEventListener("click", handleMute);
-volumeRange.addEventListener("input", handleVolume);
+
+const handleEnded = () => {
+  playBtnIcon.classList = "fas fa-play";
+  const { id } = videoContainer.dataset;
+  fetch(`/api/videos/${id}/view`, {
+    method: "POST",
+  });
+};
+
+playBtn.addEventListener("click", handlePlayClick);
+muteBtn.addEventListener("click", handleMuteClick);
+volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
-video.addEventListener("timeupdate", handleTimeupdate);
-timeline.addEventListener("input", handleTimelineChange);
-fullScreen.addEventListener("click", handleFullscreen);
-window.addEventListener("keydown", handleKeydown);
-video.addEventListener("ended",handleEnded); //ended는 video(HTMLMediaElement)에서만 쓸 수 있는 event
+video.addEventListener("timeupdate", handleTimeUpdate);
+video.addEventListener("ended", handleEnded);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
+timeline.addEventListener("input", handleTimelineChange);
+fullScreenBtn.addEventListener("click", handleFullscreen);

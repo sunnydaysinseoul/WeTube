@@ -14,27 +14,30 @@ block content
             span &nbsp|&nbsp
             a(href=`${video.id}/delete`) Delete
 
-    #videoContainer(data-id=video.id)
-        video(src=`/${video.fileUrl}`,width="100%")
-        #videoController.showing
-            i#playPauseBtn.fas.fa-play
-            span &nbsp
-            i#volume.fas.fa-volume-up 
-            input#volumeRange(type="range" step="0.1" value="0.5" min="0" max="1")
-            span &nbsp
-            div.control-time
-                span#currentTime 00:00:00
-                span  / 
-                span#totalTime 00:00:00
-            span &nbsp
-            input#timeline(type="range" step="1" value="0" min="0")
-            i#fullScreen.fa-solid.fa-expand
-    hr
-    small #{video.meta.views}#{video.meta.views === 1 ? " view" : " views"} | Uploaded: #{video.createdDate}
-    br
-    small Uploaded by 
-        a(href=`/users/${video.owner._id}/profile`) #{video.owner.name}
-    h5 #{video.hashtags}
-    p=video.description
+    div#videoContainer(data-id=video._id)
+        video(src="/" + video.fileUrl)
+        div#videoControls.videoControls
+            div.videoControls__play
+                span#play.videoControls__playBtn
+                    i.fas.fa-play
+                div.videoControls__time
+                    span#currenTime 00:00
+                    span  / 
+                    span#totalTime 00:00
+            input(type="range",step="1", value="0", min="0")#timeline.videoControls__timeline
+            div.videoControls__volume
+                input(type="range",step="0.1", value=0.5, min="0", max="1")#volume
+                span#mute
+                    i.fas.fa-volume-up
+            div
+                span#fullScreen
+                    i.fas.fa-expand
+                    
+        div.video__data
+        p.video__title=video.title
+        small.video__owner Uploaded by 
+            a(href=`/users/${video.owner._id}`)=video.owner.name
+        small.video__createdAt=new Date(video.createdAt).toLocaleDateString("ko-kr", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
+
 block scripts
     script(src="/static/js/videoPlayer.js")

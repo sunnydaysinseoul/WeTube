@@ -10,6 +10,7 @@ const UserSchema = mongoose.Schema(
     avatarUrl : { type: String },
     password: { type: String, required: true },
     isVerified: { type: Boolean, required: true },
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     videos:[{type:mongoose.Schema.Types.ObjectId, ref:'Video'}],
   },
   {

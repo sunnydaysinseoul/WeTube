@@ -14,7 +14,7 @@ export const handleVideoInput = (event) => {
 };
 export const handleLoading = () => {
   document.getElementById("page").style.display = "block";
-  document.getElementById("loading").style.display = "none";
+  document.getElementById("pageLoading").style.display = "none";
 };
 window.addEventListener("load", handleLoading);
 

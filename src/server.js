@@ -8,7 +8,6 @@ import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
 import { localsMiddleware } from "./middlewares.js";
 import apiRouter from "./routers/apiRouter.js";
-
 /************************************변수지정************************************/
 //Express Application(서버) 생성하기
 const app = express();
@@ -43,6 +42,7 @@ app.use(flash());
 app.use(localsMiddleware);
 app.use("/uploads",express.static("uploads")); //static files serving : /uploads라는 url로 가면 uploads폴더안의 내용을 읽으라는뜻
 app.use("/static",express.static("assets"));
+app.use("/image",express.static("assets/image"));
 app.use("/",globalRouter);
 app.use("/users",userRouter);
 app.use("/videos",videoRouter);

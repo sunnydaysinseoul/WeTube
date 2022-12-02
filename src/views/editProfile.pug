@@ -7,17 +7,17 @@ block headerContent
     
 block content
     form(method="POST",enctype="multipart/form-data")
-        label(for="username") Username:
+        label(for="username") ID
         input(name="username",type="text" ,readonly,value = user.username)
-        label(for="avatarUrl")  Profile Picture:
+        label(for="avatarUrl") 프로필 사진
         if user.avatarUrl
             image(src=`/${user.avatarUrl}`,width="200px")
         input(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=user.avatarUrl)
-        label(for="email") Email:
+        label(for="email") 이메일
         input(name="email", type="email", required,readonly,value=user.email)
-        label(for="name") Name:
+        label(for="name") 이름
         input(name="name",type="text",required,readonly,value=user.name)
-        label(for="password") Password:
+        label(for="password") 비밀번호
         input(name="password",type="password",required,value=user.password)
         input(name="password2",placeholder="비밀번호확인",type="password",required,value=user.password)
 

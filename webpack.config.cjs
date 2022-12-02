@@ -10,7 +10,6 @@ module.exports = {
     videoPlayer: "./src/client/js/videoPlayer.js",
     commentSection : "./src/client/js/commentSection.js",
   },
-
   target : 'node',
   mode: "development",
   plugins: [
@@ -37,6 +36,20 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
+      
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+                limit: 4000, // 4k 미만 파일은 line 형태로 삽입
+                name: 'image/[name].[ext]',
+                // esModule: false
+            }
+          },
+        ]
       },
     ],
   },

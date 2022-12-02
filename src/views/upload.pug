@@ -5,16 +5,16 @@ block headerContent
 block content
     if errorMessage
         span=errorMessage
-    form.formContainer(method="POST",enctype="multipart/form-data")
-        input.formChild(name="title",type="text",placeholder="Title",required)
-        lable.formChild(for="video") Video File
-        input.formChild(type="file",accept="video/*",required,id="video",name="video")
+    form.container(method="POST",enctype="multipart/form-data")
+        input(name="title",type="text",placeholder="Title",required)
+        lable(for="video") Video File
+        input(type="file",accept="video/*",required,id="video",name="video")
         //-name="video"는 controller가 아니라 router의 videoUpload.single("video") 에서 사용함
-        div#videoLoading.formChild
+        div#videoLoading
             span.input-loader
-        input.formChild(name="description",type="text",placeholder="Description",required)
-        input.formChild(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)")
-        input.formChild(type="submit",value="Upload Video")
+        input(name="description",type="text",placeholder="Description",required)
+        input(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)")
+        input(type="submit",value="Upload Video")
 
 block scripts
     script(src="/static/js/main.js")

@@ -7,24 +7,29 @@
 @import "./components/footer.scss";
 @import "./components/search.scss";
 @import "./components/videoMxn.scss";
+@import "./components/forms.scss";
 /* Screens */
 @import "./screens/base.scss";
 @import "./screens/editProfile.scss";
 @import "./screens/editVideo.scss";
 @import "./screens/home.scss";
 @import "./screens/join.scss";
+@import "./screens/login.scss";
 @import "./screens/search.scss";
 @import "./screens/upload.scss";
 @import "./screens/viewProfile.scss";
 @import "./screens/watchVideo.scss";
 
 /* Defaults */ 
+* {
+  font-family: "Nanum Gothic";
+}
 a{
   color:inherit;
   text-decoration:none;
+  font-family: "Nanum Gothic";
 }
 body {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   background-color: $bg;
   color: white;
 
@@ -35,6 +40,26 @@ main {
   width: 100%;
   margin: 0 auto;
   margin-top: 50px;
+}
+
+.pageTitle{
+  font-size: 25px;
+  font-weight: bold;
+  margin: 30px 20px;
+
+}
+
+.container {
+  display: flex;
+}
+.container-middle{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.container-col{
+  display:flex;
+  flex-direction: column;
 }
 @keyframes goAway {
   from {

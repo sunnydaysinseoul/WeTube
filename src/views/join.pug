@@ -3,30 +3,31 @@ block content
     if gitUserData
         form(method="POST",action="/join")
             h4 JOIN VIA GITHUB!
-            p Username (변경가능):
+            
+            label(for="username") ID
             input(name="username",type="text" ,value=gitUserData.login, required)
-            p Profile Picture:
+            label(for="avatarUrl") 프로필 사진
             input(name="avatarUrl",type="hidden" ,value=gitUserData.avatar_url)
-            p Email:
+            label(for="email") 이메일
             input(name="email", type="email",value=gitEmailObj.email, required,readonly)
-            p Name:
+            label(for="name") 이름
             input(name="name",type="text",required)
-            p Password:
+            label(for="password") 비밀번호
             input(name="password",type="hidden",value=gitEmailObj.email,required)
             input(name="password2",type="hidden",value=gitEmailObj.email,required)
             input(type="hidden",name="isVerified",value=1)
             input(type="submit",value="회원가입")    
     else
         form(method="POST",action="/join",enctype="multipart/form-data")
-            p Username:
+            label(for="username") ID
             input(name="username",type="text" ,required)
-            p Profile Picture:
+            label(for="avatarUrl") 프로필 사진
             input(name="avatarUrl",id="avatarUrl",type="file",accept="image/*")
-            p Email:
+            label(for="email") 이메일
             input(name="email", type="email", required)
-            p Name:
+            label(for="name") 이름
             input(name="name",type="text",required)
-            p Password:
+            label(for="password") 비밀번호
             input(name="password",type="password",required)
             input(name="password2",placeholder="비밀번호확인",type="password",required)
             input(type="hidden",name="isVerified",value=0)

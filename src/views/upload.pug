@@ -11,10 +11,10 @@ block content
         input.formChild(type="file",accept="video/*",required,id="video",name="video")
         //-name="video"는 controller가 아니라 router의 videoUpload.single("video") 에서 사용함
         div#videoLoading.formChild
-            image.input-loader
+            span.input-loader
         input.formChild(name="description",type="text",placeholder="Description",required)
         input.formChild(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)")
         input.formChild(type="submit",value="Upload Video")
-    
+
 block scripts
     script(src="/static/js/main.js")

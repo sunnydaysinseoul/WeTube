@@ -1,0 +1,39 @@
+.formContainer {
+    display: flex;
+}
+
+.formChild {
+    display: flex;
+}
+
+#videoLoading {
+    display: "block";
+    visibility: "hidden";
+    width: auto;
+}
+
+.input-loader {
+    width: 6px;
+    height: 6px;
+    background: #37B3F4;
+    border-radius: 50%;
+    box-shadow: 10px 0 #37B3F422, -10px 0 #37B3F4;
+    animation: d5 1s infinite linear alternate;
+}
+
+@keyframes d5 {
+    0% {
+        box-shadow: 10px 0 #37B3F4, -10px 0 #37B3F422;
+        background: #37B3F4
+    }
+
+    33% {
+        box-shadow: 10px 0 #37B3F4, -10px 0 #37B3F422;
+        background: #37B3F422
+    }
+
+    66% {
+        box-shadow: 10px 0 #37B3F422, -10px 0 #37B3F4;
+        background: #37B3F422
+    }
+}

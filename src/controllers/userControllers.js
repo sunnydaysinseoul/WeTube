@@ -7,7 +7,7 @@ import sgMail from "@sendgrid/mail";
 /* URL : / */
 export const checkLogin = async (req, res) => {
   const videos = await Video.find({}).populate("owner");
-  console.log(videos);
+  // console.log(videos);
   if (req.session.loggedIn) {
     const user = req.session.user;
     return res.render("home", { pageTitle: "Home", videos, user });
@@ -29,7 +29,7 @@ export const sendEmail = (uid, uemail, req, res, resend) => {
     }
     const setApiKey = () => sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    console.log("sendEmail함수안 :" + uemail);
+    // console.log("sendEmail함수안 :" + uemail);
     setApiKey();
     const msg = {
       from: "youngsunhan.kr@gmail.com",
@@ -76,7 +76,7 @@ export const reauth = async (req, res) => {
     return res.redirect("/login");
   }
   // console.log("======================="+user);
-  console.log(user.id, user.email);
+  // console.log(user.id, user.email);
   sendEmail(user._id, user.email, req, res, true);
 };
 export const getJoin = (req, res) => {
@@ -87,7 +87,7 @@ export const postJoin = async (req, res) => {
     req.body;
   // console.log(req.body);
   if (password !== password2) {
-    console.log(req.headers);
+    // console.log(req.headers);
     console.log('pw에러');
     req.flash("error", "비밀번호 확인이 일치하지 않습니다.");
     return res.status(406).redirect(req.headers.referer);

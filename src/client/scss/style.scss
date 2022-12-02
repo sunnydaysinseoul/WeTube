@@ -1,8 +1,8 @@
-/* Config */ 
-@import "./config/_variables.scss"; 
-@import "./config/_reset.scss"; 
+/* Config */
+@import "./config/_variables.scss";
+@import "./config/_reset.scss";
 
-/* Components */ 
+/* Components */
 @import "./components/header.scss";
 @import "./components/footer.scss";
 @import "./components/search.scss";
@@ -20,18 +20,23 @@
 @import "./screens/viewProfile.scss";
 @import "./screens/watchVideo.scss";
 
-/* Defaults */ 
+/* Defaults */
 * {
   font-family: "Nanum Gothic";
 }
-a{
-  color:inherit;
-  text-decoration:none;
+
+a {
+  color: inherit;
+  text-decoration: none;
   font-family: "Nanum Gothic";
 }
+
 body {
-  background-color: $bg;
+  // background-color: $bg;
   color: white;
+  // min-height: 100vh;
+  // padding: 0;
+ 
 
 }
 
@@ -42,7 +47,7 @@ main {
   margin-top: 50px;
 }
 
-.pageTitle{
+.pageTitle {
   font-size: 25px;
   font-weight: bold;
   margin: 30px 20px;
@@ -52,20 +57,24 @@ main {
 .container {
   display: flex;
 }
-.container-middle{
-  display:flex;
-  justify-content:center;
-  align-items:center;
+
+.container-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.container-col{
-  display:flex;
+
+.container-col {
+  display: flex;
   flex-direction: column;
 }
+
 @keyframes goAway {
   from {
     transform: none;
     opacity: 1;
   }
+
   to {
     transform: translateY(-50px);
     opacity: 0;
@@ -74,15 +83,19 @@ main {
 
 .message {
   position: absolute;
-  min-width: 250px; 
-  margin-left: -125px; /* Divide value of min-width by 2 */
-  color: #fff; 
-  text-align: center; 
-  border-radius: 2px; 
-  padding: 16px; 
-  z-index: 1; /* Add a z-index if needed */
-  left: 50%; /* Center the snackbar */
-  top: 30px; /* 30px from the top */
+  min-width: 250px;
+  margin-left: -125px;
+  /* Divide value of min-width by 2 */
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  z-index: 1;
+  /* Add a z-index if needed */
+  left: 50%;
+  /* Center the snackbar */
+  top: 30px;
+  /* 30px from the top */
   animation: goAway 0.5s ease-in-out forwards;
   box-shadow: 2px 2px 5px rgb(198, 198, 198);
 
@@ -92,10 +105,11 @@ main {
     animation-delay: 3s;
 
   }
-  &.info{
+
+  &.info {
     background-color: #333;
     color: white;
     animation-delay: 3s;
-  
+
   }
 }

@@ -1,6 +1,7 @@
 .loginform {
     background-color: $bg-light;
-    background:url('../image/earth.jpg');
+    background:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('../image/earth.jpg');
+    //이미지 작가 gstudioimagen1</a> 출처 Freepik
     background-size:100%;
     width: 500px;
     height: 500px;

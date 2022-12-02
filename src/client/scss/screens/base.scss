@@ -1,0 +1,40 @@
+.formContainer{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.formChild{
+    display:flex;
+}
+#page {
+    display: none;
+}
+
+#pageLoading {
+    display: block;
+}
+
+#videoLoading {
+    visibility: hidden;
+    // display: block;
+    width:18px;
+    height: auto;
+    margin:3px 14px;
+}
+
+
+
+
+.input-loader{
+    width:6px;
+    height:6px;
+    background: #7DCFF4;
+    border-radius: 50%;
+    box-shadow: 10px 0 #7DCFF422,-10px 0 #7DCFF4;
+    animation:d5 1s infinite linear alternate;
+  }
+  @keyframes d5 {
+      0% {box-shadow: 10px 0 #7DCFF4,-10px 0 #7DCFF422;background: #7DCFF4}
+      33%{box-shadow: 10px 0 #7DCFF4,-10px 0 #7DCFF422;background: #7DCFF422}
+      66%{box-shadow: 10px 0 #7DCFF422,-10px 0 #7DCFF4;background: #7DCFF422}
+  }

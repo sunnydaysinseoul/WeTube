@@ -26,7 +26,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extr
   \*******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/style.scss */ \"./src/client/scss/style.scss\");\n\n\n//# sourceURL=webpack://wetube/./src/client/js/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"handleLoading\": () => (/* binding */ handleLoading),\n/* harmony export */   \"handlevideoInput\": () => (/* binding */ handlevideoInput)\n/* harmony export */ });\n/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/style.scss */ \"./src/client/scss/style.scss\");\n\nconst videoInput = document.getElementById(\"video\");\nconst handlevideoInput = event => {\n  // console.log(\"이벤트발생\");\n  document.getElementById(\"videoLoading\").style.visibility = \"visible\";\n  const reader = new FileReader();\n\n  reader.onload = () => {\n    // console.log('파일 업로드 완료.');\n    document.getElementById(\"videoLoading\").style.visibility = \"hidden\";\n    console.log(event.target.files[0].name);\n  };\n\n  reader.readAsText(event.target.files[0]);\n};\nconst handleLoading = () => {\n  document.getElementById(\"page\").style.display = \"block\";\n  document.getElementById(\"loading\").style.display = \"none\";\n};\nwindow.addEventListener(\"load\", handleLoading);\n\nif (videoInput) {\n  videoInput.addEventListener(\"input\", handlevideoInput);\n}\n\n//# sourceURL=webpack://wetube/./src/client/js/main.js?");
 
 /***/ })
 
@@ -57,6 +57,23 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scs
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports

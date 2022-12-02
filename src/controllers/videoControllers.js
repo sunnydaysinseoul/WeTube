@@ -21,7 +21,7 @@ export const getEditVideo = async (req, res) => {
   if (!video) {
     return res.status(404).render("404");
   }
-  // console.log(typeof video.owner,typeof _id);
+  //console.log(typeof video.owner,typeof _id);
   if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
   }
@@ -42,7 +42,7 @@ export const postEditVideo = async (req, res) => {
   if (!video) {
     return res.status(404).render("404");
   }
-  // console.log(typeof video.owner,typeof _id);
+  //console.log(typeof video.owner,typeof _id);
   if (String(video.owner) !== String(_id)) {
     req.flash("error", "접근권한이 없습니다.");
     return res.status(403).redirect("/");
@@ -73,7 +73,7 @@ export const deleteVideo = async (req, res) => {
     res.flash("error", "올바른 접근이 아닙니다.");
     return res.status(404).render("404");
   }
-  // console.log(typeof video.owner,typeof _id);
+  //console.log(typeof video.owner,typeof _id);
   if (String(deletedVideo.owner) !== String(_id)) {
     res.flash("error", "올바른 접근이 아닙니다.");
     return res.status(403).redirect("/");
@@ -121,7 +121,7 @@ export const postUploadVideo = async (req, res) => {
     req.flash("info", "업로드 성공");
     return res.redirect(`/`);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     req.flash("error", "업로드 실패");
     return res.render("upload", {
       pageTitle: "Upload Video",
@@ -164,10 +164,10 @@ export const createComment = async (req, res) => {
     body: { text },
     params: { id },
   } = req;
-  // console.log(user,text,id);
+  //console.log(user,text,id);
   const video = await Video.findById(id).populate("owner").populate("comments");
   if (!video) {
-    console.log("No video!");
+    //console.log("No video!");
     return res.sendStatus(404);
   } else {
     const comment = await Comment.create({

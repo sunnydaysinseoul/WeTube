@@ -2,6 +2,7 @@ const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 const deleteBtns = document.querySelectorAll("#deleteBtn");
 
+
 const deleteNewComment = async(event) =>{
     const videoComments = document.querySelector(".video__comments ul");
     const comment = event.target.parentElement;
@@ -26,32 +27,45 @@ const handleDeleteComment = async (event) =>{
 };
 
 
-const addComment = (text, id) => {
+const addComment = (text, id,user) => {
+  console.log(user);
   const videoComments = document.querySelector(".video__comments ul");
   console.log(videoComments);
   const newComment = document.createElement("div");
   newComment.dataset.id = id; //삭제를 위해 backend에서 만드는 dataset과 똑같이 만들어줌.
   newComment.className = "container video__comment";
-  const icon = document.createElement("i");
-  icon.className = "fa-regular fa-comment";
-  const span = document.createElement("span");
-  span.className = "commentText";
-  span.innerText = `${text}`;
-  const span2 = document.createElement("span");
-  span2.className = "fa-solid fa-delete-left";
-  span2.id = "newComt"+Math.random();
-  newComment.appendChild(icon);
-  newComment.appendChild(span);
-  newComment.appendChild(span2);
+
+  const image = document.createElement("image");
+  image.width = "25px";
+  image.height = "25px";
+  image.className = "commentImage fa-solid fa-spinner";
+  image.setAttribute('src',`${user.avatarUrl}`);
+
+  const commentOwner = document.createElement("span");
+  commentOwner.className = "commentOwner";
+  commentOwner.innerHTML = `${user.name} : `;
+
+  const commentText = document.createElement("span");
+  commentText.className = "commentText";
+  commentText.innerHTML = `${text}`;
+  commentOwner.append(commentText);
+
+  const deleteBtn = document.createElement("span");
+  deleteBtn.id = "deleteBtn";
+  deleteBtn.className="deleteBtn fa-solid fa-delete-left";
+  newComment.appendChild(image);
+  newComment.appendChild(commentOwner);
+  newComment.appendChild(deleteBtn);
   videoComments.prepend(newComment);
 
-  span2.addEventListener("click",deleteNewComment);
+  deleteBtn.addEventListener("click",deleteNewComment);
 
 };
 
 const handleSubmit = async (event) => {
+  console.log("click");
   event.preventDefault(); //submit event가 발생하면 자동으로 url refresh하는 걸 막아줌.
-  const textarea = form.querySelector("textarea");
+  const textarea = form.querySelector("input");
 
   const text = textarea.value;
   const videoId = videoContainer.dataset.id; //comment단 해당 video의 dataset가져오기.
@@ -69,7 +83,7 @@ const handleSubmit = async (event) => {
   textarea.value = "";
   const { newComment } = await response.json();
   if (response.status === 201) { //realtime용 fakeComment 만들기
-    addComment(text, newComment._id); //newCommentId는 backend createComment()에서 오는 값
+    addComment(text, newComment._id, newComment.owner ); //newCommentId는 backend createComment()에서 오는 값
   }
 };
 

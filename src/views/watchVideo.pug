@@ -1,11 +1,6 @@
 //- URL : /videos/:vId 
 extends base.pug
 include mixins/video.pug 
-
-block headerContent
-    if loggedInUser
-    span &nbsp|&nbsp
-    a(href="/videos/upload") Upload New    
     
 block content
     if loggedInUser
@@ -32,31 +27,37 @@ block content
             div
                 span#fullScreen
                     i.fas.fa-expand
-
-    div.video__data
-        p.video__title=video.title
-        small.video__owner Uploaded by 
-            a(href=`/users/${video.owner._id}`)=video.owner.name
-        small.video__createdAt=new Date(video.createdAt).toLocaleDateString("ko-kr", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
-    if loggedInUser
-        div.video__comments 
-            form.video__comment-form#commentForm
-                input.input-comment(placeholder="Write a comment...") 
-                button.fa-regular.fa-paper-plane.fa-2x.commentBtn(type="submit")
-                  
-                //- input(type="submit" class="fa-regular fa-paper-plane-top")
-                
-            ul
-            each comment in comments.reverse()
-                div.container.video__comment(data-id=comment._id)
-                    if comment.owner.avatarUrl
-                        image.commentImage(src=comment.owner.avatarUrl)
-                    else
-                        image.commentImage(src='/uploads/image/user-solid.png')
-                    span.commentOwner &nbsp#{comment.owner.name}&nbsp:&nbsp
-                        span.commentText #{comment.text}
-                    if loggedInUser
-                        if String(loggedInUser._id) === String(comment.owner)
+    div
+        div.video__data.container
+            if video.owner.avatarUrl
+                image.ownerImage(src=video.owner.avatarUrl)
+            else 
+                image.ownerImage(src='/uploads/image/user-solid.png')
+            div.video__data.container-col
+                p.video__title=video.title
+                p.video__owner 
+                    a(href=`/users/${video.owner._id}`)=video.owner.name
+                p.video__createdDate=new Date(video.createdDate).toLocaleDateString("ko-kr", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
+                //- button#collapsibleBtn(type="button") &#9660; 설명보기
+                p.video__description=video.description
+        if loggedInUser
+            div.video__comments 
+                form.video__comment-form#commentForm
+                    input.input-comment(placeholder="What's on your mind?") 
+                    button.fa-regular.fa-paper-plane.fa-2x.commentBtn#commentBtn(type="submit")
+                    
+                    //- input(type="submit" class="fa-regular fa-paper-plane-top")
+                    
+                ul
+                each comment in comments.reverse()
+                    div.container.video__comment(data-id=comment._id)
+                        if comment.owner.avatarUrl
+                            image.commentImage(src=comment.owner.avatarUrl)
+                        else
+                            image.commentImage(src='/uploads/image/user-solid.png')
+                        span.commentOwner &nbsp#{comment.owner.name}&nbsp:&nbsp
+                            span.commentText #{comment.text}
+                        if String(loggedInUser._id) === String(comment.owner._id)
                             span#deleteBtn.deleteBtn.fa-solid.fa-delete-left
 
 block scripts

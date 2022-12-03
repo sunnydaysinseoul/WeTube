@@ -42,14 +42,29 @@ html,body {
   background-repeat: repeat-x;
   color: white !important;
   width: 100vw;
-  height: auto;
+  height: 100%;
   overflow-x:hidden;
 
 }
 
+*::-webkit-scrollbar {
+  width: 8px;  /* 스크롤바의 너비 */
+}
+
+*::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: $purple2; /* 스크롤바의 색상 */
+  
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: $bg-light  /*스크롤바 뒷 배경 색상*/
+}
 main {
   max-width: 1200px;
   width: 100%;
+  height: 100%;
   margin: 0 10px;
   margin-top: 50px; //header 공간
 }

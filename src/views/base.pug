@@ -6,10 +6,12 @@ html(lang="ko")
         //-변수는 이 pug파일 (html)을 불러오는 Controller에서 지정!
         link(rel="stylesheet",href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css")
         link(rel="stylesheet", href="/static/css/styles.css")
-    body#base-background
+    body
         div#pageLoading.page-loader
         div#page
             include partials/header.pug
+            include partials/sidenav.pug
+            include partials/search.pug
             main
                 block content
                     

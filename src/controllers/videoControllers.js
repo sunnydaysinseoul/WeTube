@@ -1,14 +1,14 @@
 import Video from "../models/Video.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
-import { ObjectId } from "mongodb";
+
 /* URL : /videos/:vId */
 export const watchVideo = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id).populate("owner").populate("comments");
-  // video.views++; //조회수 증가
-  // video.save(); //조회수 저장
-  return res.render("watchVideo", { pageTitle: `${video.title}`, video });
+  const comments = await Comment.find({video:video._id}).populate("owner");
+  // console.log(comments);
+  return res.render("watchVideo", { pageTitle: `${video.title}`, video,comments });
 };
 
 /* URL : (GET) /videos/:vId/edit */
@@ -177,7 +177,10 @@ export const createComment = async (req, res) => {
     });
     video.comments.push(comment._id);
     video.save();
-    return res.status(201).json({ newCommentId: comment._id });
+
+    const newComment = await Comment.findById(comment._id).populate("owner");
+    // console.log(newComment);
+    return res.status(201).json({ newComment}); //frontend (commentSection.js)로 응답)
   }
 };
 

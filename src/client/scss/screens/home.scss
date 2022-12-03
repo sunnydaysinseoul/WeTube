@@ -1,9 +1,14 @@
-.videoGrid{
-    display:flex;
+.card-list-container {
+    overflow: hidden;
+    margin: 0 0;
+    width:100vw;
+    height: 100vh;
+}
+
+.card-list {
+    display: flex;
     flex-wrap: wrap;
-    width:100%;
-    .videoGrid-child {
-        flex: 1 1 30%;
-        padding : 10px;
-    }
+    flex-grow: 0;
+    align-content: flex-start;
+    align-items: flex-start;
 }

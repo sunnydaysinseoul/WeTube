@@ -1,28 +1,11 @@
 //- URL : /
 extends base.pug
 include mixins/video.pug 
-
-block headerContent
-    if !loggedIn
-        a(href="/login") login
-        span &nbsp|&nbsp
-        a(href="/join") Join
-    else 
-        h3 Hello, welcome home, #{loggedInUser.name}.
-        br
-        a(href=`/users/${loggedInUser._id}/profile`) profile
-        span &nbsp|&nbsp
-        a(href="/logout") log out
-        span &nbsp|&nbsp
-        a(href="/videos/upload") Upload Video
-
-
-
 block content
-    include partials/search.pug
-    .videoGrid 
-        each video in videos
-            .videoGrid-child 
+    //- include partials/search.pug
+    .card-list-container
+        .card-list
+            each video in videos
                 +videoMxn(video)
-        else
-            li Sorry, nothing found.
+            else
+                li Sorry, nothing found.

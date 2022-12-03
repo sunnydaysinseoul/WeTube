@@ -1,3 +1,8 @@
+
+input{
+    color: white !important;
+    font-weight: bold;
+}
 .input-s {
     margin:10px 15px;
     width: 100px;
@@ -23,7 +28,7 @@
 .input-l {
     margin:10px 15px;
     width: 300px;
-    height: 25px;
+    height: 100px;
     border-top: none;
     border-left: none;
     border-right: none;
@@ -32,6 +37,7 @@
 }
 
 .input-summit {
+    cursor: pointer;
     margin:10px 10px;
     width: 100px;
     height: 30px;
@@ -40,6 +46,6 @@
     border-right: none;
     border-bottom: 3px solid $white;
     border-radius: 2px;
-    background-color: $bg-dark;
+    background-color: $purple1;
     color: $white;
 }

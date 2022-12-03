@@ -1,23 +1,18 @@
-.videoMxn{
-    display:block;   
-    .thumbnail{
-        width:250px;
-        height:100px;
-        border-radius: 5px;
-        padding:10px;
-        background-color: ivory;
-    }
-    .title {
-        font-weight: bold;
-        font-size : 18px;
-        padding:15px 0px;
-    }
-    .data{
-        display:flex;
-        padding:5px 5px;   
-        font-size : 14px;
-    }
-
-    
+.card-item {
+    display: flex;
+    flex-direction: column; //제목과 설명 세로로 붙이기
+    margin:10px 10px 10px 0;
+    flex-basis: 260px;
+    height: 300px;
 }
 
+.card-image {
+    width: 260px;
+    height: 220px;
+}
+
+.card-desc {
+    margin : 10px 0;
+    background: $bg;
+    color: $white;
+}

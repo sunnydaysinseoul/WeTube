@@ -8,6 +8,7 @@
 @import "./components/search.scss";
 @import "./components/videoMxn.scss";
 @import "./components/forms.scss";
+@import "./components/sidenav.scss";
 /* Screens */
 @import "./screens/base.scss";
 @import "./screens/editProfile.scss";
@@ -19,6 +20,7 @@
 @import "./screens/upload.scss";
 @import "./screens/viewProfile.scss";
 @import "./screens/watchVideo.scss";
+@import "./screens/emailAuth.scss";
 
 /* Defaults */
 * {
@@ -31,27 +33,31 @@ a {
   font-family: "Nanum Gothic";
 }
 
-body {
-  // background-color: $bg;
-  color: white;
-  // min-height: 100vh;
-  // padding: 0;
- 
+html,body {
+  background-color: $bg;
+  // background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('../image/field-night.jpg');
+  //이미지 출처 Designed by stockgiu / Freepik"
+  background-size: contain;
+  background-position: center;
+  background-repeat: repeat-x;
+  color: white !important;
+  width: 100vw;
+  height: auto;
+  overflow-x:hidden;
 
 }
 
 main {
   max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
-  margin-top: 50px;
+  margin: 0 10px;
+  margin-top: 50px; //header 공간
 }
 
 .pageTitle {
   font-size: 25px;
   font-weight: bold;
-  margin: 30px 20px;
-
+  margin: 30px 20px 20px;
 }
 
 .container {

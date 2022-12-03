@@ -29,13 +29,14 @@ const handleDeleteComment = async (event) =>{
 const addComment = (text, id) => {
   const videoComments = document.querySelector(".video__comments ul");
   console.log(videoComments);
-  const newComment = document.createElement("li");
+  const newComment = document.createElement("div");
   newComment.dataset.id = id; //삭제를 위해 backend에서 만드는 dataset과 똑같이 만들어줌.
-  newComment.className = "video__comment";
+  newComment.className = "container video__comment";
   const icon = document.createElement("i");
-  icon.className = "fas fa-comment";
+  icon.className = "fa-regular fa-comment";
   const span = document.createElement("span");
-  span.innerText = ` ${text}`;
+  span.className = "commentText";
+  span.innerText = `${text}`;
   const span2 = document.createElement("span");
   span2.className = "fa-solid fa-delete-left";
   span2.id = "newComt"+Math.random();
@@ -66,9 +67,9 @@ const handleSubmit = async (event) => {
     body: JSON.stringify({ text }),
   }); //backend에서 req.body로 데이터 사용!
   textarea.value = "";
-  const { newCommentId } = await response.json();
-  if (response.status === 201) {
-    addComment(text, newCommentId); //newCommentId는 backend createComment()에서 오는 값
+  const { newComment } = await response.json();
+  if (response.status === 201) { //realtime용 fakeComment 만들기
+    addComment(text, newComment._id); //newCommentId는 backend createComment()에서 오는 값
   }
 };
 

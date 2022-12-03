@@ -1,0 +1,31 @@
+.search-form {
+    display: flex; // 부모 요소에서 flex를 적용합니다.
+    position: absolute;
+    top : 0;
+    right: 0;
+    height: 40px;
+    width:25%;
+
+}
+.search-form input[type='search']{
+    flex: 1; // 검색창만 확장되도록 설정합니다.
+    margin-right: 10px;
+    border: 0; // 기존 인풋창의 테두리를 초기화합니다.
+    font-size: 1rem;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid $white;
+    background-color: transparent;
+}
+.search-form input[type='submit']{
+    cursor: pointer;
+    width: 4em;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid $white;
+    border-radius: 2px;
+    font-size: 1rem;
+    background: $purple2;
+}

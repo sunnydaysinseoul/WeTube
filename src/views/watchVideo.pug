@@ -44,13 +44,18 @@ block content
                 textarea(cols="50",rows="3",placeholder="Write a comment...") 
                 button Add comment
             ul
-            each comment in video.comments.reverse()
-                //- li
-                i.video__comment.fas.fa-comment(data-id=comment._id)
-                    span &nbsp#{comment.text}
+            each comment in comments.reverse()
+                div.container.video__comment(data-id=comment._id)
+                    //- i.fa-regular.fa-comment
+                    span=comment.owner.name
+                    if comment.owner.avatarUrl
+                        image.commentImage(src=comment.owner.avatarUrl)
+                    else
+                        image.commentImage(src='/uploads/image/user-solid.png')
+                    span.commentText #{comment.text}
                     if loggedInUser
                         if String(loggedInUser._id) === String(comment.owner)
-                            span#deleteBtn.fa-solid.fa-delete-left
+                            span#deleteBtn.deleteBtn.fa-solid.fa-delete-left
 
 block scripts
     script(src="/static/js/videoPlayer.js")

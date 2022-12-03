@@ -4,9 +4,9 @@ block content
   div.container-middle
     form.container-middle.container-col.loginform(method="POST",action="/login")
       p.pageTitle #{pageTitle}
-      label.container(for="username") ID :&nbsp
+      label(for="username") ID :&nbsp
         input.input-m(name="username",type="text",required)
-      label.container(for="password") PW :&nbsp
+      label(for="password") PW :&nbsp
         input.input-m(name="password",type="password",required)
       input.input-summit(type="submit",value="로그인")
       br

@@ -1,9 +1,9 @@
 mixin videoMxn(video)
-    div.videoMxn
-        a(href=`/videos/${video.id}`)
-            div.thumbnail
+    div.card-item
+        a(href=`/videos/${video.id}` syle="background-image: url();")
+            img.card-image(src='/uploads/image/earth.jpg')
         span.title=video.title
-            div.data
+            div.card-desc
                 span.name=video.owner.name
                 span &nbsp▪&nbsp
                 span.view=video.meta.views

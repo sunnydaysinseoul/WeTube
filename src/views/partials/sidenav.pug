@@ -1,0 +1,23 @@
+div#sidenav.sidenav
+    i#closebtn.closebtn.fa-solid.fa-bars
+    if loggedInUser
+        i.logoutbtn.fa-solid.fa-right-from-bracket
+            a(href="/logout") &nbsp&nbsplogout
+        a.menubtn.lv1(href=`/users/${loggedInUser._id}/profile`) My profile
+        a.menubtn.lv2(href=`/users/${loggedInUser._id}/edit`) Edit profile
+        //- a.menubtn.lv1(href="#") My videos
+        a.menubtn.lv1(href="/videos/upload") Upload new
+
+    else 
+        a.menubtn.lv1(href="/join") Join
+        a.menubtn.lv1(href="/login") Login
+
+    //- a(href="/") Browse
+
+i#openbtn.openbtn.fa-solid.fa-bars
+a(href="/")
+        //- i#homebtn.homebtn.fa-solid.fa-house
+        span#homebtn.homebtn LOGO_HERE
+
+block scripts
+    script(src="/static/js/main.js")

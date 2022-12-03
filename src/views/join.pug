@@ -12,13 +12,11 @@ block content
                     input.input-m(name="email", type="email",value=gitEmailObj.email, required,readonly)
                 label(for="name") 이름
                     input.input-m(name="name",type="text",required)
-                label(for="password") 비밀번호
                     input.input-m.container-col(name="password",type="hidden",value=gitEmailObj.email,required)
-                label(for="password2") 비밀번호 확인
                     input.input-m(name="password2",type="hidden",value=gitEmailObj.email,required)
                 input.input-m(type="hidden",name="isVerified",value=1)
                 input.input-summit(type="submit",value="회원가입")
-    if temp
+    else if temp
         div.container-middle
             form.container-middle.container-col.joinform(method="POST",action="/join",enctype="multipart/form-data")
                 label(for="username") ID

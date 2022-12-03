@@ -41,18 +41,20 @@ block content
     if loggedInUser
         div.video__comments 
             form.video__comment-form#commentForm
-                textarea(cols="50",rows="3",placeholder="Write a comment...") 
-                button Add comment
+                input.input-comment(placeholder="Write a comment...") 
+                button.fa-regular.fa-paper-plane.fa-2x.commentBtn(type="submit")
+                  
+                //- input(type="submit" class="fa-regular fa-paper-plane-top")
+                
             ul
             each comment in comments.reverse()
                 div.container.video__comment(data-id=comment._id)
-                    //- i.fa-regular.fa-comment
-                    span=comment.owner.name
                     if comment.owner.avatarUrl
                         image.commentImage(src=comment.owner.avatarUrl)
                     else
                         image.commentImage(src='/uploads/image/user-solid.png')
-                    span.commentText #{comment.text}
+                    span.commentOwner &nbsp#{comment.owner.name}&nbsp:&nbsp
+                        span.commentText #{comment.text}
                     if loggedInUser
                         if String(loggedInUser._id) === String(comment.owner)
                             span#deleteBtn.deleteBtn.fa-solid.fa-delete-left

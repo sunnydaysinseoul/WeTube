@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "start": "rimraf assets && webpack --config webpack.config.cjs && nodemon --exec babel-node src/init.js",
-    "heroku-postbuild" : "npm i wepback-cli"
+    "heroku-prebuild" : "wepback-cli"
   },
   "repository": {
     "type": "git",

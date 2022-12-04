@@ -5,7 +5,6 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "babel-node src/init.js",
     "build":"webpack"
   },
   "repository": {

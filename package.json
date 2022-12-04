@@ -35,7 +35,7 @@
     "path": "^0.12.7",
     "pug": "^3.0.2",
     "regenerator-runtime": "^0.13.7",
-    "url-loader": "^4.1.1",
+    "webpack": "^5.33.2",
     "webpack-cli": "^4.10.0"
     
   },

@@ -1,17 +1,18 @@
 .card-list-container {
 
     margin: 0 20;
-    width:100vw;
+    width:100%;
     // height: 100vh;
 }
 
 .card-list {
     display: flex;
     flex-wrap: wrap;
-    
     // justify-content: space-around;
     align-content:flex-start;
     align-items: flex-start;
+    padding-right: 10px;
+    
 }
 .card-item{
     flex: 0 0 25%;

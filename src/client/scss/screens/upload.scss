@@ -1,8 +1,9 @@
 #videoLoading {
-    display: "block";
+    display: "inline-block";
     visibility: "hidden";
-    width: auto;
-    z-index:10;
+    width: 30px;
+    height: 30px;
+    // z-index:10;
 }
 
 .input-loader {

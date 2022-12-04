@@ -6,6 +6,7 @@ block content
     .card-list-container
         .card-list
             each video in videos
-                +videoMxn(video)
+                div.card-item
+                    +videoMxn(video)
             else
                 li Sorry, nothing found.

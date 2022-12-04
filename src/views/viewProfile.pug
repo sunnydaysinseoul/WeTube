@@ -1,26 +1,35 @@
 //- URL : /users/${user._id}/profile */
 extends base.pug
 include mixins/video.pug
- 
-block headerContent
-    if user._id == loggedInUser._id
-        a(href=`/users/${loggedInUser._id}/edit`) Edit Profile
-        //- 로그인한사람이 해당 user일 때만 
 
 block content
-    li username = #{user.username}
-    li name = #{user.name}
-    li user email = #{user.email}
+    div.profileContainer
+        div.container-ver
+            div.container-col
+                if user.avatarUrl
+                    image.profileImage(src=`${user.avatarUrl}`)
+                else
+                    image.profileImage(src='/uploads/image/user-solid.png')
+            
+            div.container-col.col-left
+                span.profileBig #{user.name}
+                span.profileSmall #{user.username}
+                span.profileSmall #{user.email}
+    hr
+    div.profile-video-title
+        i.fa-solid.fa-video
+            span 업로드한 동영상
+    div.profile-card-list-container
+            div.profile-card-list
+                each video in user.videos
+                    .profile-card-item
+                        +videoMxn(video)
+                else
+                    li Sorry, nothing found.
+                    
 
-    li profile image
-    if user.avatarUrl
-        image(src=`${user.avatarUrl}`)
-    else
-        p 이미지가 없습니다.
-        //- p image path : #{user.avatarUrl}
-    br
-    p All videos by this user &rarr;
-        each video in user.videos
-            +videoMxn(video)
-        else
-            li Sorry, nothing found.
+            //- p All videos by this user &rarr;
+            //-     each video in user.videos
+            //-         +videoMxn(video)
+            //-     else
+            //-         li Sorry, nothing found.

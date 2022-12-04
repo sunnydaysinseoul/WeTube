@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "rimraf assets && webpack --config webpack.config.cjs",
-    "start" : "rimraf assets && webpack --config webpack.config.cjs && nodemon --exec babel-node src/init.js",
+    "start" : "nodemon --exec babel-node src/init.js && rimraf assets && webpack --config webpack.config.cjs",
     "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false"
   },
   "repository": {

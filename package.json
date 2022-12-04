@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start":"rimraf assets && webpack --config webpack.config.cjs && nodemon --exec babel-node src/init.js"
+    "start": "rimraf assets && webpack --config webpack.config.cjs && nodemon --exec babel-node src/init.js"
   },
   "repository": {
     "type": "git",
@@ -50,6 +50,6 @@
     "sass-loader": "^11.0.1",
     "style-loader": "^2.0.0",
     "webpack": "^5.33.2",
-    "webpack-cli": "^4.6.0"
+    "webpack-cli": "^4.10.0"
   }
 }

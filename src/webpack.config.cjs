@@ -54,10 +54,10 @@ module.exports = {
     ],
   },
   //파일 변경될때마다 자동실행되도록
-  watch: true,
-  watchOptions: {
-    ignored: /node_modules/,
-    aggregateTimeout: 5000,
-    poll: 1000,
-  },
+  // watch: true,
+  // watchOptions: {
+  //   ignored: /node_modules/,
+  //   aggregateTimeout: 5000,
+  //   poll: 1000,
+  // },
 };

@@ -1,12 +1,15 @@
 extends base.pug
 
 block headerContent
+
+
+block content
+
     if(msg)
         h3=msg
     if(email)
         p #{email}로 발송된 인증링크를 확인해주세요 
 
-block content
     h3 Email인증 후 다시 로그인해주세요 
     h5
         form(method="POST",id="reauth",action=`/users/reauth`)

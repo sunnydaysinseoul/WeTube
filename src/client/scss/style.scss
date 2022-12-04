@@ -85,6 +85,12 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  // flex-wrap:wrap;
+
+}
+.container-left{
+  display:flex;
+  justify-self: flex-start;
 }
 
 .container-col {

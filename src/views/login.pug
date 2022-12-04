@@ -1,8 +1,8 @@
 extends base.pug
 
 block content
-  div.container-middle
-    form.container-middle.container-col.loginform(method="POST",action="/login")
+  div.container-middle.loginform
+    form.container-middle.container-col(method="POST",action="/login")
       p.pageTitle #{pageTitle}
       label(for="username") ID :&nbsp
         input.input-m(name="username",type="text",required)

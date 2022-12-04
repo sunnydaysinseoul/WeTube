@@ -3,26 +3,26 @@ extends base.pug
 include mixins/video.pug 
 
 block content
-    div.container-middle
-        form.container-middle.container-col.joinform(method="POST",enctype="multipart/form-data")
+    div.container-middle.editform.container-col
+        h1.pageTitle=pageTitle
+        form.container-middle.container-col(method="POST",enctype="multipart/form-data" style="width:500px")
             label(for="username") ID
-                input.input-m(name="username",type="text" ,readonly,value = user.username)
+            input.input-m(name="username",type="text" ,readonly,value = user.username)
             label(for="avatarUrl") 프로필 사진
-                input.input-m.inputImage(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=user.avatarUrl)
+            input.input-m.inputImage(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=user.avatarUrl)
             if user.avatarUrl
                 if user.avatarUrl.startsWith("uploads/")
                     image#preview-image(src=`/${user.avatarUrl}`,width="200px")
                 else
                     image#preview-image(src=`${user.avatarUrl}`,width="200px")
             label(for="email") 이메일
-                input.input-m(name="email", type="email", required,readonly,value=user.email)
+            input.input-m(name="email", type="email", required,readonly,value=user.email)
             label(for="name") 이름
-                input.input-m(name="name",type="text",required,readonly,value=user.name)
+            input.input-m(name="name",type="text",required,readonly,value=user.name)
             label(for="password") 비밀번호
-                input.input-m(name="password",type="password",required,value=user.password)
+            input.input-m(name="password",type="password",required,value=user.password)
             label(for="password") 비밀번호 확인
-                input.input-m(name="password2",placeholder="비밀번호확인",type="password",required,value=user.password)
-
+            input.input-m(name="password2",placeholder="비밀번호확인",type="password",required,value=user.password)
             input.input-summit(type="submit",value="회원정보 수정")
             div.deleteUserBtn
                 i.fa-solid.fa-user-slash

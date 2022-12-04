@@ -1,69 +1,73 @@
 extends base.pug
-block content    
+block content
+
     if gitUserData
-        div.container-middle
-            form.container-middle.container-col.joinform(method="POST",action="/join")
+        div.container-middle.container-col.editform
+            h1.pageTitle=pageTitle
+            form.container-middle.container-col(method="POST",action="/join")
                 h4 JOIN VIA GITHUB!
                 label(for="username") ID
-                    input.input-m(name="username",type="text" ,value=gitUserData.login, required)
+                input.input-m(name="username",type="text" ,value=gitUserData.login, required)
                 label(for="avatarUrl") 프로필 사진
-                    input.input-m(name="avatarUrl",type="hidden" ,value=gitUserData.avatar_url)
+                input.input-m(name="avatarUrl",type="hidden" ,value=gitUserData.avatar_url)
                 label(for="email") 이메일
-                    input.input-m(name="email", type="email",value=gitEmailObj.email, required,readonly)
+                input.input-m(name="email", type="email",value=gitEmailObj.email, required,readonly)
                 label(for="name") 이름
-                    input.input-m(name="name",type="text",required)
-                    input.input-m.container-col(name="password",type="hidden",value=gitEmailObj.email,required)
-                    input.input-m(name="password2",type="hidden",value=gitEmailObj.email,required)
+                input.input-m(name="name",type="text",required)
+                input.input-m.container-col(name="password",type="hidden",value=gitEmailObj.email,required)
+                input.input-m(name="password2",type="hidden",value=gitEmailObj.email,required)
                 input.input-m(type="hidden",name="isVerified",value=1)
                 input.input-summit(type="submit",value="회원가입")
     else if temp
-        div.container-middle
-            form.container-middle.container-col.joinform(method="POST",action="/join",enctype="multipart/form-data")
+        div.container-middle.container-col.editform
+            h1.pageTitle=pageTitle
+            form.container-middle.container-col(method="POST",action="/join",enctype="multipart/form-data")
                 label(for="username") ID
-                    input.input-m(name="username",type="text" ,required,value=temp.username)
+                input.input-m(name="username",type="text" ,required,value=temp.username)
                 label(for="avatarUrl") 프로필 사진
-                    input.input-m.inputImage(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=temp.avatarUrl)
-                    div#videoLoading
-                        span.input-loader
+                input.input-m.inputImage(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=temp.avatarUrl)
+                div#videoLoading
+                    span.input-loader
                 image#preview-image(src='',width="200px")
                 label(for="email") 이메일
-                    input.input-m(name="email", type="email", required,value=temp.email)
+                input.input-m(name="email", type="email", required,value=temp.email)
                 label(for="name") 이름
-                    input.input-m(name="name",type="text",required,value=temp.name)
+                input.input-m(name="name",type="text",required,value=temp.name)
                 label(for="password") 비밀번호
-                    input.input-m.container-col(name="password",type="password",required)
+                input.input-m.container-col(name="password",type="password",required)
                 label(for="password2") 비밀번호 확인
-                    input.input-m(name="password2",placeholder="비밀번호확인",type="password",required)
+                input.input-m(name="password2",placeholder="비밀번호확인",type="password",required)
                 input.input-m(type="hidden",name="isVerified",value=0)
                 input.input-summit(type="submit",value="회원가입")
                 br
                 a(href="users/github/login") Join with Github&nbsp
                     i.fa-solid.fa-code-compare
     else
-        div.container-middle
-            form.container-middle.container-col.joinform(method="POST",action="/join",enctype="multipart/form-data")
+        div.container-middle.container-col.editform
+            h1.pageTitle=pageTitle
+            form.container-middle.container-col(method="POST",action="/join",enctype="multipart/form-data")
                 label(for="username") ID
-                    input.input-m(name="username",type="text" ,required)
+                input.input-m(name="username",type="text" ,required)
                 label(for="avatarUrl") 프로필 사진
-                    input.input-m.inputImage(name="avatarUrl",id="avatarUrl",type="file",accept="image/*")
-                    div#videoLoading
-                        span.input-loader
+                input.input-m.inputImage(name="avatarUrl",id="avatarUrl",type="file",accept="image/*")
+                div#videoLoading
+                    span.input-loader
                 image#preview-image(src='',width="200px")
                 label(for="email") 이메일
-                    input.input-m(name="email", type="email", required)
+                input.input-m(name="email", type="email", required)
                 label(for="name") 이름
-                    input.input-m(name="name",type="text",required)
+                input.input-m(name="name",type="text",required)
                 label(for="password") 비밀번호
-                    input.input-m.container-col(name="password",type="password",required)
+                input.input-m(name="password",type="password",required)
                 label(for="password2") 비밀번호 확인
-                    input.input-m(name="password2",placeholder="비밀번호확인",type="password",required)
+                input.input-m(name="password2",placeholder="비밀번호확인",type="password",required)
                 input.input-m(type="hidden",name="isVerified",value=0)
                 input.input-summit(type="submit",value="회원가입")
                 br
                 a(href="users/github/login") Join with Github&nbsp
                     i.fa-solid.fa-code-compare
-
-    div.container#loginNow
+            
+    div.container-middle#loginNow
         span Already have an account?
         a(href="/login") Log in &rarr;
 

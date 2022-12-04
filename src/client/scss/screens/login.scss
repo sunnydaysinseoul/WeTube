@@ -1,12 +1,12 @@
 .loginform {
-    background-color: $bg-light;
-    background:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('/uploads/image/earth.jpg');
+    // background-color: $purple2;
+    background:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://cdn.pixabay.com/photo/2018/03/20/14/05/technology-3243375_960_720.jpg');
     //이미지 작가 gstudioimagen1</a> 출처 Freepik
     background-size:100%;
     width: 500px;
     height: 500px;
     margin: auto auto;
-    border-radius: 10px;
+    border-radius: 5px;
     display:block;
 }
 

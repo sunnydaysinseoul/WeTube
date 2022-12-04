@@ -2,16 +2,17 @@
 extends base.pug
 
 block content
-    div.container-middle
-        form.container-middle.container-col(method="POST",action=`/videos/${video.id}/edit`)
+    div.container-middle.container-col.editform
+        h1.pageTitle=pageTitle
+        form.container-middle.container-col(method="POST",action=`/videos/${video.id}/edit` style="width:500px")
             video(src=`/${video.fileUrl}`,controls,width="60%")
             label(for="title") 제목
-                input.input-m(name="title",type="text",placeholder="Title",value=video.title,required)
+            input.input-m(name="title",type="text",placeholder="Title",value=video.title,required)
             label(for="description") 설명
-                textarea.input-des(name="description",type="text",placeholder="영상 설명",rows='5',value=video.description,required) 
+            textarea.input-des(name="description",type="text",placeholder="영상 설명",rows='5',value=video.description,required) 
                     
             label(for="hashtags") 해시태그 (,으로 구분)
-                input.input-m(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)",value=video.hashtags.map((word)=>word=word.replace('#','')).join())
+            input.input-m(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)",value=video.hashtags.map((word)=>word=word.replace('#','')).join())
             input.input-summit(value="save",type="submit")
 
 

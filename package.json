@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/init.js",
-    "assets": "rimraf assets && webpack --config webpack.config.cjs"
+    "start":"rimraf assets && webpack --config webpack.config.cjs && nodemon --exec babel-node src/init.js"
   },
   "repository": {
     "type": "git",

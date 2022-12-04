@@ -11,4 +11,4 @@ const PORT = 4000;
 //Port를열고 외부 접속(request)을 listen하기
 const handleListening = () => 
     console.log(`✅Server listening on port ${PORT}.👍`);
-app.listen(PORT,handleListening);
+app.listen(PORT,'0.0.0.0',handleListening);

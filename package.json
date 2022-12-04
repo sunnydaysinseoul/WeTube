@@ -4,6 +4,10 @@
   "description": "First nodeJS project. The Best way to watch videos!",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node":"19.0.1",
+    "npm":"8.19.2"
+  },
   "scripts": {
     "build": "webpack --mode production",
     "start-all": "npm run build && node src/server/index.js",

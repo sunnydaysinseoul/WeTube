@@ -1,6 +1,6 @@
 ///////// Video player
 #videoContainer {
-    width: 100%;
+    width: 90%;
     margin: 0 auto; //centering
     position: relative;
 
@@ -61,7 +61,16 @@
         }
     }
 }
-
+.videoEditBtn{
+    width:100%;
+    margin-top: 10px;
+    // margin-left:auto;
+}
+#videoDataContainer{
+    width: 90%;
+    margin: 0 auto; //centering
+    position: relative;
+}
 input[type=range] {
     height: 15px;
     -webkit-appearance: none;
@@ -247,12 +256,15 @@ input[type=range]:focus::-ms-fill-upper {
         // max-width: 1000px;
         width: 90%;
         height: 50px;
+        color:$white;
         font-size: 15px;
         border-top: none;
         border-left: none;
         border-right: none;
         border-bottom: 3px solid $purple1;
         background-color: transparent;
+        word-break:break-all;
+        resize:none;
     }
 
     .commentBtn {

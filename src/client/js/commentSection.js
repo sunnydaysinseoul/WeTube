@@ -65,7 +65,7 @@ const addComment = (text, id,user) => {
 const handleSubmit = async (event) => {
   console.log("click");
   event.preventDefault(); //submit event가 발생하면 자동으로 url refresh하는 걸 막아줌.
-  const textarea = form.querySelector("input");
+  const textarea = form.querySelector("textarea");
 
   const text = textarea.value;
   const videoId = videoContainer.dataset.id; //comment단 해당 video의 dataset가져오기.

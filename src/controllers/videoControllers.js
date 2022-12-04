@@ -79,6 +79,7 @@ export const deleteVideo = async (req, res) => {
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndDelete(id);
+  await Comment.deleteMany({video:id});
   user.videos.splice(user.videos.indexOf(id), 1); //user에 populate된 video 정보도 삭제하기.
   user.save();
 

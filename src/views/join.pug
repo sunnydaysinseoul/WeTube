@@ -22,9 +22,10 @@ block content
                 label(for="username") ID
                     input.input-m(name="username",type="text" ,required,value=temp.username)
                 label(for="avatarUrl") 프로필 사진
-                    input.input-m(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=temp.avatarUrl)
+                    input.input-m.inputImage(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=temp.avatarUrl)
                     div#videoLoading
                         span.input-loader
+                image#preview-image(src=`${user.avatarUrl}`,width="200px")
                 label(for="email") 이메일
                     input.input-m(name="email", type="email", required,value=temp.email)
                 label(for="name") 이름

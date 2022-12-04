@@ -232,10 +232,10 @@ export const deleteUser = async (req, res) => {
     return res.status(404).render("404");
   }
 
-  await Video.findOneAndDelete({ owner: user._id });
+  await Video.deleteMany({ owner: user._id });
   await User.findByIdAndDelete(userId);
-  req.flash("info", "회원탈퇴처리되었습니다.");
-  req.session.destroy();
+  await req.flash("info", "회원탈퇴처리되었습니다.");
+  await req.session.destroy();
   res.redirect("/");
 };
 

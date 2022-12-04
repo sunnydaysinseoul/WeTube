@@ -25,7 +25,7 @@ block content
                     input.input-m.inputImage(name="avatarUrl",id="avatarUrl",type="file",accept="image/*",value=temp.avatarUrl)
                     div#videoLoading
                         span.input-loader
-                image#preview-image(src=`${user.avatarUrl}`,width="200px")
+                image#preview-image(src='',width="200px")
                 label(for="email") 이메일
                     input.input-m(name="email", type="email", required,value=temp.email)
                 label(for="name") 이름
@@ -45,9 +45,10 @@ block content
                 label(for="username") ID
                     input.input-m(name="username",type="text" ,required)
                 label(for="avatarUrl") 프로필 사진
-                    input.input-m(name="avatarUrl",id="avatarUrl",type="file",accept="image/*")
+                    input.input-m.inputImage(name="avatarUrl",id="avatarUrl",type="file",accept="image/*")
                     div#videoLoading
                         span.input-loader
+                image#preview-image(src='',width="200px")
                 label(for="email") 이메일
                     input.input-m(name="email", type="email", required)
                 label(for="name") 이름

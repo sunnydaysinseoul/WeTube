@@ -40,7 +40,8 @@ block content
                 p.video__title=video.title
                 p.video__owner 
                     a(href=`/users/${video.owner._id}/profile`)=video.owner.name
-                p.video__createdDate=new Date(video.createdDate).toLocaleDateString("ko-kr", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
+                p.video__detail-mini 조회수: #{video.meta.views}
+                p.video__detail-mini=new Date(video.createdDate).toLocaleDateString("ko-kr", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
                 //- button#collapsibleBtn(type="button") &#9660; 설명보기
                 p.video__description=video.description
         if loggedInUser

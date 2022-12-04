@@ -198,20 +198,6 @@ input[type=range]:focus::-ms-fill-upper {
 //     }
 // }
 
-.video__description {
-    display: inline-block;
-    padding: 10px 18px;
-    background-color: $bg-dark;
-    width: 90%;
-    max-height: 100px;
-    word-break:break-all;
-    overflow-y:scroll;
-    overflow-x:hidden;
-
-}
-.showing{
-    display:none;
-}
 
 .ownerImage {
     width: 40px;
@@ -228,16 +214,28 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .video__owner {
-    margin: 10px 0 0 0;
+    margin: 10px 0 10px 0;
     font-size: 18px;
     font-style: italic;
 }
 
-.video__createdDate {
-    margin: 10px 0;
-    font-size: 15px;
+.video__detail-mini {
+    margin: 5px 0 10px 0;
+    font-size: 12px;
 }
 
+.video__description {
+    display: inline-block;
+    padding: 10px 18px;
+    margin:10px 0;
+    background-color: $bg-dark;
+    width: 90%;
+    max-height: 100px;
+    word-break:break-all;
+    overflow-y:scroll;
+    overflow-x:hidden;
+
+}
 ////////// Comment section
 .video__comment-form {
     margin: 20px 0;

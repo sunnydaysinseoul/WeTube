@@ -24,10 +24,8 @@ block content
                 input.input-m(name="password2",placeholder="비밀번호확인",type="password",required,value=user.password)
 
             input.input-summit(type="submit",value="회원정보 수정")
-            div
-                hr
-                i.fa-regular.fa-user-xmark
-                    a(href=`/users/${user._id}/delete`) 회원탈퇴
-
+            div.deleteUserBtn
+                i.fa-solid.fa-user-slash
+                    a(href=`/users/${user._id}/delete`) &nbsp 회원탈퇴
 block scripts
     script(src="/static/js/main.js")

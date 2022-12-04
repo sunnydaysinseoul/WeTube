@@ -5,19 +5,20 @@ block headerContent
 block content
     if errorMessage
         span=errorMessage
-    form.container-col(method="POST",enctype="multipart/form-data")
-        label(for="title") 제목
-            input.input-m(name="title",type="text",placeholder="Title",required)
-        label(for="video") Video File
-            input.input-m(type="file",accept="video/*",required,id="video",name="video")
-        //-name="video"는 controller가 아니라 router의 videoUpload.single("video") 에서 사용함
-        div#videoLoading
-            span.input-loader
-        label(for="description") 설명
-            input.input-l(name="description",type="text",placeholder="Description",required)
-        label(for="hashtags") 해시태그
-            input.input-m(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)")
-        input.input-summit(type="submit",value="Upload Video")
+    div.container-middle
+        form.container-middle.container-col(method="POST",enctype="multipart/form-data")
+            label(for="title") 제목
+                input.input-m(name="title",type="text",placeholder="Title",required)
+            label(for="video") Video File
+                input.input-m(type="file",accept="video/*",required,id="video",name="video")
+            //-name="video"는 controller가 아니라 router의 videoUpload.single("video") 에서 사용함
+            div#videoLoading
+                span.input-loader
+            label(for="description") 설명
+                textarea.input-des(name="description",type="text",placeholder="영상 설명",rows='5',required) 
+            label(for="hashtags") 해시태그
+                input.input-m(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)")
+            input.input-summit(type="submit",value="Upload Video")
 
 block scripts
     script(src="/static/js/main.js")

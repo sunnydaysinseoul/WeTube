@@ -1,0 +1,15 @@
+.input-des{
+    margin: 10px 15px;
+    // max-width: 1000px;
+    width: 90%;
+    height: 50px;
+    color:$white;
+    font-size: 15px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid $white;
+    background-color: transparent;
+    word-break:break-all;
+    resize:none;
+}

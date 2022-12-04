@@ -37,7 +37,6 @@ export const postEditVideo = async (req, res) => {
     user: { _id },
   } = req.session;
   const { title, description, hashtags } = req.body;
-
   const video = await Video.findById(id);
   if (!video) {
     return res.status(404).render("404");
@@ -136,7 +135,7 @@ export const searchVideo = async (req, res) => {
   const search = req.query.search;
   const videos = await Video.find({
     title: { $regex: new RegExp(search, "i") },
-  });
+  }).populate("owner");
   if (!videos) {
     let videos = [];
   }

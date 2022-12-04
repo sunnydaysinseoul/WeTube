@@ -2,10 +2,18 @@
 extends base.pug
 
 block content
-    h4 Change the video Title from "#{video.title}" to...
-    form(method="POST",action=`/videos/${video.id}/edit`)
-        video(src=`/${video.fileUrl}`,controls,width="60%")
-        input(name="title",type="text",placeholder="Title",value=video.title,required)
-        input(name="description",type="text",placeholder="Description",value=video.description,required)
-        input(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)",value=video.hashtags.map((word)=>word=word.replace('#','')).join())
-        input(value="save",type="submit")
+    div.container-middle
+        form.container-middle.container-col(method="POST",action=`/videos/${video.id}/edit`)
+            video(src=`/${video.fileUrl}`,controls,width="60%")
+            label(for="title") 제목
+                input.input-m(name="title",type="text",placeholder="Title",value=video.title,required)
+            label(for="description") 설명
+                textarea.input-des(name="description",type="text",placeholder="영상 설명",rows='5',value=video.description,required) 
+                    
+            label(for="hashtags") 해시태그 (,으로 구분)
+                input.input-m(name="hashtags",type="text",placeholder="Hashtags (comma로 구분)",value=video.hashtags.map((word)=>word=word.replace('#','')).join())
+            input.input-summit(value="save",type="submit")
+
+
+block scripts
+    script(src="/static/js/main.js")

@@ -61,7 +61,9 @@ if (videoInput) {
   videoInput.addEventListener("input", handleVideoInput);
 }
 
-closebtn.addEventListener("click",handleCloseSidenav);
-openbtn.addEventListener("click",handleOpenSidenav);
-
+// closebtn.addEventListener("click",handleCloseSidenav);
+// openbtn.addEventListener("click",handleOpenSidenav);
+openbtn.addEventListener("mouseover",handleOpenSidenav);
+openbtn.addEventListener("mouseout",()=>{
+  setTimeout(handleCloseSidenav,1500)});
 inputImage.addEventListener("change",handleInputImage);

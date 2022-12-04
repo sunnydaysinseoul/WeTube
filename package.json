@@ -2,11 +2,12 @@
   "name": "wetube",
   "version": "1.0.0",
   "description": "First nodeJS project. The Best way to watch videos!",
+
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "rimraf assets && webpack --config webpack.config.cjs && nodemon --exec babel-node src/init.js",
-    "heroku-postbuild" : "wepback-cli"
+    "heroku-postbuild" : "npm i wepback-cli"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,9 @@
     "path": "^0.12.7",
     "pug": "^3.0.2",
     "regenerator-runtime": "^0.13.7",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "webpack-cli": "^4.10.0"
+    
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",

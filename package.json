@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build":"webpack"
+    "build":"rimraf assets && webpack --config webpack.config.cjs",
+    "heroku-postbuild": "npm run build",
+    "start": "babel-node src/init.js"
   },
   "repository": {
     "type": "git",

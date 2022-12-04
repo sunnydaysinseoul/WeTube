@@ -1,5 +1,5 @@
 import "../scss/style.scss";
-
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 
 /////// get elements
 const videoInput = document.getElementById("video");
@@ -28,11 +28,17 @@ export const handleVideoInput = (event) => {
     // console.log(event.target.files[0].name);
   };
   document.getElementById("videoLoading").style.visibility = "hidden";
+  
+  ffmpeg.FS("writeFile", "videoUpload.webm", await fetchFile(videoFile));
+  await ffmpeg.run("-i", "videoUpload.webm", "-r", "60", "output.mp4");
+
 };
 export const handleLoading = () => {
   document.getElementById("page").style.display = "block";
   document.getElementById("pageLoading").style.display = "none";
 };
+
+
 
 /////// avatar upload 미리보기
 export const handleInputImage= (e) => {

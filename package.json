@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "babel-node src/init.js",
-    "heroku-postbuild":"webpack -p"
+    "heroku-postbuild":"webpack"
   },
   "repository": {
     "type": "git",

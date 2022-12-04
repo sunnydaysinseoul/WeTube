@@ -56,7 +56,10 @@ block content
                 each comment in comments.reverse()
                     div.container.video__comment(data-id=comment._id)
                         if comment.owner.avatarUrl
-                            image.commentImage(src=comment.owner.avatarUrl)
+                            if comment.owner.avatarUrl.startsWith("uploads/")
+                                image.commentImage(src=comment.owner.avatarUrl)
+                            else
+                                image.commentImage(src=`/${comment.owner.avatarUrl}`)
                         else
                             image.commentImage(src='/uploads/image/user-solid.png')
                         span.commentOwner &nbsp#{comment.owner.name}&nbsp:&nbsp

@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "webpack --mode production",
-    "start-all": "npm run build && node src/server/index.js",
-    "server": "nodemon --exec babel-node src/init.js",
+    "start-all": "npm run build && npm run start",
     "heroku-postbuild": "npm run build",
     "start": "nodemon --exec babel-node src/init.js"
   },

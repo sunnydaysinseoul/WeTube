@@ -82,12 +82,9 @@ export const deleteVideo = async (req, res) => {
   user.videos.splice(user.videos.indexOf(id), 1); //user에 populate된 video 정보도 삭제하기.
   user.save();
 
-  const videos = await Video.find({});
+  // const videos = await Video.find({}).populate("owner");
   req.flash("info", `'${deletedVideo.title}' 동영상이 삭제되었습니다.`);
-  res.render("home", {
-    pageTitle: "Home",
-    videos,
-  });
+  res.status(200).redirect("/");
 };
 
 /* URL : (GET) /videos/upload */

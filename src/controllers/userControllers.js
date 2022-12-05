@@ -217,7 +217,7 @@ export const profile = async (req, res) => {
   }
   return res.render("viewProfile", {
     pageTitle: `${user.name}의 Profile`,
-    user,
+    user, "video.owner.name":user.name
   });
 };
 

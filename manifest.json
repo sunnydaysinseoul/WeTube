@@ -1,0 +1,11 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "wetube-hysnh-thesunny-dev.koyeb",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "wetube-hysnh-thesunny-dev.koyeb",
+  "start_url": "/",
+  "theme_color": "#ffffff"
+}

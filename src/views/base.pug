@@ -1,21 +1,30 @@
-include mixins/messages.pug 
+include mixins/messages.pug
 doctype html
 html(lang="ko")
-    head
-        title #{pageTitle} | WeTube_HYS
-        //-변수는 이 pug파일 (html)을 불러오는 Controller에서 지정!
-        link(rel="stylesheet",href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css")
-        link(rel="stylesheet", href="/static/css/styles.css")
-    body
-        div#pageLoading.page-loader
-        div#page
-            include partials/header.pug
-            include partials/sidenav.pug
-            include partials/search.pug
-            main
-                block content
-                    
-            include partials/footer.pug
+  head
+    title= pageTitle + " | WeTube_HYS"
+    //- 변수는 이 pug 파일 (html)을 불러오는 Controller에서 지정!
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css")
+    link(rel="stylesheet", href="/static/css/styles.css")
+    link(rel="manifest", href="/manifest.json")
+    script(type="module").
+      import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+      const el = document.createElement('pwa-update');
+      document.body.appendChild(el);
+    script.
+      if ("serviceWorker" in navigator)
+        window.addEventListener("load", () =>
+          navigator.serviceWorker.register("/service-worker.js")
+        )
+  body
+    div#pageLoading.page-loader
+    div#page
+      include partials/header.pug
+      include partials/sidenav.pug
+      include partials/search.pug
+      main
+        block content
+      include partials/footer.pug
 
-    block scripts 
-        script(src="/static/js/main.js")
+  block scripts
+    script(src="/static/js/main.js")
